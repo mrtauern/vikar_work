@@ -20,11 +20,11 @@ public class FreelanceController {
 
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String index(Model model){
         log.info("index called");
 
         return "index";
-    }
+    }*/
 
 }
