@@ -1,5 +1,6 @@
 package com.vikar.work.services;
 
+import com.vikar.work.models.Company;
 import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.FreelanceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,11 @@ public class FreelanceServiceImpl implements FreelanceService {
     @Autowired
     FreelanceRepo freelanceRepo;
 
-    @Override
     public Optional<Worker> findById(long id) {
-        return Optional.empty();
+        return freelanceRepo.findById(id);
     }
 
-    @Override
     public Worker updateWorker(Worker worker) {
-        return null;
+        return freelanceRepo.save(worker);
     }
 }

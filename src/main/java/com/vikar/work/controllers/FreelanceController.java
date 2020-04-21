@@ -5,10 +5,7 @@ import com.vikar.work.services.FreelanceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -26,20 +23,23 @@ public class FreelanceController {
 
     @GetMapping("/editWorker/{id}")
     public String editWorker(@PathVariable("id") long userId, Model model){
-        log.info("edit Worker called");
+        log.info("edit Worker called med id: " + userId);
 
-        //model.addAttribute("worker", freelanceService.findById(userId));
+        model.addAttribute("worker", freelanceService.findById(userId));
+
 
         return "editWorker";
     }
 
-    @PutMapping("/editWorker")
+    @PostMapping("/editWorker")
     public String editWorker (@ModelAttribute Worker worker, Model model) {
-        log.info("editProducts putmapping called...");
+        log.info("editworker putmapping called...");
 
-        //freelanceService.updateWorker(worker);
+        freelanceService.updateWorker(worker);
 
-        return "redirect:/showWorker";
+        //log.info(worker.lastname);
+
+        return "redirect:/editWorker/1";
     }
 
 }

@@ -18,43 +18,32 @@
 <div class="container">
     <h1>Edit User</h1>
 
-    <form th:method="put" th:action="@{/editFroduct}" <!--th:object="${products}"-->>
+    <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
 
-        <input type="hidden" th:field="${product.productId}">
+        <input type="hidden" th:field="${worker.Id}">
 
-        <label>Produkt Navn:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${product.name}" required>
+        <label>Fornavn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
 
         <br>
 
-        <label>Informationer om produktet:</label>
-
-        <textarea rows ="3" cols = "60" th:name = "description" placeholder = "Skriv din produktbeskrivelse her" th:field="${product.description}" class="form-control mr-sm-2" required></textarea>
+        <label>Efternavn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.lastname}" required>
         <br>
-
-        <label>Pris:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${product.price}" required/>
+        <label>Email(brugernavn):</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.email}" required>
         <br>
-
-        <label>denne felt kan du sætte et billede link for produktet:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${product.pictureLink}" required/>
+        <label>Password:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
         <br>
-
-        <label>vælg 1 for aktive produkter og 0 for produkter der ikke skal vises for kunder</label>
-
-        <select th:name = "active" class="form-control">
-            <!--<option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.active}"></option>-->
-            <option value="0" th:if="${product.active==0}" selected>Inaktiv</option>
-            <option value="0" th:if="${product.active==1}">Inaktiv</option>
-            <option value="1" th:if="${product.active==1}" selected>Aktiv</option>
-            <option value="1" th:if="${product.active==0}">Aktiv</option>
-        </select>
+        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
         <br>
-
-        <label>Lager:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${product.stock}" required/>
+        <label>By:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
         <br>
-
+        <label>PostNr:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${worker.ZIP}" required>
+        <br>
 
         <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
 
