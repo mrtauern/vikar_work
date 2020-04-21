@@ -1,10 +1,14 @@
 package com.vikar.work.controllers;
 
+import com.vikar.work.models.Worker;
 import com.vikar.work.services.FreelanceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.logging.Logger;
 
@@ -20,11 +24,22 @@ public class FreelanceController {
 
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
-    /*@GetMapping("/")
-    public String index(Model model){
-        log.info("index called");
+    @GetMapping("/editWorker/{id}")
+    public String editWorker(@PathVariable("id") long userId, Model model){
+        log.info("edit Worker called");
 
-        return "index";
-    }*/
+        //model.addAttribute("worker", freelanceService.findById(userId));
+
+        return "editWorker";
+    }
+
+    @PutMapping("/editWorker")
+    public String editWorker (@ModelAttribute Worker worker, Model model) {
+        log.info("editProducts putmapping called...");
+
+        //freelanceService.updateWorker(worker);
+
+        return "redirect:/showWorker";
+    }
 
 }

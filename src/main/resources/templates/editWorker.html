@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Freelancer</title>
+</head>
+<body>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Freelancer</title>
+</head>
+<body>
+<div class="container">
+    <h1>Edit User</h1>
+
+    <form th:method="put" th:action="@{/editFroduct}" <!--th:object="${products}"-->>
+
+        <input type="hidden" th:field="${product.productId}">
+
+        <label>Produkt Navn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${product.name}" required>
+
+        <br>
+
+        <label>Informationer om produktet:</label>
+
+        <textarea rows ="3" cols = "60" th:name = "description" placeholder = "Skriv din produktbeskrivelse her" th:field="${product.description}" class="form-control mr-sm-2" required></textarea>
+        <br>
+
+        <label>Pris:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${product.price}" required/>
+        <br>
+
+        <label>denne felt kan du sætte et billede link for produktet:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${product.pictureLink}" required/>
+        <br>
+
+        <label>vælg 1 for aktive produkter og 0 for produkter der ikke skal vises for kunder</label>
+
+        <select th:name = "active" class="form-control">
+            <!--<option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.active}"></option>-->
+            <option value="0" th:if="${product.active==0}" selected>Inaktiv</option>
+            <option value="0" th:if="${product.active==1}">Inaktiv</option>
+            <option value="1" th:if="${product.active==1}" selected>Aktiv</option>
+            <option value="1" th:if="${product.active==0}">Aktiv</option>
+        </select>
+        <br>
+
+        <label>Lager:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${product.stock}" required/>
+        <br>
+
+
+        <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
+
+        <button class="btn btn-primary" type="submit">Gem</button>
+
+    </form>
+
+    <br>
+
+
+</div>
+</body>
+</html>
