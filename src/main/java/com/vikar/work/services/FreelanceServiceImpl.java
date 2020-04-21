@@ -20,4 +20,9 @@ public class FreelanceServiceImpl implements FreelanceService {
     public Worker updateWorker(Worker worker) {
         return freelanceRepo.save(worker);
     }
+
+    @Override
+    public void deleteWorker(long id) {
+        freelanceRepo.deleteById(id);
+    }
 }

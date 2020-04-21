@@ -34,12 +34,27 @@ public class FreelanceController {
     @PostMapping("/editWorker")
     public String editWorker (@ModelAttribute Worker worker, Model model) {
         log.info("editworker putmapping called...");
+        String test = ""+worker.getCVRNumber();
+        log.info("CVR test "+test);
+        if (worker.getCVRNumber() > 0) {
+            freelanceService.updateWorker(worker);
+        }
+        else {
+            worker.setCVRNumber(0);
+            freelanceService.updateWorker(worker);
+        }
 
-        freelanceService.updateWorker(worker);
 
         //log.info(worker.lastname);
 
         return "redirect:/editWorker/1";
     }
 
+    @PostMapping("/deleteWorker")
+    public String deleteWorker(@ModelAttribute Worker worker) {
+        log.info("delete worker called id: "+worker.getId());
+        freelanceService.deleteWorker(worker.getId());
+
+        return "index";
+    }
 }

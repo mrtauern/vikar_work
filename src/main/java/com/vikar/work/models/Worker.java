@@ -12,7 +12,7 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long Id;
 
-    private long CVRNumber; //Optional
+    public long CVRNumber; //Optional
 
     public long BankNumber;
     public long ZIP;
@@ -50,9 +50,13 @@ public class Worker {
         Id = id;
     }
 
-    public Optional<Long> getCVRNumber(){
+/*    public Optional<Long> getCVRNumber(){
         return Optional.ofNullable(CVRNumber);
 
+    }*/
+
+    public long getCVRNumber() {
+        return CVRNumber;
     }
 
     public void setCVRNumber(long CVRNumber) {

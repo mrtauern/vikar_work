@@ -44,6 +44,9 @@
         <label>PostNr:</label>
         <input type="number" class="form-control mr-sm-2"  th:field="${worker.ZIP}" required>
         <br>
+        <label>CVR (hvis privatperson vælg nul):</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
+        <br>
 
         <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
 
@@ -51,7 +54,11 @@
 
     </form>
 
-    <br>
+    <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
+        <input type="hidden" th:field="${worker.Id}">
+        <button class="btn btn-primary" type="submit">Delete</button>
+
+    </form>
 
 
 </div>

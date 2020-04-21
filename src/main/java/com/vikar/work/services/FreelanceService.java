@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface FreelanceService {
     Optional<Worker> findById(long id);
     Worker updateWorker(Worker worker);
+    void deleteWorker(long id);
 }
