@@ -9,12 +9,12 @@
 
     <h1>Opret bruger</h1>
 
-    <form id="create_user" method="Post" th:action="@{/createUser}" th:object="${user}">
+    <form id="create_user" method="Post" th:action="@{/createUser}" th:object="${user}" onsubmit="return checkPasswords()">
 
         <label>Type:</label>
         <select id="type_select" th:name="type" class="form-control">
             <option value="freelance">Freelancer/Privat person</option>
-            <option value="company">Virksonhed</option>
+            <option value="company">Virksomhed</option>
         </select>
 
         <label class="company">Firma navn:</label>
@@ -29,17 +29,17 @@
         <label class="company freelance">E-mail:</label>
         <input type="email" th:name="email" class="company freelance form-control mr-sm-2"/>
 
-        <label class="freelance">By:</label>
-        <input type="text" th:name="city" class="freelance form-control mr-sm-2"/>
+        <label class="freelance company">By:</label>
+        <input type="text" th:name="city" class="freelance company form-control mr-sm-2"/>
 
-        <label class="freelance">Post nr.:</label>
-        <input type="number" th:name="zip" class="freelance form-control mr-sm-2"/>
+        <label class="freelance company">Post nr.:</label>
+        <input type="number" th:name="zip" class="freelance company form-control mr-sm-2"/>
 
-        <label class="freelance">Vej:</label>
-        <input type="text" th:name="streetName" class="freelance form-control mr-sm-2"/>
+        <label class="freelance company">Vej:</label>
+        <input type="text" th:name="streetName" class="freelance company form-control mr-sm-2"/>
 
-        <label class="freelance">Hus nr.:</label>
-        <input type="number" th:name="houseNumber" class="freelance form-control mr-sm-2"/>
+        <label class="freelance company">Hus nr.:</label>
+        <input type="number" th:name="houseNumber" class="freelance company form-control mr-sm-2"/>
 
         <label class="company freelance">CVR:</label>
         <input type="number" th:name="CVRNumber" class="company freelance form-control mr-sm-2"/>
@@ -95,6 +95,18 @@
                 companyFields[i].setAttribute("required", "required");
                 companyFields[i].style.display = "block";
             }
+        }
+    }
+
+    function checkPasswords() {
+        var password1 = document.getElementsByName("password1")[0].value;
+        var password2 = document.getElementsByName("password2")[0].value;
+
+        if(password1 != password2){
+            alert("Adgangskoderne er ikke ens!");
+            return false;
+        } else {
+            return true;
         }
     }
 
