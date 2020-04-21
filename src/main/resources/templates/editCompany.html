@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Company</title>
+</head>
+<body>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Company</title>
+</head>
+<body>
+<div class="container">
+    <h1>Edit Company</h1>
+
+    <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
+
+        <input type="hidden" th:field="${company.Id}">
+
+        <label>Company name:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.CompanyName}" required>
+
+        <br>
+
+        <label>Brugernavn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.Username}" required>
+        <br>
+        <label>Password:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.Password}" required>
+        <br>
+
+        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.StreetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.HouseNumber}" required>
+        <br>
+
+        <label>By:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.City}" required>
+        <br>
+        <label>PostNr:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${company.ZIP}" required>
+        <br>
+        <label>CVR nummer:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${company.CVRNumber}" required>
+        <br>
+
+        <label>Bank nummer:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${company.BankNumber}" required>
+        <br>
+        <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/index';"/>
+
+        <button class="btn btn-primary" type="submit">Gem</button>
+
+    </form>
+
+    <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
+        <input type="hidden" th:field="${company.Id}">
+        <button class="btn btn-primary" type="submit">Delete</button>
+
+    </form>
+
+
+</div>
+</body>
+</html>

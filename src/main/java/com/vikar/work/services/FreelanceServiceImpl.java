@@ -21,7 +21,9 @@ public class FreelanceServiceImpl implements FreelanceService {
         return freelanceRepo.save(worker);
     }
 
+/*
     @Override
+*/
     public void deleteWorker(long id) {
         freelanceRepo.deleteById(id);
     }
