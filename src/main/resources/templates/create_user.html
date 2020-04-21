@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+
+    <h1>Opret bruger</h1>
+
+    <form id="create_user" method="Post" th:action="@{/createUser}" th:object="${user}">
+
+        <label>Type:</label>
+        <select id="type_select" th:name="type" class="form-control">
+            <option value="freelance">Freelancer/Privat person</option>
+            <option value="company">Virksonhed</option>
+        </select>
+
+        <label class="company">Firma navn:</label>
+        <input type="text" th:name="companyName" class="company form-control mr-sm-2"/>
+
+        <label class="company freelance">Fornavn:</label>
+        <input type="text" th:name="firstname" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">Efternavn:</label>
+        <input type="text" th:name="lastname" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">E-mail:</label>
+        <input type="email" th:name="email" class="company freelance form-control mr-sm-2"/>
+
+        <label class="freelance">By:</label>
+        <input type="text" th:name="city" class="freelance form-control mr-sm-2"/>
+
+        <label class="freelance">Post nr.:</label>
+        <input type="number" th:name="zip" class="freelance form-control mr-sm-2"/>
+
+        <label class="freelance">Vej:</label>
+        <input type="text" th:name="streetName" class="freelance form-control mr-sm-2"/>
+
+        <label class="freelance">Hus nr.:</label>
+        <input type="number" th:name="houseNumber" class="freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">CVR:</label>
+        <input type="number" th:name="CVRNumber" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">Banknummer:</label>
+        <input type="number" th:name="bankNumber" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">Brugernavn:</label>
+        <input type="text" th:name="username" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">Adgangkode:</label>
+        <input type="password" th:name="password1" class="company freelance form-control mr-sm-2"/>
+
+        <label class="company freelance">Gentag kode:</label>
+        <input type="password" th:name="password2" class="company freelance form-control mr-sm-2"/>
+
+        <button class="btn btn-primary" type="submit">Opret</button>
+
+    </form>
+
+    <footer th:include="fragments/footer :: bottom"></footer>
+</div>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+<script type="text/javascript">
+    document.getElementById("type_select").addEventListener("change", changeType);
+
+    var inputFields = document.getElementsByTagName("input");
+    var labels = document.getElementsByTagName("label");
+    var companyFields = document.getElementsByClassName("company");
+    var freelanceFields = document.getElementsByClassName("freelance");
+
+    function changeType() {
+        var selectValue = document.getElementById("type_select").value;
+
+        for (var i = 0; i < inputFields.length; i++){
+            inputFields[i].removeAttribute("required");
+            inputFields[i].style.display = "none";
+        }
+
+        for (var i = 0; i < labels.length; i++){
+            labels[i].removeAttribute("required");
+            labels[i].style.display = "none";
+        }
+
+        if(selectValue == "freelance"){
+            for (var i = 0; i < freelanceFields.length; i++){
+                freelanceFields[i].setAttribute("required", "required");
+                freelanceFields[i].style.display = "block";
+            }
+        } else {
+            for (var i = 0; i < companyFields.length; i++){
+                companyFields[i].setAttribute("required", "required");
+                companyFields[i].style.display = "block";
+            }
+        }
+    }
+
+    changeType();
+</script>
+
+</body>
+</html>

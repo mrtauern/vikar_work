@@ -20,15 +20,4 @@ public class CompanyController {
     CompanyServiceImpl companyService;
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
-
-    @GetMapping("/")
-    public String index(){
-        Optional<Company> company = companyService.findById(1);
-        if(company.isPresent()){
-            log.info("Fandt " + company.get().getCompanyName());
-        } else {
-            log.info("Fandt ingen firma");
-        }
-        return "index";
-    }
 }
