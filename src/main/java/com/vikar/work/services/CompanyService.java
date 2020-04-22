@@ -12,5 +12,6 @@ public interface CompanyService {
     Optional<Company> findById(long id);
     Company save(Company company);
     Company updateCompany(Company company);
+    Iterable<Company> findAll();
     void deleteCompany(long id);
 }

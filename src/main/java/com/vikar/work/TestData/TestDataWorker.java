@@ -25,14 +25,15 @@ public class TestDataWorker implements ApplicationListener<ContextRefreshedEvent
         worker1.setCVRNumber(22311551);
         worker1.setBankNumber(22154321);
         worker1.setHouseNumber(33);
-        worker1.setZIP(2400);
+        worker1.setZip(2400);
 
         worker1.setFirstname("Kalle");
         worker1.setLastname("Kallesen");
         worker1.setEmail("Kalle@Kallesen@gmail.com");
-        worker1.setPassword("SmukkeKalle21");
+        worker1.setPassword("pass1234");
         worker1.setStreetName("Helgevej");
         worker1.setCity("Copenhagen");
+        worker1.setUsername("user1234");
 
         workers.add(worker1);
 

@@ -27,6 +27,10 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepo.save(company);
     }
 
+    public Iterable<Company> findAll(){
+        return companyRepo.findAll();
+    }
+
     public void deleteCompany(long id) {
         companyRepo.deleteById(id);
     }

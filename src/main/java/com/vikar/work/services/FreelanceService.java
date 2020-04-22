@@ -10,5 +10,6 @@ public interface FreelanceService {
     Optional<Worker> findById(long id);
     Worker save(Worker worker);
     Worker updateWorker(Worker worker);
+    Iterable<Worker> findAll();
     void deleteWorker(long id);
 }
