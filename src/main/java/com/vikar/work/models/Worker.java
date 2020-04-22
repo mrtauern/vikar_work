@@ -1,9 +1,8 @@
 package com.vikar.work.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.vikar.work.component.AttributeEncryptor;
+
+import javax.persistence.*;
 import java.util.Optional;
 
 @Entity
@@ -13,26 +12,42 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long Id;
 
-    public long CVRNumber; //Optional
+    @Convert(converter = AttributeEncryptor.class)
+    public String CVRNumber; //Optional
 
-    public long bankNumber;
-    public long zip;
-    public long houseNumber;
+    @Convert(converter = AttributeEncryptor.class)
+    public String bankNumber;
+
+    @Convert(converter = AttributeEncryptor.class)
+    public String zip;
+
+    @Convert(converter = AttributeEncryptor.class)
+    public String houseNumber;
 
     public String firstname;
     public String lastname;
+
+    @Convert(converter = AttributeEncryptor.class)
     public String email;
+
+    @Convert(converter = AttributeEncryptor.class)
     public String password;
+
+    @Convert(converter = AttributeEncryptor.class)
     public String username;
+
+    @Convert(converter = AttributeEncryptor.class)
     public String streetName;
+
+    @Convert(converter = AttributeEncryptor.class)
     public String city;
 
     public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city) {
         Id = id;
-        this.CVRNumber = CVRNumber;
-        this.bankNumber = bankNumber;
-        this.zip = zip;
-        this.houseNumber = houseNumber;
+        this.CVRNumber = ""+CVRNumber;
+        this.bankNumber = ""+bankNumber;
+        this.zip = ""+zip;
+        this.houseNumber = ""+houseNumber;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -54,35 +69,35 @@ public class Worker {
     }
   
     public long getCVRNumber() {
-        return CVRNumber;
+        return Long.valueOf(CVRNumber).longValue();
     }
 
     public void setCVRNumber(long CVRNumber) {
-        this.CVRNumber = CVRNumber;
+        this.CVRNumber = ""+CVRNumber;
     }
 
     public long getBankNumber() {
-        return bankNumber;
+        return Long.valueOf(bankNumber).longValue();
     }
 
     public void setBankNumber(long bankNumber) {
-        this.bankNumber = bankNumber;
+        this.bankNumber = ""+bankNumber;
     }
 
     public long getZip() {
-        return zip;
+        return Long.valueOf(zip).longValue();
     }
 
     public void setZip(long zip) {
-        this.zip = zip;
+        this.zip = ""+zip;
     }
 
     public long getHouseNumber() {
-        return houseNumber;
+        return Long.valueOf(houseNumber).longValue();
     }
 
     public void setHouseNumber(long houseNumber) {
-        this.houseNumber = houseNumber;
+        this.houseNumber = ""+houseNumber;
     }
 
     public String getFirstname() {
