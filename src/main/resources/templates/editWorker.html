@@ -20,7 +20,7 @@
 
     <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
 
-        <input type="hidden" th:field="${worker.Id}">
+        <input type="hidden" th:field="${worker.id}">
 
         <label>Fornavn:</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
@@ -42,7 +42,9 @@
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
         <br>
         <label>PostNr:</label>
+
         <input type="number" class="form-control mr-sm-2"  th:field="${worker.zip}" required>
+
         <br>
         <label>CVR (hvis privatperson vælg nul):</label>
         <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
@@ -55,7 +57,7 @@
     </form>
 
     <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
-        <input type="hidden" th:field="${worker.Id}">
+        <input type="hidden" th:field="${worker.id}">
         <button class="btn btn-primary" type="submit">Delete</button>
 
     </form>

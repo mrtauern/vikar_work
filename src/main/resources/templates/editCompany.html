@@ -20,25 +20,25 @@
 
     <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
 
-        <input type="hidden" th:field="${company.Id}">
+        <input type="hidden" th:field="${company.id}">
 
         <label>Company name:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.CompanyName}" required>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.companyName}" required>
 
         <br>
 
         <label>Brugernavn:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.Username}" required>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.username}" required>
         <br>
         <label>Password:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.Password}" required>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.password}" required>
         <br>
 
-        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.StreetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.HouseNumber}" required>
+        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.houseNumber}" required>
         <br>
 
         <label>By:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.City}" required>
+        <input type="text" class="form-control mr-sm-2"  th:field="${company.city}" required>
         <br>
         <label>PostNr:</label>
         <input type="number" class="form-control mr-sm-2"  th:field="${company.zip}" required>
@@ -48,7 +48,7 @@
         <br>
 
         <label>Bank nummer:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${company.BankNumber}" required>
+        <input type="number" class="form-control mr-sm-2"  th:field="${company.bankNumber}" required>
         <br>
         <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/index';"/>
 
@@ -57,7 +57,7 @@
     </form>
 
     <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
-        <input type="hidden" th:field="${company.Id}">
+        <input type="hidden" th:field="${company.id}">
         <button class="btn btn-primary" type="submit">Delete</button>
 
     </form>

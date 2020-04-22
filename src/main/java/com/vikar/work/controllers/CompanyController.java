@@ -1,7 +1,6 @@
 package com.vikar.work.controllers;
 
 import com.vikar.work.models.Company;
-import com.vikar.work.models.Worker;
 import com.vikar.work.services.CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
