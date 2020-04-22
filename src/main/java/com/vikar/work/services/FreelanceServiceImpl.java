@@ -22,9 +22,7 @@ public class FreelanceServiceImpl implements FreelanceService {
         return freelanceRepo.save(worker);
     }
 
-    public Optional<Worker> findById(long id) {
-        return freelanceRepo.findById(id);
-    }
+
 
     public Worker updateWorker(Worker worker) {
         return freelanceRepo.save(worker);

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+</div>
+
+    <h1 th:text="${assignment.name}"></h1>
+
+    <h4 th:text="${assignment.description}"></h4>
+
+    <h4 th:text="${assignment.streetName}"></h4>
+
+    <h4 th:text="${assignment.city}"></h4>
+
+    <h4 th:text="${assignment.neededExperience}"></h4>
+
+    <h4 th:text="${assignment.houseNumber}"></h4>
+
+    <h4 th:text="${assignment.hourlyWage}"></h4>
+    <!--<h3 th:text="${assignment.isArchived}"></h3>-->
+
+    <form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
+        <input th:name="id" type="hidden" th:field="${assignment.id}">
+
+        <select th:name="arkiveret" onchange='this.form.submit()'class="form-control mr-2">
+            <option th:if="${assignment.archived}" value="1" text="Arkiveret" selected>Arkiveret</option>
+            <option th:if="${!assignment.archived}" value="1" text="Arkiveret">Arkiveret</option>
+
+            <option th:if="${!assignment.archived}" value="0" text="Aktiv" selected>Aktiv</option>
+            <option th:if="${assignment.archived}" value="0" text="Aktiv">Aktiv</option>
+        </select>
+    </form>
+    <h4 th:if="${assignment.archived}">Arkiveret</h4>
+    <h4 th:if="${!assignment.archived}">aktiv</h4>-
+</body>
+</html>
+
+
+
