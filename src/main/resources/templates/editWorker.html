@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Freelancer</title>
+</head>
+<body>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Freelancer</title>
+</head>
+<body>
+<div class="container">
+    <h1>Edit User</h1>
+
+    <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
+
+        <input type="hidden" th:field="${worker.Id}">
+
+        <label>Fornavn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
+
+        <br>
+
+        <label>Efternavn:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.lastname}" required>
+        <br>
+        <label>Email(brugernavn):</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.email}" required>
+        <br>
+        <label>Password:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
+        <br>
+        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
+        <br>
+        <label>By:</label>
+        <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
+        <br>
+        <label>PostNr:</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${worker.ZIP}" required>
+        <br>
+        <label>CVR (hvis privatperson vælg nul):</label>
+        <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
+        <br>
+
+        <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
+
+        <button class="btn btn-primary" type="submit">Gem</button>
+
+    </form>
+
+    <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
+        <input type="hidden" th:field="${worker.Id}">
+        <button class="btn btn-primary" type="submit">Delete</button>
+
+    </form>
+
+
+</div>
+</body>
+</html>

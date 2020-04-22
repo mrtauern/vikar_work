@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Entity
 public class Worker {
-
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long Id;
@@ -52,7 +52,7 @@ public class Worker {
     public void setId(long id) {
         Id = id;
     }
-
+  
     public long getCVRNumber() {
         return CVRNumber;
     }
@@ -141,3 +141,4 @@ public class Worker {
         this.city = city;
     }
 }
+
