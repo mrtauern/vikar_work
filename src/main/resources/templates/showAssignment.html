@@ -7,41 +7,37 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 </div>
-</body>
-
-
-    <br>
-    <br>
-
-
 
     <h1 th:text="${assignment.name}"></h1>
 
-    <h3 th:text="${assignment.description}"></h3>
+    <h4 th:text="${assignment.description}"></h4>
 
-    <h3 th:text="${assignment.streetName}"></h3>
+    <h4 th:text="${assignment.streetName}"></h4>
 
-    <h3 th:text="${assignment.city}"></h3>
+    <h4 th:text="${assignment.city}"></h4>
 
-    <h3 th:text="${assignment.neededExperience}"></h3>
+    <h4 th:text="${assignment.neededExperience}"></h4>
 
-    <h3 th:text="${assignment.houseNumber}"></h3>
+    <h4 th:text="${assignment.houseNumber}"></h4>
 
-    <h3 th:text="${assignment.hourlyWage}"></h3>
+    <h4 th:text="${assignment.hourlyWage}"></h4>
+    <!--<h3 th:text="${assignment.isArchived}"></h3>-->
 
-<a th:if="${assignment.isArchived}">Arkiveret</a>
-<a th:if="${!assignment.isArchived}">Ikke arkiveret</a>
+    <form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
+        <input th:name="id" type="hidden" th:field="${assignment.id}">
 
+        <select th:name="arkiveret" onchange='this.form.submit()'class="form-control mr-2">
+            <option th:if="${assignment.archived}" value="1" text="Arkiveret" selected>Arkiveret</option>
+            <option th:if="${!assignment.archived}" value="1" text="Arkiveret">Arkiveret</option>
 
-
-
-    <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
-
-    <button class="btn btn-primary" type="submit">Gem</button>
-
-
+            <option th:if="${!assignment.archived}" value="0" text="Aktiv" selected>Aktiv</option>
+            <option th:if="${assignment.archived}" value="0" text="Aktiv">Aktiv</option>
+        </select>
+    </form>
+    <h4 th:if="${assignment.archived}">Arkiveret</h4>
+    <h4 th:if="${!assignment.archived}">aktiv</h4>-
+</body>
 </html>
-<!--
 
 
 

@@ -34,6 +34,11 @@ public class Assignment {
     public Assignment() {
     }
 
+    public Assignment(long id, Boolean isArchived) {
+        this.id = id;
+        this.isArchived = isArchived;
+    }
+
     public Boolean getArchived() {
         return isArchived;
     }
