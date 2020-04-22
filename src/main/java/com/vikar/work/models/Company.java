@@ -13,31 +13,30 @@ public class Company {
     public long Id;
 
     public long CVRNumber;
-    public long BankNumber;
-    public long ZIP;
-    public long HouseNumber;
+    public long bankNumber;
+    public long zip;
+    public long houseNumber;
 
-    public String CompanyName;
-    public String Username;
-    public String Password;
-    public String StreetName;
-    public String City;
+    public String companyName;
+    public String username;
+    public String password;
+    public String streetName;
+    public String city;
 
-    public Company(){
-
+    public Company() {
     }
 
-    public Company(long id, long CVRNumber, long bankNumber, long ZIP, long houseNumber, String companyName, String username, String password, String streetName, String city) {
+    public Company(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password, String streetName, String city) {
         Id = id;
         this.CVRNumber = CVRNumber;
-        BankNumber = bankNumber;
-        this.ZIP = ZIP;
-        HouseNumber = houseNumber;
-        CompanyName = companyName;
-        Username = username;
-        Password = password;
-        StreetName = streetName;
-        City = city;
+        this.bankNumber = bankNumber;
+        this.zip = zip;
+        this.houseNumber = houseNumber;
+        this.companyName = companyName;
+        this.username = username;
+        this.password = password;
+        this.streetName = streetName;
+        this.city = city;
     }
 
     public long getId() {
@@ -57,66 +56,66 @@ public class Company {
     }
 
     public long getBankNumber() {
-        return BankNumber;
+        return bankNumber;
     }
 
     public void setBankNumber(long bankNumber) {
-        BankNumber = bankNumber;
+        this.bankNumber = bankNumber;
     }
 
-    public long getZIP() {
-        return ZIP;
+    public long getZip() {
+        return zip;
     }
 
-    public void setZIP(long ZIP) {
-        this.ZIP = ZIP;
+    public void setZip(long zip) {
+        this.zip = zip;
     }
 
     public long getHouseNumber() {
-        return HouseNumber;
+        return houseNumber;
     }
 
     public void setHouseNumber(long houseNumber) {
-        HouseNumber = houseNumber;
+        this.houseNumber = houseNumber;
     }
 
     public String getCompanyName() {
-        return this.CompanyName;
+        return companyName;
     }
 
-    public void setCompanyName(String CompanyName) {
-        this.CompanyName = CompanyName;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getStreetName() {
-        return StreetName;
+        return streetName;
     }
 
     public void setStreetName(String streetName) {
-        StreetName = streetName;
+        this.streetName = streetName;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 }

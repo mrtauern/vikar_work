@@ -8,35 +8,38 @@ import java.util.Optional;
 
 @Entity
 public class Worker {
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long Id;
 
     public long CVRNumber; //Optional
 
-    public long BankNumber;
-    public long ZIP;
-    public long HouseNumber;
+    public long bankNumber;
+    public long zip;
+    public long houseNumber;
 
     public String firstname;
     public String lastname;
     public String email;
-    public String Password;
+    public String password;
+    public String username;
     public String streetName;
-    public String City;
+    public String city;
 
-    public Worker(long id, long CVRNumber, long bankNumber, long ZIP, long houseNumber, String firstname, String lastname, String email, String password, String streetName, String city) {
+    public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city) {
         Id = id;
         this.CVRNumber = CVRNumber;
-        BankNumber = bankNumber;
-        this.ZIP = ZIP;
-        HouseNumber = houseNumber;
+        this.bankNumber = bankNumber;
+        this.zip = zip;
+        this.houseNumber = houseNumber;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        Password = password;
+        this.password = password;
+        this.username = username;
         this.streetName = streetName;
-        City = city;
+        this.city = city;
     }
 
     public Worker() {
@@ -49,12 +52,7 @@ public class Worker {
     public void setId(long id) {
         Id = id;
     }
-
-/*    public Optional<Long> getCVRNumber(){
-        return Optional.ofNullable(CVRNumber);
-
-    }*/
-
+  
     public long getCVRNumber() {
         return CVRNumber;
     }
@@ -64,27 +62,27 @@ public class Worker {
     }
 
     public long getBankNumber() {
-        return BankNumber;
+        return bankNumber;
     }
 
     public void setBankNumber(long bankNumber) {
-        BankNumber = bankNumber;
+        this.bankNumber = bankNumber;
     }
 
-    public long getZIP() {
-        return ZIP;
+    public long getZip() {
+        return zip;
     }
 
-    public void setZIP(long ZIP) {
-        this.ZIP = ZIP;
+    public void setZip(long zip) {
+        this.zip = zip;
     }
 
     public long getHouseNumber() {
-        return HouseNumber;
+        return houseNumber;
     }
 
     public void setHouseNumber(long houseNumber) {
-        HouseNumber = houseNumber;
+        this.houseNumber = houseNumber;
     }
 
     public String getFirstname() {
@@ -112,11 +110,19 @@ public class Worker {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getStreetName() {
@@ -128,10 +134,11 @@ public class Worker {
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 }
+

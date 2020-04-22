@@ -26,16 +26,6 @@ public class CompanyController {
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
-    @GetMapping("/")
-    public String index(){
-        Optional<Company> company = companyService.findById(1);
-        if(company.isPresent()){
-            log.info("Fandt " + company.get().getCompanyName());
-        } else {
-            log.info("Fandt ingen firma");
-        }
-        return "index";
-    }
 
     @GetMapping("/editCompany/{id}")
     public String editWorker(@PathVariable("id") long companyId, Model model){
@@ -51,11 +41,8 @@ public class CompanyController {
     public String editWorker (@ModelAttribute Company company, Model model) {
         log.info("editCompany putmapping called...");
         String test = ""+company.getCVRNumber();
-        /*log.info("CVR test "+test);*/
 
             companyService.updateCompany(company);
-
-            //log.info(worker.lastname);
 
         return "redirect:/editCompany/1";
     }
@@ -67,5 +54,4 @@ public class CompanyController {
 
         return "index";
     }
-
 }

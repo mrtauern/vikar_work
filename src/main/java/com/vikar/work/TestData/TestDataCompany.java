@@ -25,7 +25,7 @@ public class TestDataCompany implements ApplicationListener<ContextRefreshedEven
         company1.setCVRNumber(12345678);
         company1.setBankNumber(987654321);
         company1.setHouseNumber(67);
-        company1.setZIP(3030);
+        company1.setZip(3030);
 
         company1.setCompanyName("AudiBilService");
         company1.setUsername("Audi");

@@ -1,5 +1,6 @@
 package com.vikar.work.repositories;
 
+import com.vikar.work.models.Company;
 import com.vikar.work.models.Worker;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;

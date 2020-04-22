@@ -13,6 +13,15 @@ public class FreelanceServiceImpl implements FreelanceService {
     @Autowired
     FreelanceRepo freelanceRepo;
 
+    public Optional<Worker> findById(long id){
+        return freelanceRepo.findById(id);
+    }
+
+    @Override
+    public Worker save(Worker worker) {
+        return freelanceRepo.save(worker);
+    }
+
     public Optional<Worker> findById(long id) {
         return freelanceRepo.findById(id);
     }
@@ -21,9 +30,6 @@ public class FreelanceServiceImpl implements FreelanceService {
         return freelanceRepo.save(worker);
     }
 
-/*
-    @Override
-*/
     public void deleteWorker(long id) {
         freelanceRepo.deleteById(id);
     }
