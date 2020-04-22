@@ -33,6 +33,7 @@ public class TestDataWorker implements ApplicationListener<ContextRefreshedEvent
         worker1.setPassword("SmukkeKalle21");
         worker1.setStreetName("Helgevej");
         worker1.setCity("Copenhagen");
+        worker1.setUsername("user123");
 
         workers.add(worker1);
 
