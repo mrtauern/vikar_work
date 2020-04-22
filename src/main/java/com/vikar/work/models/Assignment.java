@@ -10,15 +10,17 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String Name;
-    String Description;
-    String StreetName;
-    String City;
-    String NeededExperience;
+    String name;
+    String description;
+    String streetName;
+    String city;
+    String neededExperience;
 
-    Long HouseNumber;
+    Long houseNumber;
 
-    Double HourlyWage;
+    int hourlyWage;
+
+    Boolean isArchived = false;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -32,6 +34,14 @@ public class Assignment {
     public Assignment() {
     }
 
+    public Boolean getArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(Boolean archived) {
+        isArchived = archived;
+    }
+
     public Long getId() {
         return id;
     }
@@ -41,59 +51,59 @@ public class Assignment {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getStreetName() {
-        return StreetName;
+        return streetName;
     }
 
     public void setStreetName(String streetName) {
-        StreetName = streetName;
+        this.streetName = streetName;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getNeededExperience() {
-        return NeededExperience;
+        return neededExperience;
     }
 
     public void setNeededExperience(String neededExperience) {
-        NeededExperience = neededExperience;
+        this.neededExperience = neededExperience;
     }
 
     public Long getHouseNumber() {
-        return HouseNumber;
+        return houseNumber;
     }
 
     public void setHouseNumber(Long houseNumber) {
-        HouseNumber = houseNumber;
+        this.houseNumber = houseNumber;
     }
 
-    public Double getHourlyWage() {
-        return HourlyWage;
+    public int getHourlyWage() {
+        return hourlyWage;
     }
 
-    public void setHourlyWage(Double hourlyWage) {
-        HourlyWage = hourlyWage;
+    public void setHourlyWage(int hourlyWage) {
+        this.hourlyWage = hourlyWage;
     }
 
     public Set<Job> getJobTitles() {
