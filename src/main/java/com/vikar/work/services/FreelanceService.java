@@ -1,5 +1,6 @@
 package com.vikar.work.services;
 
+import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Worker;
 import org.springframework.stereotype.Service;
 
