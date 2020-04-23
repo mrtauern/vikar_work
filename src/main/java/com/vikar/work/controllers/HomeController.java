@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,13 +38,18 @@ public class HomeController {
     Logger log = Logger.getLogger(HomeController.class.getName());
 
     @GetMapping("/")
-    public String index(){
+    public String index(HttpSession session){
         Optional<Company> company = companyService.findById(1);
         if(company.isPresent()){
             log.info("Fandt " + company.get().getCompanyName());
         } else {
             log.info("Fandt ingen firma");
         }
+
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+        }
+
         return "index";
     }
 
@@ -104,5 +110,61 @@ public class HomeController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model){
+        log.info("login called (get)");
+
+        model.addAttribute("pageTitle", "Log ind");
+
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute User user, HttpSession session){
+        log.info("login called (post)");
+
+        boolean userFound = false;
+
+        Iterable<Company> companies = companyService.findAll();
+        for (Company c: companies) {
+            if(c.getUsername().equals(user.getUsername())){
+                userFound = true;
+                if(c.getPassword().equals(user.getPassword1())){
+                    setLogin(session, 'c', c.getId());
+                } else {
+                    log.info("Username or password is wrong!");
+                }
+            }
+        }
+
+        companies.forEach(c -> {log.info("Company: "+c.getCompanyName());});
+
+        Iterable<Worker> workers = freelanceService.findAll();
+        for (Worker w: workers) {
+            if(w.getUsername().equals(user.getUsername())){
+                userFound = true;
+                if(w.getPassword().equals(user.getPassword1())){
+                    setLogin(session, 'w', w.getId());
+                } else {
+                    log.info("Username or password is wrong!");
+                }
+            }
+        }
+
+        workers.forEach(w -> {log.info("Worker: "+w.getFirstname());});
+
+        if(userFound == false){
+            log.info("Username or password is wrong!");
+        }
+
+        return "redirect:/";
+    }
+
+    private void setLogin(HttpSession session, char type, long id){
+        String user = type+""+id;
+        session.setAttribute("login", user);
+        log.info("login success");
     }
 }

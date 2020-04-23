@@ -1,5 +1,6 @@
 package com.vikar.work.services;
 
+import com.vikar.work.models.Company;
 import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Worker;
 import org.springframework.stereotype.Service;
@@ -12,4 +13,5 @@ public interface FreelanceService {
     Worker save(Worker worker);
     Worker updateWorker(Worker worker);
     void deleteWorker(long id);
+    Iterable<Worker> findAll();
 }

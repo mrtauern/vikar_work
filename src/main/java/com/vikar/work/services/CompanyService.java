@@ -13,4 +13,5 @@ public interface CompanyService {
     Company save(Company company);
     Company updateCompany(Company company);
     void deleteCompany(long id);
+    Iterable<Company> findAll();
 }

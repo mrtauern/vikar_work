@@ -29,11 +29,13 @@ public class TestDataWorker /*implements ApplicationListener<ContextRefreshedEve
 
         worker1.setFirstname("Kalle");
         worker1.setLastname("Kallesen");
+
         worker1.setEmail("KalleKallesen@gmail.com");
         worker1.setPassword("SmukkeKalle21");
+
         worker1.setStreetName("Helgevej");
         worker1.setCity("Copenhagen");
-        worker1.setUsername("user123");
+        worker1.setUsername("user1234");
 
         workers.add(worker1);
 
