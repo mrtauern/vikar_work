@@ -125,7 +125,7 @@ public class HomeController {
 
         boolean userFound = false;
 
-        Iterable<Company> companies = companyService.findAll();
+        /*Iterable<Company> companies = companyService.findAll();
         for (Company c: companies) {
             if(c.getUsername().equals(user.getUsername())){
                 userFound = true;
@@ -135,7 +135,9 @@ public class HomeController {
                     log.info("Username or password is wrong!");
                 }
             }
-        }
+        }*/
+
+        //companies.forEach(c -> {log.info(""+c);});
 
         Iterable<Worker> workers = freelanceService.findAll();
         for (Worker w: workers) {
@@ -148,6 +150,8 @@ public class HomeController {
                 }
             }
         }
+
+        workers.forEach(w -> {log.info(""+w.getFirstname());});
 
         if(userFound == false){
             log.info("Username or password is wrong!");
