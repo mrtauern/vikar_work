@@ -38,13 +38,18 @@ public class HomeController {
     Logger log = Logger.getLogger(HomeController.class.getName());
 
     @GetMapping("/")
-    public String index(){
+    public String index(HttpSession session){
         Optional<Company> company = companyService.findById(1);
         if(company.isPresent()){
             log.info("Fandt " + company.get().getCompanyName());
         } else {
             log.info("Fandt ingen firma");
         }
+
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+        }
+
         return "index";
     }
 
@@ -127,7 +132,7 @@ public class HomeController {
             if(c.getUsername().equals(user.getUsername())){
                 userFound = true;
                 if(c.getPassword().equals(user.getPassword1())){
-                    setLogin(session);
+                    setLogin(session, 'c', c.getId());
                 } else {
                     log.info("Username or password is wrong!");
                 }
@@ -141,7 +146,7 @@ public class HomeController {
             if(w.getUsername().equals(user.getUsername())){
                 userFound = true;
                 if(w.getPassword().equals(user.getPassword1())){
-                    setLogin(session);
+                    setLogin(session, 'w', w.getId());
                 } else {
                     log.info("Username or password is wrong!");
                 }
@@ -157,8 +162,9 @@ public class HomeController {
         return "redirect:/";
     }
 
-    private void setLogin(HttpSession session){
-        session.setAttribute("login", true);
+    private void setLogin(HttpSession session, char type, long id){
+        String user = type+""+id;
+        session.setAttribute("login", user);
         log.info("login success");
     }
 }
