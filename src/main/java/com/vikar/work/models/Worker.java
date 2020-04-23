@@ -3,7 +3,9 @@ package com.vikar.work.models;
 import com.vikar.work.component.AttributeEncryptor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Worker {
@@ -23,6 +25,9 @@ public class Worker {
 
     @Convert(converter = AttributeEncryptor.class)
     public String houseNumber;
+
+    /*@OneToMany(cascade = CascadeType.ALL)
+    private Set<CV> cvs = new HashSet<>();*/
 
     public String firstname;
     public String lastname;
