@@ -1,6 +1,9 @@
 package com.vikar.work.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,17 +13,22 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String name;
-    String description;
-    String streetName;
-    String city;
-    String neededExperience;
+    private String name;
+    private String description;
+    private String streetName;
+    private String city;
+    private String neededExperience;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateStart;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateEnd;
 
-    Long houseNumber;
+    private Long houseNumber;
+    private Long ZIP;
 
-    int hourlyWage;
+    private int hourlyWage;
 
-    Boolean isArchived = false;
+    private Boolean isArchived = false;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -28,6 +36,12 @@ public class Assignment {
             joinColumns = @JoinColumn(name = "assignment_id"),
             inverseJoinColumns = @JoinColumn(name = "job_id"))
     private Set<Job> jobTitles = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "assignment_requests",
+            joinColumns = @JoinColumn(name = "assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "worker_id"))
+    private Set<Worker> assignmentRequests = new HashSet<>();
 
 
 
@@ -117,5 +131,37 @@ public class Assignment {
 
     public void setJobTitles(Set<Job> jobTitles) {
         this.jobTitles = jobTitles;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public Set<Worker> getAssignmentRequests() {
+        return assignmentRequests;
+    }
+
+    public void setAssignmentRequests(Set<Worker> assignmentRequests) {
+        this.assignmentRequests = assignmentRequests;
+    }
+
+    public Long getZIP() {
+        return ZIP;
+    }
+
+    public void setZIP(Long ZIP) {
+        this.ZIP = ZIP;
     }
 }
