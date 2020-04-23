@@ -22,7 +22,6 @@ public class TestDataCompany implements ApplicationListener<ContextRefreshedEven
         List<Company> companies = new ArrayList<>();
 
         Company company1 = new Company();
-
         company1.setCVRNumber(12345678);
         company1.setBankNumber(987654321);
         company1.setHouseNumber(67);
