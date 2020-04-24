@@ -57,8 +57,6 @@ public class AssignmentController {
             oldAssignment.setArchived(true);
         }
 
-
-
         log.info("Arkiveret? "+oldAssignment.getArchived());
 
         assignmentService.save(oldAssignment);
@@ -97,4 +95,12 @@ public class AssignmentController {
         return "redirect:/showAssignment/"+id;
     }
 
+    @GetMapping("/activeAssignmentList")
+    public String activeAssignmentList(Model model){
+        log.info("Active assignment list called...");
+
+        model.addAttribute("assignments", assignmentService.findAll());
+
+        return "active_assignment_list";
+    }
 }
