@@ -26,8 +26,8 @@ public class Worker {
     @Convert(converter = AttributeEncryptor.class)
     public String houseNumber;
 
-    /*@OneToMany(cascade = CascadeType.ALL)
-    private Set<CV> cvs = new HashSet<>();*/
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<CV> cvs = new HashSet<>();
 
     public String firstname;
     public String lastname;
@@ -47,7 +47,7 @@ public class Worker {
     @Convert(converter = AttributeEncryptor.class)
     public String city;
 
-    public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city) {
+    public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city, Set<CV> cvs) {
         Id = id;
         this.CVRNumber = ""+CVRNumber;
         this.bankNumber = ""+bankNumber;
@@ -60,6 +60,7 @@ public class Worker {
         this.username = username;
         this.streetName = streetName;
         this.city = city;
+        this.cvs = cvs;
     }
 
     public Worker() {
@@ -159,6 +160,14 @@ public class Worker {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Set<CV> getCvs() {
+        return cvs;
+    }
+
+    public void setCvs(Set<CV> cvs) {
+        this.cvs = cvs;
     }
 }
 

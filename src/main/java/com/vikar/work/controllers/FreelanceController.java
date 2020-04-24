@@ -1,14 +1,19 @@
 package com.vikar.work.controllers;
 
+import com.vikar.work.models.CV;
 import com.vikar.work.models.Worker;
+import com.vikar.work.services.CVService;
+import com.vikar.work.services.FreelanceService;
 import com.vikar.work.services.FreelanceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
+@Qualifier("FreelanceController")
 @Controller
 public class FreelanceController {
 
@@ -16,8 +21,13 @@ public class FreelanceController {
 
     }
 
+    @Qualifier("FreelanceService")
     @Autowired
-    FreelanceServiceImpl freelanceService;
+    FreelanceService freelanceService;
+
+    @Qualifier("CVService")
+    @Autowired
+    CVService cvService;
 
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
@@ -56,5 +66,46 @@ public class FreelanceController {
         freelanceService.deleteWorker(worker.getId());
 
         return "index";
+    }
+
+    @GetMapping("/addToCv")
+    public String addToCv(Model model){
+        log.info("Add to cv called (get)");
+
+        model.addAttribute("pageTitle", "Tilføj til CV");
+        model.addAttribute("workerId", 2);
+
+        return "add_to_cv";
+    }
+
+    @PostMapping("/addToCv")
+    public String addToCv(@RequestParam("workerId")String workerId,
+                          @RequestParam("workplace")String workplace,
+                          @RequestParam("jobTitle")String jobTitle,
+                          @RequestParam("startDate")String startDate,
+                          @RequestParam("endDate")String endDate){
+
+        Worker worker = freelanceService.findById(Long.parseLong(workerId)).get();
+
+        CV cv = new CV(worker, workplace, jobTitle, startDate, endDate);
+
+        cvService.save(cv);
+
+        log.info("Add to cv called (post)");
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/removeFromCv/{cvId}")
+    public String removeFromCv(@PathVariable("cvId") String cvId){
+        log.info("Remove from cv called");
+
+        CV cv = cvService.findById(Long.parseLong(cvId)).get();
+
+        cvService.delete(cv);
+
+        log.info("Cv with "+cvId+" is removed.");
+
+        return "redirect:/";
     }
 }

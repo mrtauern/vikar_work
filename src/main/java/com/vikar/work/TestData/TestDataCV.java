@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class TestDataCV implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
+    /*@Autowired
     @Qualifier("FreelanceRepo")
     private FreelanceRepo freelanceRepo;
 
@@ -44,11 +44,11 @@ public class TestDataCV implements ApplicationListener<ContextRefreshedEvent> {
         cvs.add(cv1);
 
         return cvs;
-    }
+    }*/
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        System.out.println("context refreshed");
-        cvRepo.saveAll(createCV());
+        /*System.out.println("context refreshed");
+        cvRepo.saveAll(createCV());*/
     }
 }

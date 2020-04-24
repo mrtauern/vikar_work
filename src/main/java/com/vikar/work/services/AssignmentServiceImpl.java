@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+@Service("AssignmentService")
 public class AssignmentServiceImpl implements AssignmentService {
     @Autowired
     AssignmentRepo assignmentRepo;
