@@ -7,22 +7,50 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 </div>
+<div>
+    <h3>Job:</h3>
+    <span th:text="${assignment.name}"></span>
+    <br>
+    <br>
 
-    <h1 th:text="${assignment.name}"></h1>
+    <h4>Beskrivelse:</h4>
+    <span th:text="${assignment.description}"></span>
+    <br>
+    <br>
+    <h4>Adresse:</h4>
+    <span th:text="${assignment.streetName}"></span> <span th:text="${assignment.houseNumber}"></span>
+    <br>
+    <span th:text="${assignment.ZIP}"></span> <span th:text="${assignment.city}"></span>
+    <br>
+    <br>
 
-    <h4 th:text="${assignment.description}"></h4>
+    <h4>Krav til erfaring:</h4>
+    <span th:text="${assignment.neededExperience}"></span>
+    <br>
+    <br>
 
-    <h4 th:text="${assignment.streetName}"></h4>
 
-    <h4 th:text="${assignment.city}"></h4>
+    <h4>Forventet timeløn:</h4>
+    <span th:text="${assignment.hourlyWage}"></span>
+    <br>
+    <br>
 
-    <h4 th:text="${assignment.neededExperience}"></h4>
 
-    <h4 th:text="${assignment.houseNumber}"></h4>
+    <h3>Tilmeldte ansøgere:</h3>
+    <form th:method="post" th:action="@{/applyForAssignment}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
+        <input th:name="id" type="hidden" th:field="${assignment.id}">
+        <button class="btn btn-primary" type="submit">Ansøg</button>
+    </form>
+    <br>
+    <div id="workersOnAssignment">
+        <span th:each="worker : ${workersOnAssignment}">
+            <br>
+            <span class="sad" th:text="${worker.firstname}"></span>
+        </span>
+    </div>
+    <br>
 
-    <h4 th:text="${assignment.hourlyWage}"></h4>
-    <!--<h3 th:text="${assignment.isArchived}"></h3>-->
-
+    <h4>Opgave aktiv status: </h4>
     <form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
         <input th:name="id" type="hidden" th:field="${assignment.id}">
 
@@ -34,8 +62,11 @@
             <option th:if="${assignment.archived}" value="0" text="Aktiv">Aktiv</option>
         </select>
     </form>
-    <h4 th:if="${assignment.archived}">Arkiveret</h4>
-    <h4 th:if="${!assignment.archived}">aktiv</h4>-
+    <br>
+</div>
+
+
+
 </body>
 </html>
 

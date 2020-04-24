@@ -29,4 +29,8 @@ public class FreelanceServiceImpl implements FreelanceService {
     public void deleteWorker(long id) {
         freelanceRepo.deleteById(id);
     }
+
+    public Iterable<Worker> findAll(){
+        return freelanceRepo.findAll();
+    }
 }

@@ -46,6 +46,9 @@ public class Worker {
 
     @Convert(converter = AttributeEncryptor.class)
     public String city;
+  
+    @ManyToMany(mappedBy = "assignmentRequests")
+    private Set<Assignment> requestedAssignments = new HashSet<>();
 
     public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city, Set<CV> cvs) {
         Id = id;
@@ -168,6 +171,14 @@ public class Worker {
 
     public void setCvs(Set<CV> cvs) {
         this.cvs = cvs;
+    }
+  
+    public Set<Assignment> getRequestedAssignments() {
+        return requestedAssignments;
+    }
+
+    public void setRequestedAssignments(Set<Assignment> requestedAssignments) {
+        this.requestedAssignments = requestedAssignments;
     }
 }
 

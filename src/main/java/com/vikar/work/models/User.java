@@ -17,6 +17,9 @@ public class User {
     private String lastname;
     private String email;
 
+    public User() {
+    }
+
     public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city, String firstname, String lastname, String email, String type) {
         this.CVRNumber = CVRNumber;
         this.bankNumber = bankNumber;
@@ -32,6 +35,11 @@ public class User {
         this.lastname = lastname;
         this.email = email;
         this.type = type;
+    }
+
+    public User(String username, String password1) {
+        this.username = username;
+        this.password1 = password1;
     }
 
     /*public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city) {
