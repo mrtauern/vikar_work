@@ -40,7 +40,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     List<Worker> workers = new ArrayList<>();
 
     List<CV> cvs = new ArrayList<>();
-    List<Worker> workers = new ArrayList<>();
   
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
