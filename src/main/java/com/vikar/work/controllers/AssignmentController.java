@@ -1,18 +1,19 @@
 package com.vikar.work.controllers;
 
 import com.vikar.work.models.Assignment;
+import com.vikar.work.models.Job;
 import com.vikar.work.models.Worker;
 import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.FreelanceService;
+import com.vikar.work.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.Assign;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Controller
@@ -26,6 +27,9 @@ public class AssignmentController {
 
     @Autowired
     FreelanceService freelanceService;
+
+    @Autowired
+    JobService jobService;
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
@@ -95,6 +99,38 @@ public class AssignmentController {
         freelanceService.save(tempworker);
 
         return "redirect:/showAssignment/"+id;
+    }
+
+    @GetMapping("/createAssignment")
+        public String createAssignment(Model model){
+
+            log.info("create Assignment called");
+
+            model.addAttribute("pageTitle", "Opret opgave");
+            model.addAttribute("jobList", jobService.findAll());
+
+
+
+        return "createAssignment";
+    }
+
+    @PostMapping("/createAssignment")
+        public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId){
+
+            log.info("Create Assignment POST called");
+            log.info("create assignment jobid " + jobId);
+            log.info("Start date + "+ assignment.getDateStart());
+
+            Job tempJob = new Job();
+            tempJob = jobService.findById(jobId).get();
+
+            assignment.getJobTitles().add(tempJob);
+            tempJob.getAssignments().add(assignment);
+
+            jobService.save(tempJob);
+            assignmentService.save(assignment);
+
+        return "createAssignment";
     }
 
 }

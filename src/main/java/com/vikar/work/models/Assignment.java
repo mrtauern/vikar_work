@@ -18,9 +18,9 @@ public class Assignment {
     private String streetName;
     private String city;
     private String neededExperience;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateEnd;
 
     private Long houseNumber;

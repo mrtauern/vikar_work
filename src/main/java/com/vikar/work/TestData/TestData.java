@@ -5,6 +5,7 @@ import com.vikar.work.models.Job;
 import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.AssignmentRepo;
 import com.vikar.work.repositories.FreelanceRepo;
+import com.vikar.work.repositories.JobRepo;
 import com.vikar.work.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +30,12 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     @Qualifier("FreelanceRepo")
     private FreelanceRepo freelanceRepo;
 
+    @Autowired
+    @Qualifier("JobRepo")
+    private JobRepo jobRepo;
+
     List<Worker> workers = new ArrayList<>();
+    List<Job> jobs = new ArrayList<>();
 
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
@@ -48,7 +54,15 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
         //add a test job
         Job jobs1 = new Job();
+        Job jobs2 = new Job();
+        Job jobs3 = new Job();
+        Job jobs4 = new Job();
+
+
         jobs1.setProfession("Proffesional opvasker");
+        jobs2.setProfession("Ufaglært");
+        jobs3.setProfession("Blikkenslager");
+        jobs4.setProfession("Elektriker");
 
         jobs1.getAssignments().add(assignment1);
         assignment1.getJobTitles().add(jobs1);
@@ -63,13 +77,13 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker1.setHouseNumber(33);
         worker1.setZip(2400);
 
-        worker1.setFirstname("Kalle");
+        worker1.setFirstname("Arne");
         worker1.setLastname("Kallesen");
         worker1.setEmail("KalleKallesen@gmail.com");
-        worker1.setPassword("SmukkeKalle21");
+        worker1.setPassword("pass1234");
         worker1.setStreetName("Helgevej");
         worker1.setCity("Copenhagen");
-        worker1.setUsername("user123");
+        worker1.setUsername("user1234");
 
         //testworker2
         Worker worker2 = new Worker();
@@ -86,6 +100,22 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker2.setCity("Copenhagen");
         worker2.setUsername("user321");
 
+        //testworker3
+        Worker worker3 = new Worker();
+        worker3.setCVRNumber(1122332);
+        worker3.setBankNumber(22333111);
+        worker3.setHouseNumber(22);
+        worker3.setZip(2311);
+
+        worker3.setFirstname("arnold");
+        worker3.setLastname("Dietersen");
+        worker3.setEmail("Arnold@gmail.com");
+        worker3.setPassword("999");
+        worker3.setStreetName("Adolfvej");
+        worker3.setCity("Tølløse");
+        worker3.setUsername("user567");
+
+
         //add assignment requests to workers
         worker1.getRequestedAssignments().add(assignment1);
         worker2.getRequestedAssignments().add(assignment1);
@@ -93,8 +123,14 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment1.getAssignmentRequests().add(worker2);
 
 
+        jobs.add(jobs1);
+        jobs.add(jobs2);
+        jobs.add(jobs3);
+        jobs.add(jobs4);
+
         workers.add(worker1);
         workers.add(worker2);
+        workers.add(worker3);
         assignments.add(assignment1);
         return assignments;
     }
@@ -103,7 +139,10 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("context refreshed TestData");
 
+
         assignmentRepo.saveAll(createAssignment());
+        jobRepo.saveAll(jobs);
         freelanceRepo.saveAll(workers);
+
     }
 }
