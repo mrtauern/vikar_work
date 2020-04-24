@@ -3,9 +3,7 @@ package com.vikar.work.controllers;
 import com.vikar.work.models.Company;
 import com.vikar.work.models.User;
 import com.vikar.work.models.Worker;
-import com.vikar.work.services.AdminServiceImpl;
-import com.vikar.work.services.CompanyServiceImpl;
-import com.vikar.work.services.FreelanceServiceImpl;
+import com.vikar.work.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,13 +25,13 @@ public class HomeController {
     }
 
     @Autowired
-    FreelanceServiceImpl freelanceService;
+    FreelanceService freelanceService;
 
     @Autowired
-    CompanyServiceImpl companyService;
+    CompanyService companyService;
 
     @Autowired
-    AdminServiceImpl adminService;
+    AdminService adminService;
 
     Logger log = Logger.getLogger(HomeController.class.getName());
 
