@@ -40,10 +40,10 @@
         <label>Opgave slutdato:</label>
         <input id="dateEnd" type="date" th:name="dateEnd" th:value ="${dateEnd}" required class="form-control mr-sm-2"/>
 
-        <label>jobType:</label>
+<       <label>jobType:</label>
         <select id="profession" th:name="profession" required class="form-control">
-            <option th:if="${assignmentId == jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}" selected></option>
-            <option th:if="${assignmentId != jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>
+            <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}" th:selected="${job.id} == ${testId}"></option>
+        <!--<option th:if="${testId != jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>-->
         </select>
 
         <button class="btn btn-primary" type="submit">gem ændringer</button>

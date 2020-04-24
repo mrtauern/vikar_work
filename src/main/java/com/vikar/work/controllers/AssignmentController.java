@@ -121,7 +121,7 @@ public class AssignmentController {
         Job tempJob = new Job();
         tempJob = jobService.findById(jobId).get();
 
-        assignment.getJobTitles().add(tempJob);
+        /*assignment.getJobTitles().add(tempJob);*/
         tempJob.getAssignments().add(assignment);
 
         jobService.save(tempJob);
@@ -140,14 +140,16 @@ public class AssignmentController {
         String[] splitDateStart = dateStartString.split(" ");
         String[] splitDateEnd = dateEndString.split(" ");
 
-        Set<Job> test = tempAssignment.getJobTitles();
+/*        Set<Job> test = tempAssignment.getJobTitles();
         int jobId = (int) 0;
         for (Job a: test) {
             jobId = (int) a.getId();
-        }
+        }*/
+        Job tempJob = tempAssignment.getJob();
+        log.info(tempJob.getId()+"tempjob id");
 
-
-        model.addAttribute("jobId", jobId);
+        model.addAttribute("testId", tempAssignment.getId());
+        model.addAttribute("jobId", tempJob.getId());
         model.addAttribute("pageTitle", "Edit Assignment");
         model.addAttribute("dateStart", splitDateStart[0]);
         model.addAttribute("dateEnd", splitDateEnd[0]);
@@ -169,14 +171,17 @@ public class AssignmentController {
 /*        log.info("dateStart: "+dateStart);
         log.info("dateEnd: "+dateEnd);*/
 
+        /*Set<Job> test = assignment.getJobTitles();*/
+
+
         Job tempJob = new Job();
         tempJob = jobService.findById(jobId).get();
-
-        assignment.getJobTitles().add(tempJob);
-        tempJob.getAssignments().add(assignment);
-
-        jobService.save(tempJob);
+        assignment.setJob(tempJob);
+        /*assignment.getJobTitles().add(tempJob);*/
+        log.info("presave");
+        jobService.save(assignment.getJob());
         assignmentService.save(assignment);
+        log.info("postsave");
 
         return "redirect:/editAssignment/1";
     }

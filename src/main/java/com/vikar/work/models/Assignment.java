@@ -31,11 +31,14 @@ public class Assignment {
     private Boolean isArchived = false;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+/*    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "assignment_job",
             joinColumns = @JoinColumn(name = "assignment_id"),
             inverseJoinColumns = @JoinColumn(name = "job_id"))
-    private Set<Job> jobTitles = new HashSet<>();
+    private Set<Job> jobTitles = new HashSet<>();*/
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Job job;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "assignment_requests",
@@ -125,12 +128,20 @@ public class Assignment {
         this.hourlyWage = hourlyWage;
     }
 
-    public Set<Job> getJobTitles() {
+    /*public Set<Job> getJobTitles() {
         return jobTitles;
+    }*/
+
+    /*public void setJobTitles(Set<Job> jobTitles) {
+        this.jobTitles = jobTitles;
+    }*/
+
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobTitles(Set<Job> jobTitles) {
-        this.jobTitles = jobTitles;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     public Date getDateStart() {

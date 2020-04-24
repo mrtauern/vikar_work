@@ -64,7 +64,7 @@ public class TestDataAssignmentJob /*implements ApplicationListener<ContextRefre
         jobs1.setProfession("Proffesional opvasker");
 
         jobs1.getAssignments().add(assignment1);
-        assignment1.getJobTitles().add(jobs1);
+        /*assignment1.getJobTitles().add(jobs1);*/
 
         //add date mm-dd-yyyy
         assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
