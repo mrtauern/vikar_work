@@ -64,8 +64,8 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         jobs3.setProfession("Blikkenslager");
         jobs4.setProfession("Elektriker");
 
-        jobs1.getAssignments().add(assignment1);
-        assignment1.getJobTitles().add(jobs1);
+        jobs2.getAssignments().add(assignment1);
+        assignment1.getJobTitles().add(jobs2);
 
         //add date mm-dd-yyyy
         assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));

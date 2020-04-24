@@ -34,7 +34,7 @@ public class AssignmentController {
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
     @GetMapping("/showAssignment/{id}")
-    public String showAssignment(@PathVariable("id") long assignmentId, Model model){
+    public String showAssignment(@PathVariable("id") long assignmentId, Model model) {
 
         log.info("showAssignment called with id: " + assignmentId);
         //Assignment test = new Assignment();*/
@@ -49,30 +49,28 @@ public class AssignmentController {
     }
 
     @RequestMapping(value = "/assignmentSetActive", method = RequestMethod.POST)
-    public String assignmentSetActive(@RequestParam("id")long id, @RequestParam("arkiveret") int arkiveret) {
+    public String assignmentSetActive(@RequestParam("id") long id, @RequestParam("arkiveret") int arkiveret) {
 
-        log.info("Setactive called with id "+id);
+        log.info("Setactive called with id " + id);
         Assignment oldAssignment = assignmentService.findById(id).get();
         //hvis arkiveret er 0 sæt til false hvis arkiveret er 1 sæt true
-        if(arkiveret == 0) {
+        if (arkiveret == 0) {
             oldAssignment.setArchived(false);
-        }
-        else if(arkiveret == 1) {
+        } else if (arkiveret == 1) {
             oldAssignment.setArchived(true);
         }
 
 
-
-        log.info("Arkiveret? "+oldAssignment.getArchived());
+        log.info("Arkiveret? " + oldAssignment.getArchived());
 
         assignmentService.save(oldAssignment);
 
-        return "redirect:/showAssignment/"+id;
+        return "redirect:/showAssignment/" + id;
     }
 
     @RequestMapping(value = "/applyForAssignment", method = RequestMethod.POST)
-    public String applyForAssignment(@RequestParam("id")long id /*Her skal være et loggedin userid med*/) {
-        log.info("applyforassignmed called assignmentid: "+id);
+    public String applyForAssignment(@RequestParam("id") long id /*Her skal være et loggedin userid med*/) {
+        log.info("applyforassignmed called assignmentid: " + id);
 
         //Create dummy user and assign to assignment
         Assignment oldAssignment = assignmentService.findById(id).get();
@@ -98,39 +96,88 @@ public class AssignmentController {
         assignmentService.save(oldAssignment);
         freelanceService.save(tempworker);
 
-        return "redirect:/showAssignment/"+id;
+        return "redirect:/showAssignment/" + id;
     }
 
     @GetMapping("/createAssignment")
-        public String createAssignment(Model model){
+    public String createAssignment(Model model) {
 
-            log.info("create Assignment called");
+        log.info("create Assignment called");
 
-            model.addAttribute("pageTitle", "Opret opgave");
-            model.addAttribute("jobList", jobService.findAll());
-
+        model.addAttribute("pageTitle", "Opret opgave");
+        model.addAttribute("jobList", jobService.findAll());
 
 
         return "createAssignment";
     }
 
     @PostMapping("/createAssignment")
-        public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId){
+    public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId) {
 
-            log.info("Create Assignment POST called");
-            log.info("create assignment jobid " + jobId);
-            log.info("Start date + "+ assignment.getDateStart());
+        log.info("Create Assignment POST called");
+        log.info("create assignment jobid " + jobId);
+        log.info("Start date + " + assignment.getDateStart());
 
-            Job tempJob = new Job();
-            tempJob = jobService.findById(jobId).get();
+        Job tempJob = new Job();
+        tempJob = jobService.findById(jobId).get();
 
-            assignment.getJobTitles().add(tempJob);
-            tempJob.getAssignments().add(assignment);
+        assignment.getJobTitles().add(tempJob);
+        tempJob.getAssignments().add(assignment);
 
-            jobService.save(tempJob);
-            assignmentService.save(assignment);
+        jobService.save(tempJob);
+        assignmentService.save(assignment);
 
         return "createAssignment";
     }
 
+    @GetMapping("/editAssignment/{id}")
+    public String editAssignment(@PathVariable("id") long id, Model model){
+
+        log.info("edit Assignment called med id" + id);
+        Assignment tempAssignment = assignmentService.findById(id).get();
+        String dateStartString = tempAssignment.getDateStart().toString();
+        String dateEndString = tempAssignment.getDateEnd().toString();
+        String[] splitDateStart = dateStartString.split(" ");
+        String[] splitDateEnd = dateEndString.split(" ");
+
+        Set<Job> test = tempAssignment.getJobTitles();
+        int jobId = (int) 0;
+        for (Job a: test) {
+            jobId = (int) a.getId();
+        }
+
+
+        model.addAttribute("jobId", jobId);
+        model.addAttribute("pageTitle", "Edit Assignment");
+        model.addAttribute("dateStart", splitDateStart[0]);
+        model.addAttribute("dateEnd", splitDateEnd[0]);
+        model.addAttribute("assignment", assignmentService.findById(id));
+        model.addAttribute("jobList", jobService.findAll());
+
+        return "editAssignment";
+    }
+
+    @PostMapping("/editAssignment")
+    public String editAssignment(@ModelAttribute Assignment assignment,
+/*                                 @RequestParam("dateStartString") String dateStart,
+                                 @RequestParam("dateEndString") String dateEnd,*/
+                                 @RequestParam("profession") Long jobId){
+
+        log.info("edit Assignment postmaping called");
+        log.info("job id: "+jobId);
+        log.info("Assignment ID "+assignment.getId());
+/*        log.info("dateStart: "+dateStart);
+        log.info("dateEnd: "+dateEnd);*/
+
+        Job tempJob = new Job();
+        tempJob = jobService.findById(jobId).get();
+
+        assignment.getJobTitles().add(tempJob);
+        tempJob.getAssignments().add(assignment);
+
+        jobService.save(tempJob);
+        assignmentService.save(assignment);
+
+        return "redirect:/editAssignment/1";
+    }
 }
