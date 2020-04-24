@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -99,8 +100,31 @@ public class AssignmentController {
     public String activeAssignmentList(Model model){
         log.info("Active assignment list called...");
 
-        model.addAttribute("assignments", assignmentService.findAll());
+        List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+        List<Assignment> assignments = new ArrayList<>();
+
+        for (Assignment a: assignmentList) {
+            if(a.getArchived() == false){
+                assignments.add(a);
+            }
+        }
+
+        model.addAttribute("assignments", assignments);
+        model.addAttribute("pageTitle", "Aktive opgaver");
 
         return "active_assignment_list";
+    }
+
+    @GetMapping("/archiveAssignment/{id}")
+    public String archiveAssignment(@PathVariable("id") long id){
+        log.info("Archive assignment called...");
+
+        Assignment assignment = assignmentService.findById(id).get();
+        assignment.setArchived(true);
+        assignmentService.save(assignment);
+
+        log.info("Assignment (id: "+id+") is archived");
+
+        return "redirect:/activeAssignmentList";
     }
 }
