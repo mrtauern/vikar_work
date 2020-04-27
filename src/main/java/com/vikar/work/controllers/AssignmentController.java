@@ -123,6 +123,7 @@ public class AssignmentController {
 
         /*assignment.getJobTitles().add(tempJob);*/
         tempJob.getAssignments().add(assignment);
+        assignment.setJob(tempJob);
 
         jobService.save(tempJob);
         assignmentService.save(assignment);
@@ -140,15 +141,10 @@ public class AssignmentController {
         String[] splitDateStart = dateStartString.split(" ");
         String[] splitDateEnd = dateEndString.split(" ");
 
-/*        Set<Job> test = tempAssignment.getJobTitles();
-        int jobId = (int) 0;
-        for (Job a: test) {
-            jobId = (int) a.getId();
-        }*/
         Job tempJob = tempAssignment.getJob();
         log.info(tempJob.getId()+"tempjob id");
 
-        model.addAttribute("testId", tempAssignment.getId());
+        model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
         model.addAttribute("jobId", tempJob.getId());
         model.addAttribute("pageTitle", "Edit Assignment");
         model.addAttribute("dateStart", splitDateStart[0]);
@@ -161,25 +157,29 @@ public class AssignmentController {
 
     @PostMapping("/editAssignment")
     public String editAssignment(@ModelAttribute Assignment assignment,
-/*                                 @RequestParam("dateStartString") String dateStart,
-                                 @RequestParam("dateEndString") String dateEnd,*/
                                  @RequestParam("profession") Long jobId){
 
         log.info("edit Assignment postmaping called");
         log.info("job id: "+jobId);
         log.info("Assignment ID "+assignment.getId());
-/*        log.info("dateStart: "+dateStart);
-        log.info("dateEnd: "+dateEnd);*/
-
-        /*Set<Job> test = assignment.getJobTitles();*/
 
 
         Job tempJob = new Job();
+        Job oldJob = new Job();
+        Assignment oldAssignment = new Assignment();
+        oldAssignment = assignmentService.findById(assignment.getId()).get();
+        oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
         tempJob = jobService.findById(jobId).get();
+
+
         assignment.setJob(tempJob);
-        /*assignment.getJobTitles().add(tempJob);*/
+        oldJob.getAssignments().remove(oldAssignment);
+
+        tempJob.getAssignments().remove(assignment);
+        tempJob.getAssignments().add(assignment);
+
         log.info("presave");
-        jobService.save(assignment.getJob());
+        jobService.save(tempJob);
         assignmentService.save(assignment);
         log.info("postsave");
 

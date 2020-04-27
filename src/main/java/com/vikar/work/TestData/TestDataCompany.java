@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class TestDataCompany implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
@@ -39,7 +38,7 @@ public class TestDataCompany implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        System.out.println("context refreshed company");
-        companyRepo.saveAll(createCompany());
+/*        System.out.println("context refreshed company");
+        companyRepo.saveAll(createCompany());*/
     }
 }
