@@ -1,9 +1,13 @@
 package com.vikar.work.TestData;
 
 import com.vikar.work.models.Assignment;
+
+import com.vikar.work.models.CV;
 import com.vikar.work.models.Job;
 import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.AssignmentRepo;
+import com.vikar.work.repositories.CVRepo;
+
 import com.vikar.work.repositories.FreelanceRepo;
 import com.vikar.work.repositories.JobRepo;
 import com.vikar.work.services.AssignmentService;
@@ -33,10 +37,16 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     @Qualifier("JobRepo")
     private JobRepo jobRepo;
+  
+    @Autowired
+    @Qualifier("CVRepo")
+    private CVRepo cvRepo;
 
     List<Worker> workers = new ArrayList<>();
     List<Job> jobs = new ArrayList<>();
 
+    List<CV> cvs = new ArrayList<>();
+  
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
 
@@ -50,7 +60,8 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment1.setNeededExperience("Du skal være erfaren opvasker, og have opvasket mindst 10.000 tallerkner");
         assignment1.setHouseNumber((long) 35);
         assignment1.setHourlyWage(55);
-        assignment1.setZIP((long) 2222);
+
+        //assignment1.setZIP((long) 2222);
 
         //add a test job
         Job jobs1 = new Job();
@@ -71,8 +82,9 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
 
         //add date mm-dd-yyyy
-        assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
-        assignment1.setDateEnd(assignmentService.createDateFromString("12/08/2020"));
+
+        /*assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
+        assignment1.setDateEnd(assignmentService.createDateFromString("12/08/2020"));*/
 
         Worker worker1 = new Worker();
         worker1.setCVRNumber(22311551);
@@ -118,13 +130,22 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker3.setCity("Tølløse");
         worker3.setUsername("user567");
 
-
         //add assignment requests to workers
-        worker1.getRequestedAssignments().add(assignment1);
+        /*worker1.getRequestedAssignments().add(assignment1);
         worker2.getRequestedAssignments().add(assignment1);
         assignment1.getAssignmentRequests().add(worker1);
-        assignment1.getAssignmentRequests().add(worker2);
+        assignment1.getAssignmentRequests().add(worker2);*/
 
+        CV cv1 = new CV();
+        cv1.setWorker(worker1);
+        cv1.setWorkplace("BMW");
+        cv1.setJobTitle("CEO");
+        cv1.setStartDate("03/11/2014");
+        cv1.setEndDate("07/05/2019");
+
+        //cvs.add(cv1);
+
+        worker1.getCvs().add(cv1);
 
         jobs.add(jobs1);
         jobs.add(jobs2);
@@ -149,5 +170,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         jobRepo.saveAll(jobs);
         freelanceRepo.saveAll(workers);
 
+        //cvRepo.saveAll(cvs);
     }
 }

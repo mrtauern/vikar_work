@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+@Service("FreelanceService")
 public class FreelanceServiceImpl implements FreelanceService {
     @Autowired
     FreelanceRepo freelanceRepo;
