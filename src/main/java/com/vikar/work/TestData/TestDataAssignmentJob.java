@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Component
 public class TestDataAssignmentJob /*implements ApplicationListener<ContextRefreshedEvent>*/ {
 
     @Autowired
@@ -46,7 +45,7 @@ public class TestDataAssignmentJob /*implements ApplicationListener<ContextRefre
 
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
-        workers = testDataWorker.createWorker();
+/*        workers = testDataWorker.createWorker();
 
         Assignment assignment1 = new Assignment();
 
@@ -57,24 +56,24 @@ public class TestDataAssignmentJob /*implements ApplicationListener<ContextRefre
         assignment1.setCity("odense");
         assignment1.setNeededExperience("Du skal være erfaren opvasker, og have opvasket mindst 10.000 tallerkner");
         assignment1.setHouseNumber((long) 35);
-        assignment1.setHourlyWage(55);
+        assignment1.setHourlyWage(55);*/
 
         //add a test job
-        Job jobs1 = new Job();
-        jobs1.setProfession("Proffesional opvasker");
+/*        Job jobs1 = new Job();
+        jobs1.setProfession("Proffesional opvasker");*/
 
-        jobs1.getAssignments().add(assignment1);
-        assignment1.getJobTitles().add(jobs1);
+        //jobs1.getAssignments().add(assignment1);
+        /*assignment1.getJobTitles().add(jobs1);*/
 
         //add date mm-dd-yyyy
-        assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
-        assignment1.setDateEnd(assignmentService.createDateFromString("12/08/2020"));
+/*        assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
+        assignment1.setDateEnd(assignmentService.createDateFromString("12/08/2020"));*/
 
         //add assignment requests to workers
 /*        workers.get(1).getRequestedAssignments().add(assignment1);
         assignment1.getAssignmentRequests().add(workers.get(1));*/
 
-        assignments.add(assignment1);
+        //assignments.add(assignment1);
         return assignments;
     }
 
