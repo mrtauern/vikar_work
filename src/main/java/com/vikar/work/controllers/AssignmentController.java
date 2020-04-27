@@ -183,6 +183,6 @@ public class AssignmentController {
         assignmentService.save(assignment);
         log.info("postsave");
 
-        return "redirect:/editAssignment/1";
+        return "redirect:/editAssignment/" + assignment.getId();
     }
 }
