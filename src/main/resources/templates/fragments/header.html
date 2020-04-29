@@ -27,6 +27,14 @@
                         <button class="btn btn-primary" type="submit">Søg</button>
                     </form>
                     </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbardrop" href="#"></a>
+                    <div class="dropdown-menu">
+                        <a th:each="category : ${categories}" th:if="${category.categorySubList==1}" th:href="'/category/'+${category.categoryId}" th:text="${category.categoryName}" class="dropdown-item"></a>
+                    </div>
+
+                </li>
+
                 <!--<li class="nav-item"><div class = "dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="/aw">Tanke & Coils</a>
                     <ul class="dropdown-menu dropdown-content">
