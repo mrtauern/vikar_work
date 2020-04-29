@@ -109,6 +109,12 @@ div#aboutUsDetails{
 
 }
 
+div#map_container{
+    width:60%;
+    height:700px;
+    float: right;
+}
+
 form input{
     margin-bottom: 10px;
 }

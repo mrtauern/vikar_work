@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+    <title>Google Map Hello World Example</title>
+</head>
+
+    <body onload="loadMap()">
+    <div id="map_container"></div>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+   <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false" async defer></script>
+-->
+    <script type="text/javascript" th:inline="javascript">
+        function loadMap() {
+            var latlng = new google.maps.LatLng([[${marker.Latitude}]], [[${marker.Longitude}]]);
+            //var latlng = new google.maps.LatLng(4.3695030, 101.1224120);
+            var myOptions = {
+                zoom: 15,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_container"),myOptions);
+
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title:"Test"
+            });
+
+           /* var latlng = new google.maps.LatLng(4.3695030, 101.1224120);
+            var myOptions = {
+                zoom: 15,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_container"),myOptions);
+
+            var theList = [[${marker}]]
+            for (i = 0; i < theList.length; i++) {
+                doSomething(theList[i]);
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(theList[i].latitude, theList[i].longitude),
+                    map: map,
+                    title: theList[i].title
+                });
+            }*/
+
+        }
+    </script>
+</body>
+
+</html>

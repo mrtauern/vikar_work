@@ -1,6 +1,7 @@
 package com.vikar.work.controllers;
 
 import com.vikar.work.models.CV;
+import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
 import com.vikar.work.services.CVService;
 import com.vikar.work.services.FreelanceService;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Qualifier("FreelanceController")
@@ -107,5 +110,31 @@ public class FreelanceController {
         log.info("Cv with "+cvId+" is removed.");
 
         return "redirect:/";
+    }
+
+    @GetMapping("/googleMap")
+    public String googleMap(Model model) {
+        log.info("googleMap called");
+
+        ArrayList<MapMarker> markerList = new ArrayList<>();
+        MapMarker markerTest = new MapMarker();
+
+        markerTest.setId(1);
+        markerTest.setLatitude(55.654626);
+        markerTest.setLongitude(12.189359);
+        markerTest.setTitle("Test");
+
+        MapMarker markerTest2 = new MapMarker();
+
+        markerTest.setId(2);
+        markerTest.setLatitude(55.654626);
+        markerTest.setLongitude(12.189359);
+        markerTest.setTitle("Test2");
+
+        markerList.add(markerTest);
+        markerList.add(markerTest2);
+        model.addAttribute("marker", markerTest);
+
+        return "googleMap";
     }
 }
