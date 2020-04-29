@@ -21,8 +21,8 @@
                     <a class="nav-link" href="/aboutUs">Om os</a>
                 </li>
                 <li class="nav-item">
-                    <form action="/" th:action="@{/search}" method="post">
-                        <input type="text" th:name="searchJob" placeholder="Søg efter profiler eller job opslag" class="nav-link">
+                    <form action="/" th:action="@{/search}" method="post" class="form-inline">
+                        <input type="text" th:name="searchJob" placeholder="Søg efter profiler eller job opslag" class="form-control mr-2">
                         <button class="btn btn-primary" type="submit">Søg</button>
                     </form>
                     </li>
