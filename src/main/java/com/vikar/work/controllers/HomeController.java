@@ -169,4 +169,10 @@ public class HomeController {
 
         return "redirect:/searchResult/"+searchInput+"/"+page;
     }
+
+    @GetMapping("loginLandingPage")
+    public String loginLandingPag(){
+
+        return "LoginLandingPage";
+    }
 }
