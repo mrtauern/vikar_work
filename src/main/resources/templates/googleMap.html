@@ -5,7 +5,8 @@
     <title>Google Map Hello World Example</title>
 </head>
 
-    <body onload="loadMap()">
+    <body onload="loadMap(), test()">
+    <p id="test"></p>
     <div id="map_container"></div>
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -13,7 +14,7 @@
 -->
     <script type="text/javascript" th:inline="javascript">
         function loadMap() {
-            var latlng = new google.maps.LatLng([[${marker.Latitude}]], [[${marker.Longitude}]]);
+           var latlng = new google.maps.LatLng([[${marker.Latitude}]], [[${marker.Longitude}]]);
             //var latlng = new google.maps.LatLng(4.3695030, 101.1224120);
             var myOptions = {
                 zoom: 15,
@@ -28,7 +29,7 @@
                 title:"Test"
             });
 
-           /* var latlng = new google.maps.LatLng(4.3695030, 101.1224120);
+/*            var latlng = new google.maps.LatLng(55.716346, 12.531859);
             var myOptions = {
                 zoom: 15,
                 center: latlng,
@@ -47,7 +48,18 @@
             }*/
 
         }
+
+
     </script>
+    <script type="text/javascript" th:inline="javascript">
+        function test() {
+            let theList = [[${json}]]
+            for (i = 0; i < theList.length; i++) {
+            document.getElementById("test").innerHTML = 5 + 6;
+            });
+        }
+    </script>
+
 </body>
 
 </html>
