@@ -1,5 +1,5 @@
 <!-- Felix -->
-<div th:fragment="navbar" xmlns="http://www.w3.org/1999/html">
+<div th:fragment="navbar" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <!-- Brand/logo -->
         <div class="container">
@@ -19,6 +19,11 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="/aboutUs">Om os</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/" th:action="@{/search}" method="post">
+                        <input type="text" th:name="searchJob" placeholder="Søg efter profiler eller job opslag" class="nav-link">
+                        <button class="btn btn-primary" type="submit">Søg</button>
                 </li>
                 <!--<li class="nav-item"><div class = "dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="/aw">Tanke & Coils</a>
