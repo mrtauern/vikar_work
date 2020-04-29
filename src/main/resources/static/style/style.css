@@ -113,6 +113,10 @@ form input{
     margin-bottom: 10px;
 }
 
+form.form-inline input{
+    margin-bottom: 0px;
+}
+
 form select{
     margin-bottom: 10px;
 }
