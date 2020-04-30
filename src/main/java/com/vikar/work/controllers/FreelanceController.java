@@ -127,7 +127,6 @@ public class FreelanceController {
         String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
         log.info(jsonFromJavaArrayList);
-/*        model.addAttribute("marker", markerTest);*/
         model.addAttribute("json", jsonFromJavaArrayList);
 
         return "googleMap";
