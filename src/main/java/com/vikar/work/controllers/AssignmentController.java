@@ -237,4 +237,23 @@ public class AssignmentController {
 
         return "archived_assignment_list";
     }
+
+    @GetMapping("/assignments")
+    public String assignments(Model model){
+        log.info("Active assignment list called...");
+
+        List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+        List<Assignment> assignments = new ArrayList<>();
+
+        for (Assignment a: assignmentList) {
+            if(a.getArchived() == false){
+                assignments.add(a);
+            }
+        }
+
+        model.addAttribute("assignments", assignments);
+        model.addAttribute("pageTitle", "Opgaver");
+
+        return "assignments";
+    }
 }
