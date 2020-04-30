@@ -121,26 +121,13 @@ public class FreelanceController {
         Gson gsonBuilder = new GsonBuilder().create();
 
         ArrayList<MapMarker> markerList = new ArrayList<>();
-        MapMarker markerTest = new MapMarker();
 
-        markerTest.setId(1);
-        markerTest.setLatitude(55.716346);
-        markerTest.setLongitude(12.531859);
-        markerTest.setTitle("Test");
-
-        MapMarker markerTest2 = new MapMarker();
-
-        markerTest.setId(2);
-        markerTest2.setLatitude(55.716092);
-        markerTest2.setLongitude(12.530518);
-        markerTest2.setTitle("Test2");
-
-        markerList.add(markerTest);
-        markerList.add(markerTest2);
+        markerList = freelanceService.markerList();
 
         String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
+
         log.info(jsonFromJavaArrayList);
-        model.addAttribute("marker", markerTest);
+/*        model.addAttribute("marker", markerTest);*/
         model.addAttribute("json", jsonFromJavaArrayList);
 
         return "googleMap";

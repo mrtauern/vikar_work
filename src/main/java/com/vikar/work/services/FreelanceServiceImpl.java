@@ -1,11 +1,13 @@
 package com.vikar.work.services;
 
 import com.vikar.work.models.Company;
+import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.FreelanceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service("FreelanceService")
@@ -33,4 +35,29 @@ public class FreelanceServiceImpl implements FreelanceService {
     public Iterable<Worker> findAll(){
         return freelanceRepo.findAll();
     }
+
+    @Override
+    public ArrayList<MapMarker> markerList() {
+        ArrayList<MapMarker> markers = new ArrayList<>();
+        MapMarker markerTest = new MapMarker();
+
+        markerTest.setId(1);
+        markerTest.setLatitude(55.716346);
+        markerTest.setLongitude(12.531859);
+        markerTest.setTitle("Test");
+
+        MapMarker markerTest2 = new MapMarker();
+
+        markerTest.setId(2);
+        markerTest2.setLatitude(55.716092);
+        markerTest2.setLongitude(12.530518);
+        markerTest2.setTitle("Test2");
+
+        markers.add(markerTest);
+        markers.add(markerTest2);
+
+        return markers;
+    }
+
+
 }
