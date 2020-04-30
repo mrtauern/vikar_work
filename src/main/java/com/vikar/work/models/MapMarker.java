@@ -12,6 +12,10 @@ public class MapMarker {
     private double latitude;
     private double longitude;
 
+    private String streetname;
+    private int streetnumber;
+    private int ZIP;
+
     private String title;
 
     public MapMarker() {
@@ -47,5 +51,29 @@ public class MapMarker {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getStreetname() {
+        return streetname;
+    }
+
+    public void setStreetname(String streetname) {
+        this.streetname = streetname;
+    }
+
+    public int getStreetnumber() {
+        return streetnumber;
+    }
+
+    public void setStreetnumber(int streetnumber) {
+        this.streetnumber = streetnumber;
+    }
+
+    public int getZIP() {
+        return ZIP;
+    }
+
+    public void setZIP(int ZIP) {
+        this.ZIP = ZIP;
     }
 }

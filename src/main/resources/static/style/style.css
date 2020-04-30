@@ -114,6 +114,19 @@ div#map_container{
     height:700px;
     float: right;
 }
+div#floating-panel{
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
 
 form input{
     margin-bottom: 10px;
