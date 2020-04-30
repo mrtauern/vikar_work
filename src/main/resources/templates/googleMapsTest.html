@@ -18,8 +18,8 @@
             document.getElementById('map_container'), {zoom: 15, center: startloc});
         // The marker, positioned at Uluru
         var marker, marker2;
-        /*        marker = new google.maps.Marker({position: uluru, map: map});
-                marker2 = new google.maps.Marker({position: uluru2, map: map});*/
+/*        marker = new google.maps.Marker({position: uluru, map: map});
+        marker2 = new google.maps.Marker({position: uluru2, map: map});*/
 
         var marker = [];
         var position = [];
@@ -28,7 +28,7 @@
         let i;
         for (i = 0; i < theList.length; i++) {
             position[i] = {lat: theList[i].latitude, lng: theList[i].longitude};
-            marker[i] = new google.maps.Marker({position: position[i], map: map, title:theList[i].title});
+            marker[i] = new google.maps.Marker({position: position[i], map: map});
         }
 
 
@@ -41,7 +41,7 @@
 * The callback parameter executes the initMap() function
 -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=INSERTKEYHERE&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz6P14TeAJMi8Ot9A59FnBgwDtl4tiLfk&callback=initMap">
 </script>
 </body>
 </html>
