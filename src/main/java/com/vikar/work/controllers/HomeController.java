@@ -155,7 +155,7 @@ public class HomeController {
             log.info("Username or password is wrong!");
         }
 
-        return "redirect:/";
+        return "redirect:/assignments";
     }
 
     private void setLogin(HttpSession session, char type, long id){
