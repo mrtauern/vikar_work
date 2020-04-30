@@ -117,7 +117,7 @@ form select{
     margin-bottom: 10px;
 }
 
-span.notification_bubble{
+span#notificationCount{
     background-color: #FF0000;
     color: #FFFFFF;
     font-weight: bold;

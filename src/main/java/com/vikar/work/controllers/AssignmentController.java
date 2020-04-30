@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.Assign;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -202,8 +203,27 @@ public class AssignmentController {
 
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
+        model.addAttribute("numNotifications", 2);
 
         return "active_assignment_list";
+    }
+
+    /*@RequestMapping(value="/notification-count", method=RequestMethod.GET)
+    public String getEventCount(ModelMap map, Model model) {
+        // TODO: retrieve the new value here so you can add it to model map
+        map.addAttribute("numNotifications", ""+3);
+        //model.addAttribute("numNotifications", 2);
+
+        // change "myview" to the name of your view
+        return "active_assignment_list :: #notificationCount";
+    }*/
+
+    @GetMapping("/notification")
+    public String notification(Model model) {
+
+        model.addAttribute("numNotifications", 2);
+
+        return "fragments/notification :: countNotification";
     }
 
     @GetMapping("/archiveAssignment/{id}")
