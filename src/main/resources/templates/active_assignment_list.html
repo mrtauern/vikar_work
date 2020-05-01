@@ -54,10 +54,21 @@
             });
         }*/
 
-        $("#countNotification").on("click", function () {
+        /*$("#countNotification").on("click", function () {
             $("#countNotification").load("/notification");
-        });
+        });*/
+
+
+        refresh();
+
     })
+
+    function refresh() {
+        setTimeout( function () {
+            $('#countNotification').load('/notification');
+            refresh();
+        }, 3000)
+    }
 </script>
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 </body>

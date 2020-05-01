@@ -20,7 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="far fa-bell"></i>
-                        <span th:if="${numNotifications > 0}" id="countNotification"></span>
+                        <span th:if="${numNotifications > 0}" id="countNotification" th:text="${numNotifications}"></span>
                     </a>
                 </li>
                 <!--<li class="nav-item"><div class = "dropdown">
