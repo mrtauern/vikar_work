@@ -40,12 +40,14 @@
             marker[i] = new google.maps.Marker({position: position[i], map: map, title:theList[i].title});
         }*/
 
+
         for (i = 0; i < theList.length; i++) {
-            /*address = theList[i].streetname+" "+theList[i].streetnumber;*/
-            geocoder.geocode({'address': ""+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status, theList){
+            /!*address = theList[i].streetname+" "+theList[i].streetnumber;*!/
+            geocoder.geocode({'address': "Møntmestervej 20"+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status, theList){
                 if (status == google.maps.GeocoderStatus.OK) {
 
-                    map.setCenter(results[0].geometry.location);
+                    /!*map.setCenter(results[0].geometry.location);*!/
+
                     marker[i] = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,

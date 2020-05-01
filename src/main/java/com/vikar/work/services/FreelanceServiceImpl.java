@@ -51,13 +51,13 @@ public class FreelanceServiceImpl implements FreelanceService {
 
         MapMarker markerTest2 = new MapMarker();
 
-        markerTest.setId(2);
+        markerTest2.setId(2);
         markerTest2.setLatitude(55.716092);
         markerTest2.setLongitude(12.530518);
         markerTest2.setTitle("Test2");
-        markerTest.setStreetname("Møntmestervej");
-        markerTest.setStreetnumber(30);
-        markerTest.setZIP(2400);
+        markerTest2.setStreetname("Møntmestervej");
+        markerTest2.setStreetnumber(30);
+        markerTest2.setZIP(2400);
 
         markers.add(markerTest);
         markers.add(markerTest2);
