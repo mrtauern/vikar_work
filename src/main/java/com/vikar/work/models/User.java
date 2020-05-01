@@ -5,6 +5,7 @@ public class User {
     private long bankNumber;
     private long zip;
     private long houseNumber;
+    private long phonenumber;
 
     private String type;
     private String companyName;
@@ -17,14 +18,18 @@ public class User {
     private String lastname;
     private String email;
 
+
+
     public User() {
     }
 
-    public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city, String firstname, String lastname, String email, String type) {
+    public User(long CVRNumber, long bankNumber, long zip, long houseNumber, long phonenumber, String type, String companyName, String username, String password1, String password2, String streetName, String city, String firstname, String lastname, String email) {
         this.CVRNumber = CVRNumber;
         this.bankNumber = bankNumber;
         this.zip = zip;
         this.houseNumber = houseNumber;
+        this.phonenumber = phonenumber;
+        this.type = type;
         this.companyName = companyName;
         this.username = username;
         this.password1 = password1;
@@ -34,12 +39,21 @@ public class User {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.type = type;
     }
 
     public User(String username, String password1) {
         this.username = username;
         this.password1 = password1;
+    }
+
+    public User(long phonenumber, String username, String password1, String password2, String firstname, String lastname, String email) {
+        this.phonenumber = phonenumber;
+        this.username = username;
+        this.password1 = password1;
+        this.password2 = password2;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
     }
 
     /*public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city) {
@@ -69,6 +83,14 @@ public class User {
         this.streetName = streetName;
         this.city = city;
     }*/
+
+    public long getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(long phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 
     public long getCVRNumber() {
         return CVRNumber;
