@@ -12,10 +12,10 @@
     <input id="submit" type="button" value="Geocode">
 </div>
 <div id="map_container"></div>-->
-    <div id="floating-panel">
+<!--    <div id="floating-panel">
         <input id="address" type="textbox" value="Sydney, NSW">
         <input id="submit" type="button" value="Geocode">
-    </div>
+    </div>-->
     <div id="map_container"></div>
 </div>
 <script th:inline="javascript">
@@ -30,7 +30,7 @@
         var map = new google.maps.Map(document.getElementById('map_container'), {zoom: 15, center: startloc});
         var geocoder = new google.maps.Geocoder();
 
-        var marker = [];
+        /*var marker = [];*/
         var position = [];
         var theList = JSON.parse([[${json}]]);
         var address;
@@ -43,28 +43,28 @@
 
         for (i = 0; i < theList.length; i++) {
             /!*address = theList[i].streetname+" "+theList[i].streetnumber;*!/
-            geocoder.geocode({'address': "Møntmestervej 20"+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status, theList){
+            geocoder.geocode({'address': ""+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status){
                 if (status == google.maps.GeocoderStatus.OK) {
 
-                    /!*map.setCenter(results[0].geometry.location);*!/
+                    /*map.setCenter(results[0].geometry.location);*/
 
-                    marker[i] = new google.maps.Marker({
+                    var marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,
-                        title: theList[i].title
+                        title: "test"
                     });
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
         })};
 
-        document.getElementById('submit').addEventListener('click', function() {
+/*        document.getElementById('submit').addEventListener('click', function() {
             geocodeAddress(geocoder, map);
-        });
-        geocodeAddress();
+        });*/
+/*        geocodeAddress();*/
     }
 
-    function geocodeAddress(geocoder, resultsMap) {
+/*    function geocodeAddress(geocoder, resultsMap) {
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
@@ -77,7 +77,7 @@
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
-    }
+    }*/
 </script>
 <!--Load the API from the specified URL
 * The async attribute allows the browser to render the page while the API loads
