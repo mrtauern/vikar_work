@@ -5,7 +5,7 @@ public class User {
     private long bankNumber;
     private long zip;
     private long houseNumber;
-    private long phonenumber;
+    private long phoneNumber;
 
     private String type;
     private String companyName;
@@ -28,7 +28,7 @@ public class User {
         this.bankNumber = bankNumber;
         this.zip = zip;
         this.houseNumber = houseNumber;
-        this.phonenumber = phonenumber;
+        this.phoneNumber = phonenumber;
         this.type = type;
         this.companyName = companyName;
         this.username = username;
@@ -46,14 +46,19 @@ public class User {
         this.password1 = password1;
     }
 
-    public User(long phonenumber, String username, String password1, String password2, String firstname, String lastname, String email) {
-        this.phonenumber = phonenumber;
+    public User(long phoneNumber, String username, String password1, String password2, String firstname, String lastname, String email) {
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.password1 = password1;
         this.password2 = password2;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+
+        this.CVRNumber = 0;
+        this.houseNumber = 0;
+        this.zip = 0;
+        this.bankNumber = 0;
     }
 
     /*public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city) {
@@ -84,12 +89,12 @@ public class User {
         this.city = city;
     }*/
 
-    public long getPhonenumber() {
-        return phonenumber;
+    public long getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(long phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public long getCVRNumber() {
