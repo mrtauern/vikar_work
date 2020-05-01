@@ -72,16 +72,17 @@ public class HomeController {
         if(user.getType().equals("company")){
 
             Company company = new Company();
-            company.setCVRNumber(user.getCVRNumber());
-            company.setBankNumber(user.getBankNumber());
-            company.setHouseNumber(user.getHouseNumber());
-            company.setZip(user.getZip());
+            company.setCVRNumber(0);
+            company.setBankNumber(0);
+            company.setHouseNumber(0);
+            company.setZip(0);
 
-            company.setCompanyName(user.getCompanyName());
+            company.setCompanyName("");
             company.setUsername(user.getUsername());
             company.setPassword(user.getPassword1());
-            company.setStreetName(user.getStreetName());
-            company.setCity(user.getCity());
+            company.setStreetName("");
+            company.setCity("");
+            company.setPhoneNumber(user.getPhoneNumber());
 
             companyService.save(company);
         }
@@ -89,19 +90,21 @@ public class HomeController {
         if(user.getType().equals("freelance")){
 
             Worker worker = new Worker();
-            worker.setCVRNumber(user.getCVRNumber());
-            worker.setBankNumber(user.getBankNumber());
-            worker.setHouseNumber(user.getHouseNumber());
-            worker.setZip(user.getZip());
+            worker.setCVRNumber(0);
+            worker.setBankNumber(0);
+            worker.setHouseNumber(0);
+            worker.setZip(0);
 
             worker.setFirstname(user.getFirstname());
             worker.setLastname(user.getLastname());
             worker.setEmail(user.getEmail());
             worker.setUsername(user.getUsername());
             worker.setPassword(user.getPassword1());
-            worker.setStreetName(user.getStreetName());
-            worker.setCity(user.getCity());
+            worker.setStreetName("");
+            worker.setPhoneNumber(user.getPhoneNumber());
+            worker.setCity("");
 
+            log.info("telefon nummer" + user.getPhoneNumber());
             freelanceService.save(worker);
         }
 

@@ -38,10 +38,12 @@ public class Company {
     @Convert(converter = AttributeEncryptor.class)
     public String city;
 
+    public long phoneNumber;
+
     public Company() {
     }
 
-    public Company(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password, String streetName, String city) {
+    public Company(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password, String streetName, String city, long phoneNumber) {
         Id = id;
         this.CVRNumber = ""+CVRNumber;
         this.bankNumber = ""+bankNumber;
@@ -52,6 +54,16 @@ public class Company {
         this.password = password;
         this.streetName = streetName;
         this.city = city;
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public long getId() {

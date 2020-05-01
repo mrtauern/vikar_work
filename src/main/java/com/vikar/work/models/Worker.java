@@ -1,6 +1,7 @@
 package com.vikar.work.models;
 
 import com.vikar.work.component.AttributeEncryptor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,15 +15,19 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long Id;
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String CVRNumber; //Optional
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String bankNumber;
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String zip;
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String houseNumber;
 
@@ -41,21 +46,26 @@ public class Worker {
     @Convert(converter = AttributeEncryptor.class)
     public String username;
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String streetName;
 
+    @Nullable
     @Convert(converter = AttributeEncryptor.class)
     public String city;
+
+    public long phoneNumber;
   
     @ManyToMany(mappedBy = "assignmentRequests")
     private Set<Assignment> requestedAssignments = new HashSet<>();
 
-    public Worker(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password, String username, String streetName, String city, Set<CV> cvs) {
+    public Worker(long id, String CVRNumber, String bankNumber, String zip, String houseNumber, Set<CV> cvs, String firstname, String lastname, String email, String password, String username, String streetName, String city, long phoneNumber, Set<Assignment> requestedAssignments) {
         Id = id;
         this.CVRNumber = ""+CVRNumber;
         this.bankNumber = ""+bankNumber;
         this.zip = ""+zip;
         this.houseNumber = ""+houseNumber;
+        this.cvs = cvs;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -63,10 +73,21 @@ public class Worker {
         this.username = username;
         this.streetName = streetName;
         this.city = city;
-        this.cvs = cvs;
+        this.phoneNumber = phoneNumber;
+        this.requestedAssignments = requestedAssignments;
     }
 
+
+
     public Worker() {
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public long getId() {
