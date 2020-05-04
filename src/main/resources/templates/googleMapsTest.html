@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+    <title>Google Map Hello World Example</title>
+</head>
+<body>
+<div>
+    <!--    <header th:include="fragments/header :: navbar"></header>-->
+    <!--<div id="floating-panel">
+        <input id="address" type="textbox" value="Sydney, NSW">
+        <input id="submit" type="button" value="Geocode">
+    </div>
+    <div id="map_container"></div>-->
+    <div id="floating-panel">
+        <input id="address" type="textbox" value="Sydney, NSW">
+        <input id="submit" type="button" value="Geocode">
+    </div>
+    <div id="map_container"></div>
+</div>
+<script th:inline="javascript">
+    /*    var test = JSON.parse([[${json}]]);
+        document.write("Hello! "+ test[0].streetname+" "+test[0].streetnumber);*/
+    // Initialize and add the map
+    var testdata;
+    function initMap() {
+        // map start location
+        var startloc = {lat: 55.716514, lng: 12.531791};
+
+        // The map
+        var map = new google.maps.Map(document.getElementById('map_container'), {zoom: 15, center: startloc});
+        var geocoder = new google.maps.Geocoder();
+
+        var marker = [];
+        var position = [];
+        var theList = JSON.parse([[${json}]]);
+        var address;
+        let i;
+        /*        for (i = 0; i < theList.length; i++) {
+                    position[i] = {lat: theList[i].latitude, lng: theList[i].longitude};
+                    marker[i] = new google.maps.Marker({position: position[i], map: map, title:theList[i].title});
+                }*/
+
+
+        for (i = 0; i < theList.length; i++) {
+            /!*address = theList[i].streetname+" "+theList[i].streetnumber;*!/
+            geocoder.geocode({'address': ""+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status){
+                if (status == google.maps.GeocoderStatus.OK) {
+
+                    /!*map.setCenter(results[0].geometry.location);*!/
+                    test(results[0].geometry.location);
+/*                    marker[i] = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                        title: theList[i].title
+                    });*/
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            })};
+
+        document.getElementById('submit').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+        });
+        geocodeAddress();
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    function test(positiontest) {
+        testdata = positiontest;
+        console.log(testdata);
+        console.log("Hey");
+    }
+</script>
+<!--Load the API from the specified URL
+* The async attribute allows the browser to render the page while the API loads
+* The key parameter will contain your own API key (which is not needed for this tutorial)
+* The callback parameter executes the initMap() function
+-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz6P14TeAJMi8Ot9A59FnBgwDtl4tiLfk&callback=initMap"></script>
+
+</body>
+</html>

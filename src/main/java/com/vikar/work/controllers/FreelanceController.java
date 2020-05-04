@@ -1,7 +1,12 @@
 package com.vikar.work.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.vikar.work.models.Assignment;
 import com.vikar.work.models.CV;
+import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
+import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.CVService;
 import com.vikar.work.services.FreelanceService;
 import com.vikar.work.services.FreelanceServiceImpl;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Qualifier("FreelanceController")
@@ -28,6 +35,10 @@ public class FreelanceController {
     @Qualifier("CVService")
     @Autowired
     CVService cvService;
+
+    @Qualifier("AssignmentService")
+    @Autowired
+    AssignmentService assignmentService;
 
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
@@ -107,5 +118,28 @@ public class FreelanceController {
         log.info("Cv with "+cvId+" is removed.");
 
         return "redirect:/";
+    }
+
+    @GetMapping("/googleMap")
+    public String googleMap(Model model) {
+        log.info("googleMap called");
+
+        Gson gsonBuilder = new GsonBuilder().create();
+
+        ArrayList<MapMarker> markerList = new ArrayList<>();
+        Iterable<Assignment> assignments = assignmentService.findAll();
+
+        for (Assignment assignment: assignments) {
+            markerList.add(new MapMarker(assignment.getStreetName(), assignment.getHouseNumber()));
+        }
+        log.info("street: "+markerList.get(0).getStreetname());
+
+        String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
+
+        log.info(jsonFromJavaArrayList);
+        model.addAttribute("json", jsonFromJavaArrayList);
+        model.addAttribute("pageTitle", "Map Overview");
+
+        return "googleMap";
     }
 }

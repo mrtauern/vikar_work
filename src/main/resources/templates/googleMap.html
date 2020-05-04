@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles"></head>
+<body>
+    <div class="container">
+        <header th:include="fragments/header :: navbar"></header>
+
+        <div id="map_container"></div>
+    </div>
+
+<script th:inline="javascript">
+    // Initialize and add the map
+    function initMap() {
+        // map start location
+        var startloc = {lat: 55.716514, lng: 12.531791};
+
+        // The map
+        var map = new google.maps.Map(document.getElementById('map_container'), {zoom: 15, center: startloc});
+        var geocoder = new google.maps.Geocoder();
+
+        var theList = JSON.parse([[${json}]]);
+
+        let i;
+
+
+        for (i = 0; i < theList.length; i++) {
+            geocoder.geocode({'address': ""+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status){
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+        })};
+
+    }
+
+</script>
+<!--Load the API from the specified URL
+* The async attribute allows the browser to render the page while the API loads
+* The key parameter will contain your own API key (which is not needed for this tutorial)
+* The callback parameter executes the initMap() function
+-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz6P14TeAJMi8Ot9A59FnBgwDtl4tiLfk&callback=initMap"></script>
+
+</body>
+</html>
