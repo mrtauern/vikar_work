@@ -169,6 +169,21 @@ form select{
     margin-bottom: 10px;
 }
 
+span#countNotification{
+    background-color: #FF0000;
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 20px;
+    min-width: 20px;
+    display: block;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: -15px;
+    margin-left: 5px;
+    padding: 0 6px;
+}
+
 /*a:hover {
     color: #fffafe;
 }
