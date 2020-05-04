@@ -223,6 +223,9 @@ public class AssignmentController {
     @GetMapping("/notification")
     public String notification(Model model) {
 
+        /*List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+
+        model.addAttribute("numNotifications", assignmentList.size());*/
         model.addAttribute("numNotifications", refreshCount++);
         if(refreshCount > 20){ refreshCount = 1;}
 
