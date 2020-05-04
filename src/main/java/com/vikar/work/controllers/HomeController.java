@@ -44,6 +44,8 @@ public class HomeController {
 
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
+        } else {
+            log.info("Not logged in!");
         }
 
         return "index";
@@ -165,6 +167,15 @@ public class HomeController {
         String user = type+""+id;
         session.setAttribute("login", user);
         log.info("login success");
+    }
+
+    @GetMapping("/log_out")
+    public String logout(HttpSession session){
+        log.info("Log out called...");
+
+        session.removeAttribute("login");
+
+        return "redirect:/";
     }
 
     @PostMapping("/search/{searchInput}")
