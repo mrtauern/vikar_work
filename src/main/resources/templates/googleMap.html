@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
-<head th:include="fragments/head :: styles">
-    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
-    <title>Google Map Hello World Example</title>
-</head>
+<head th:include="fragments/head :: styles"></head>
 <body>
-<div>
-<!--    <header th:include="fragments/header :: navbar"></header>-->
-<!--<div id="floating-panel">
-    <input id="address" type="textbox" value="Sydney, NSW">
-    <input id="submit" type="button" value="Geocode">
-</div>
-<div id="map_container"></div>-->
-<!--    <div id="floating-panel">
-        <input id="address" type="textbox" value="Sydney, NSW">
-        <input id="submit" type="button" value="Geocode">
-    </div>-->
-    <div id="map_container"></div>
-</div>
+    <div class="container">
+        <header th:include="fragments/header :: navbar"></header>
+
+        <div id="map_container"></div>
+    </div>
+
 <script th:inline="javascript">
-/*    var test = JSON.parse([[${json}]]);
-    document.write("Hello! "+ test[0].streetname+" "+test[0].streetnumber);*/
     // Initialize and add the map
     function initMap() {
         // map start location
@@ -30,54 +18,26 @@
         var map = new google.maps.Map(document.getElementById('map_container'), {zoom: 15, center: startloc});
         var geocoder = new google.maps.Geocoder();
 
-        /*var marker = [];*/
-        var position = [];
         var theList = JSON.parse([[${json}]]);
-        var address;
+
         let i;
-/*        for (i = 0; i < theList.length; i++) {
-            position[i] = {lat: theList[i].latitude, lng: theList[i].longitude};
-            marker[i] = new google.maps.Marker({position: position[i], map: map, title:theList[i].title});
-        }*/
 
 
         for (i = 0; i < theList.length; i++) {
-            /!*address = theList[i].streetname+" "+theList[i].streetnumber;*!/
             geocoder.geocode({'address': ""+theList[i].streetname+" "+theList[i].streetnumber}, function(results, status){
+
                 if (status == google.maps.GeocoderStatus.OK) {
-
-                    /*map.setCenter(results[0].geometry.location);*/
-
                     var marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,
-                        title: "test"
                     });
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
         })};
 
-/*        document.getElementById('submit').addEventListener('click', function() {
-            geocodeAddress(geocoder, map);
-        });*/
-/*        geocodeAddress();*/
     }
 
-/*    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-            if (status === 'OK') {
-                resultsMap.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }*/
 </script>
 <!--Load the API from the specified URL
 * The async attribute allows the browser to render the page while the API loads

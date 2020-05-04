@@ -128,6 +128,7 @@ public class FreelanceController {
 
         log.info(jsonFromJavaArrayList);
         model.addAttribute("json", jsonFromJavaArrayList);
+        model.addAttribute("pageTitle", "Map Overview");
 
         return "googleMap";
     }
