@@ -13,12 +13,17 @@ public class MapMarker {
     private double longitude;
 
     private String streetname;
-    private int streetnumber;
+    private long streetnumber;
     private int ZIP;
 
     private String title;
 
     public MapMarker() {
+    }
+
+    public MapMarker(String streetname, long streetnumber) {
+        this.streetname = streetname;
+        this.streetnumber = streetnumber;
     }
 
     public long getId() {
@@ -61,11 +66,11 @@ public class MapMarker {
         this.streetname = streetname;
     }
 
-    public int getStreetnumber() {
+    public long getStreetnumber() {
         return streetnumber;
     }
 
-    public void setStreetnumber(int streetnumber) {
+    public void setStreetnumber(long streetnumber) {
         this.streetnumber = streetnumber;
     }
 

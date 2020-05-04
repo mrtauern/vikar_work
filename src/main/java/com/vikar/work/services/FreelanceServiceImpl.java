@@ -1,5 +1,6 @@
 package com.vikar.work.services;
 
+import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Company;
 import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;

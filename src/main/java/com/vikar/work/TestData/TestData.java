@@ -51,15 +51,24 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         List<Assignment> assignments = new ArrayList<>();
 
         Assignment assignment1 = new Assignment();
+        Assignment assignment2 = new Assignment();
 
         // add a test assignment
         assignment1.setName("Opvasker");
         assignment1.setDescription("Du skal tage opvasken hjemme hos mig hver fredag");
-        assignment1.setStreetName("ArbejdVej");
+        assignment1.setStreetName("Skoleholdervej");
         assignment1.setCity("odense");
         assignment1.setNeededExperience("Du skal være erfaren opvasker, og have opvasket mindst 10.000 tallerkner");
-        assignment1.setHouseNumber((long) 35);
+        assignment1.setHouseNumber((long) 21);
         assignment1.setHourlyWage(55);
+
+        assignment2.setName("Pakke skal leveres");
+        assignment2.setDescription("Lever en pakke");
+        assignment2.setStreetName("Skoleholdervej");
+        assignment2.setCity("København");
+        assignment2.setNeededExperience("du skal kunne levere en pakke");
+        assignment2.setHouseNumber((long) 2);
+        assignment2.setHourlyWage(55);
 
         //assignment1.setZIP((long) 2222);
 
@@ -79,6 +88,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
         jobs2.getAssignments().add(assignment1);
         assignment1.setJob(jobs2);
+        assignment2.setJob(jobs3);
 
 
         //add date mm-dd-yyyy
@@ -96,7 +106,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker1.setLastname("Kallesen");
         worker1.setEmail("KalleKallesen@gmail.com");
         worker1.setPassword("pass1234");
-        worker1.setStreetName("Helgevej");
+        worker1.setStreetName("Skoleholdervej");
         worker1.setCity("Copenhagen");
         worker1.setUsername("user1234");
 
@@ -156,6 +166,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         workers.add(worker2);
         workers.add(worker3);
         assignments.add(assignment1);
+        assignments.add(assignment2);
 
 
         return assignments;
