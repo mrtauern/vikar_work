@@ -1,7 +1,10 @@
 package com.vikar.work.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Job;
+import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
 import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.FreelanceService;
@@ -240,19 +243,25 @@ public class AssignmentController {
 
     @GetMapping("/assignments")
     public String assignments(Model model){
-        log.info("Active assignment list called...");
+        log.info("Landing page Assignments called list called...");
 
         List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
         List<Assignment> assignments = new ArrayList<>();
+        ArrayList<MapMarker> markerList = new ArrayList<>();
+        Gson gsonBuilder = new GsonBuilder().create();
 
         for (Assignment a: assignmentList) {
             if(a.getArchived() == false){
                 assignments.add(a);
+                markerList.add(new MapMarker(a.getStreetName(), a.getHouseNumber()));
             }
         }
 
+        String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
+
+        model.addAttribute("json", jsonFromJavaArrayList);
         model.addAttribute("assignments", assignments);
-        model.addAttribute("pageTitle", "Opgaver");
+        model.addAttribute("pageTitle", "Landing Page");
 
         return "assignments";
     }
