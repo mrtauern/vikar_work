@@ -25,10 +25,11 @@ public class TestDataCompany implements ApplicationListener<ContextRefreshedEven
         company1.setBankNumber(987654321);
         company1.setHouseNumber(67);
         company1.setZip(3030);
+        company1.setPhoneNumber(12345678);
 
         company1.setCompanyName("AudiBilService");
         company1.setUsername("Audi");
-        company1.setPassword("smukkebiler420");
+        company1.setPassword("1234");
         company1.setStreetName("Route66");
         company1.setCity("Ingolfstadt");
 
@@ -38,7 +39,7 @@ public class TestDataCompany implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-/*        System.out.println("context refreshed company");
+        /*System.out.println("context refreshed company");
         companyRepo.saveAll(createCompany());*/
     }
 }

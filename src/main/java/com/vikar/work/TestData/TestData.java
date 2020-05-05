@@ -1,15 +1,9 @@
 package com.vikar.work.TestData;
 
-import com.vikar.work.models.Assignment;
+import com.vikar.work.models.*;
 
-import com.vikar.work.models.CV;
-import com.vikar.work.models.Job;
-import com.vikar.work.models.Worker;
-import com.vikar.work.repositories.AssignmentRepo;
-import com.vikar.work.repositories.CVRepo;
+import com.vikar.work.repositories.*;
 
-import com.vikar.work.repositories.FreelanceRepo;
-import com.vikar.work.repositories.JobRepo;
 import com.vikar.work.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,10 +36,16 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     @Qualifier("CVRepo")
     private CVRepo cvRepo;
 
+    @Autowired
+    @Qualifier("CompanyRepo")
+    private CompanyRepo companyRepo;
+
     List<Worker> workers = new ArrayList<>();
     List<Job> jobs = new ArrayList<>();
 
     List<CV> cvs = new ArrayList<>();
+
+    Company company = new Company();
   
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
@@ -140,6 +140,19 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker3.setCity("Tølløse");
         worker3.setUsername("user567");
 
+
+        company.setCVRNumber(12345678);
+        company.setBankNumber(987654321);
+        company.setHouseNumber(67);
+        company.setZip(3030);
+        company.setPhoneNumber(12345678);
+
+        company.setCompanyName("AudiBilService");
+        company.setUsername("Audi");
+        company.setPassword("1234");
+        company.setStreetName("Route66");
+        company.setCity("Ingolfstadt");
+
         //add assignment requests to workers
         /*worker1.getRequestedAssignments().add(assignment1);
         worker2.getRequestedAssignments().add(assignment1);
@@ -180,6 +193,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignmentRepo.saveAll(createAssignment());
         jobRepo.saveAll(jobs);
         freelanceRepo.saveAll(workers);
+        companyRepo.save(company);
 
         //cvRepo.saveAll(cvs);
     }
