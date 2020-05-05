@@ -120,6 +120,17 @@ public class FreelanceController {
         return "redirect:/";
     }
 
+    @PostMapping("/removeFromCv")
+    public String removeFromCv(@RequestParam("cvId") long cvId,
+                               @RequestParam("workerId")long workerId ) {
+        log.info("removeFromCv called with cvId: "+cvId+" and workerId: "+workerId);
+/*
+        CV cv = cvService.findById(cvId).get();
+        cvService.delete(cv);*/
+
+        return "redirect:/removeFromCv/"+cvId;
+    }
+
     @GetMapping("/googleMap")
     public String googleMap(Model model) {
         log.info("googleMap called");
@@ -147,17 +158,21 @@ public class FreelanceController {
     public String showProfile(@PathVariable("id") long userId, Model model) {
 
         log.info("showprofile is called with Id "+ userId);
+/*        log.info("test"+freelanceService.findById(userId).get().getFirstname());*/
+
         Worker worker = freelanceService.findById(userId).get();
 
+        log.info("test");
         Iterable<CV> cvList = cvService.findAll();
         ArrayList<CV> workerCV = new ArrayList<>();
+
+        workerCV.add(new CV());
         for (CV cv: cvList) {
             if(cv.getWorker().getId() == userId){
                 workerCV.add(cv);
             }
 
         }
-        log.info("for løkken kaldes" + workerCV.get(0).getJobTitle());
 
         model.addAttribute("Worker", worker);
         model.addAttribute("pageTitle", "Vis profil");

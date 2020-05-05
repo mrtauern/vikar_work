@@ -30,7 +30,8 @@
             <span class="sad" th:text="${cv.endDate}"></span>
 
             <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}">
-                <input type="hidden" th:field="${cv.id}">
+                <input th:name="cvId" type="hidden" th:value="${cv.id}">
+                <input th:name="workerId" type="hidden" th:value="${Worker.id}">
                 <button type="submit">Remove</button>
             </form>
         </span>

@@ -13,4 +13,6 @@ public interface CVService {
     Iterable<CV> findAll();
     void delete(CV cv);
     void save(CV cv);
+
+/*    void deleteById();*/
 }
