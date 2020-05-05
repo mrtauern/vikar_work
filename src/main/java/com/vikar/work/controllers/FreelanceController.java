@@ -79,12 +79,12 @@ public class FreelanceController {
         return "index";
     }
 
-    @GetMapping("/addToCv")
-    public String addToCv(Model model){
+    @GetMapping("/addToCv/{workerId}")
+    public String addToCv(@PathVariable("workerId") long workerId, Model model){
         log.info("Add to cv called (get)");
 
         model.addAttribute("pageTitle", "Tilføj til CV");
-        model.addAttribute("workerId", 2);
+        model.addAttribute("workerId", workerId);
 
         return "add_to_cv";
     }
@@ -124,11 +124,11 @@ public class FreelanceController {
     public String removeFromCv(@RequestParam("cvId") long cvId,
                                @RequestParam("workerId")long workerId ) {
         log.info("removeFromCv called with cvId: "+cvId+" and workerId: "+workerId);
-/*
-        CV cv = cvService.findById(cvId).get();
-        cvService.delete(cv);*/
 
-        return "redirect:/removeFromCv/"+cvId;
+        CV cv = cvService.findById(cvId).get();
+        cvService.delete(cv);
+
+        return "redirect:/showProfile/"+workerId;
     }
 
     @GetMapping("/googleMap")
@@ -158,15 +158,12 @@ public class FreelanceController {
     public String showProfile(@PathVariable("id") long userId, Model model) {
 
         log.info("showprofile is called with Id "+ userId);
-/*        log.info("test"+freelanceService.findById(userId).get().getFirstname());*/
 
         Worker worker = freelanceService.findById(userId).get();
 
-        log.info("test");
         Iterable<CV> cvList = cvService.findAll();
         ArrayList<CV> workerCV = new ArrayList<>();
 
-        workerCV.add(new CV());
         for (CV cv: cvList) {
             if(cv.getWorker().getId() == userId){
                 workerCV.add(cv);

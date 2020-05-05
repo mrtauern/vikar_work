@@ -38,7 +38,7 @@ public class CVServiceImpl implements CVService {
         worker.getCvs().remove(cv);
         freelanceService.save(worker);
 
-        cvRepo.deleteById(cv.getId());
-        /*cvRepo.delete(cv);*/
+        /*cvRepo.deleteById(cv.getId());*/
+        cvRepo.delete(cv);
     }
 }
