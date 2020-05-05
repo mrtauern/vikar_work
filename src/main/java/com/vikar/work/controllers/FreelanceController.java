@@ -142,4 +142,27 @@ public class FreelanceController {
 
         return "googleMap";
     }
+
+    @GetMapping("/showProfile/{id}")
+    public String showProfile(@PathVariable("id") long userId, Model model) {
+
+        log.info("showprofile is called with Id "+ userId);
+        Worker worker = freelanceService.findById(userId).get();
+
+        Iterable<CV> cvList = cvService.findAll();
+        ArrayList<CV> workerCV = new ArrayList<>();
+        for (CV cv: cvList) {
+            if(cv.getWorker().getId() == userId){
+                workerCV.add(cv);
+            }
+
+        }
+        log.info("for løkken kaldes" + workerCV.get(0).getJobTitle());
+
+        model.addAttribute("Worker", worker);
+        model.addAttribute("pageTitle", "Vis profil");
+        model.addAttribute("workerCV", workerCV);
+
+        return "showProfile";
+    }
 }
