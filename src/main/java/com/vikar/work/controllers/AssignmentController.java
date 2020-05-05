@@ -45,6 +45,7 @@ public class AssignmentController {
     public String showAssignment(@PathVariable("id") long assignmentId, Model model, HttpSession session) {
 
         long id = 0;
+        String type = "";
 
         log.info("showAssignment called with id: " + assignmentId);
         //Assignment test = new Assignment();*/
@@ -54,20 +55,27 @@ public class AssignmentController {
         if(session.getAttribute("login") != null){
             String userId = (String) session.getAttribute("login");
             log.info("User full id: " + userId);
-            if(userId.substring(0, 1).equals("w")){
-                id = Long.valueOf(userId.substring(1));
-                log.info("User id: " + id);
-            } else {
-                log.info("User have to be a worker");
-            }
+
+            id = Long.valueOf(userId.substring(1));
+            type = userId.substring(0, 1);
+
+            log.info("User id: " + id);
+            log.info("Type: " + type);
         } else {
             return "redirect:/notLoggedIn";
         }
 
-        model.addAttribute("userId", id);
+        Worker worker = freelanceService.findById(id).get();
+        Assignment assignment = assignmentService.findById(assignmentId).get();
 
-        model.addAttribute("assignment", assignmentService.findById(assignmentId).get());
-        model.addAttribute("workersOnAssignment", assignmentService.findById(assignmentId).get().getAssignmentRequests());
+        log.info("Assignment worker: "+assignment.getAssignmentRequests().contains(worker));
+
+        model.addAttribute("userId", id);
+        model.addAttribute("type", type);
+
+        model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
+        model.addAttribute("assignment", assignment);
+        model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
 
         return "showAssignment";
 
@@ -95,7 +103,7 @@ public class AssignmentController {
 
     @RequestMapping(value = "/applyForAssignment", method = RequestMethod.POST)
     public String applyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId) {
-        log.info("applyforassignmed called assignmentid: " + assignmentId);
+        log.info("applyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
 
         //Create dummy user and assign to assignment
         Assignment assignment = assignmentService.findById(assignmentId).get();
@@ -121,6 +129,24 @@ public class AssignmentController {
 
         assignment.getAssignmentRequests().add(worker);
         worker.getRequestedAssignments().add(assignment);
+
+        //save data in database
+        assignmentService.save(assignment);
+        freelanceService.save(worker);
+
+        return "redirect:/showAssignment/" + assignmentId;
+    }
+
+    @RequestMapping(value = "/unapplyForAssignment", method = RequestMethod.POST)
+    public String unapplyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId) {
+        log.info("unapplyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
+
+        //Create dummy user and assign to assignment
+        Assignment assignment = assignmentService.findById(assignmentId).get();
+        Worker worker = freelanceService.findById(userId).get();
+
+        assignment.getAssignmentRequests().remove(worker);
+        worker.getRequestedAssignments().remove(assignment);
 
         //save data in database
         assignmentService.save(assignment);
