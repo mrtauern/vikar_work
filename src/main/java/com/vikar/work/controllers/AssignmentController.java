@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -41,12 +42,29 @@ public class AssignmentController {
     int refreshCount = 1000;
 
     @GetMapping("/showAssignment/{id}")
-    public String showAssignment(@PathVariable("id") long assignmentId, Model model) {
+    public String showAssignment(@PathVariable("id") long assignmentId, Model model, HttpSession session) {
+
+        long id = 0;
 
         log.info("showAssignment called with id: " + assignmentId);
         //Assignment test = new Assignment();*/
         //test = assignmentService.findById(assignmentId).get().getArchived();
-        log.info("showAssignment called with id: " + assignmentId);
+        //log.info("showAssignment called with id: " + assignmentId);
+
+        if(session.getAttribute("login") != null){
+            String userId = (String) session.getAttribute("login");
+            log.info("User full id: " + userId);
+            if(userId.substring(0, 1).equals("w")){
+                id = Long.valueOf(userId.substring(1));
+                log.info("User id: " + id);
+            } else {
+                log.info("User have to be a worker");
+            }
+        } else {
+            return "redirect:/notLoggedIn";
+        }
+
+        model.addAttribute("userId", id);
 
         model.addAttribute("assignment", assignmentService.findById(assignmentId).get());
         model.addAttribute("workersOnAssignment", assignmentService.findById(assignmentId).get().getAssignmentRequests());
@@ -76,12 +94,14 @@ public class AssignmentController {
     }
 
     @RequestMapping(value = "/applyForAssignment", method = RequestMethod.POST)
-    public String applyForAssignment(@RequestParam("id") long id /*Her skal være et loggedin userid med*/) {
-        log.info("applyforassignmed called assignmentid: " + id);
+    public String applyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId) {
+        log.info("applyforassignmed called assignmentid: " + assignmentId);
 
         //Create dummy user and assign to assignment
-        Assignment oldAssignment = assignmentService.findById(id).get();
-        Worker tempworker = new Worker();
+        Assignment assignment = assignmentService.findById(assignmentId).get();
+        Worker worker = freelanceService.findById(userId).get();
+
+        /*Worker tempworker = new Worker();
         tempworker.setCVRNumber(51234234);
         tempworker.setBankNumber(234235551);
         tempworker.setHouseNumber(44);
@@ -97,13 +117,16 @@ public class AssignmentController {
 
         //add dummy user to assignment
         tempworker.getRequestedAssignments().add(oldAssignment);
-        oldAssignment.getAssignmentRequests().add(tempworker);
+        oldAssignment.getAssignmentRequests().add(tempworker);*/
+
+        assignment.getAssignmentRequests().add(worker);
+        worker.getRequestedAssignments().add(assignment);
 
         //save data in database
-        assignmentService.save(oldAssignment);
-        freelanceService.save(tempworker);
+        assignmentService.save(assignment);
+        freelanceService.save(worker);
 
-        return "redirect:/showAssignment/" + id;
+        return "redirect:/showAssignment/" + assignmentId;
     }
 
     @GetMapping("/createAssignment")
