@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+
+    <h1 id="error_header"><i class="fas fa-exclamation-triangle"></i> Du er ikke logged ind</h1>
+    <h2>Du skal være logget ind for at til gå denne side!</h2>
+
+    <a href="/" class="btn btn-outline-dark mr-2">Gå til forsiden</a>
+
+    <footer th:include="fragments/footer :: bottom"></footer>
+</div>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+</body>
+</html>

@@ -189,4 +189,11 @@ public class HomeController {
 
         return "LoginLandingPage";
     }
+
+    @GetMapping("/notLoggedIn")
+    public String notLoggedIn(){
+        log.info("User not logged in");
+
+        return "not_logged_in";
+    }
 }

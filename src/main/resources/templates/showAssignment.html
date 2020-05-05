@@ -37,8 +37,9 @@
 
 
         <h3>Tilmeldte ansøgere:</h3>
-        <form th:method="post" th:action="@{/applyForAssignment}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
-            <input th:name="id" type="hidden" th:field="${assignment.id}">
+        <form th:method="post" th:action="@{/applyForAssignment}" class="form-inline d-block mx-2 float-left">
+            <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
+            <input th:name="userId" type="hidden" th:value="${userId}">
             <button class="btn btn-primary" type="submit">Ansøg</button>
         </form>
         <br>
