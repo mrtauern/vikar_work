@@ -9,6 +9,8 @@
 
     <h1>Opret bruger</h1>
 
+    <p th:if="${userExist}" class="errMsg"><i class="fas fa-exclamation-triangle"></i> Dette brugernavn er optaget!</p>
+
     <form id="create_user" method="Post" th:action="@{/createUser}" th:object="${user}" onsubmit="return checkPasswords()">
 
         <label>Type:</label>
@@ -21,16 +23,16 @@
         <!--<input type="text" th:name="companyName" class="form-control mr-sm-2"/>-->
 
         <label class="company freelance">Fornavn:</label>
-        <input type="text" th:name="firstname" class="company freelance form-control mr-sm-2"/>
+        <input type="text" th:name="firstname" th:value="${userExist} ? ${user.firstname} : ''" class="company freelance form-control mr-sm-2"/>
 
         <label class="company freelance">Efternavn:</label>
-        <input type="text" th:name="lastname" class="company freelance form-control mr-sm-2"/>
+        <input type="text" th:name="lastname" th:value="${userExist} ? ${user.lastname} : ''" class="company freelance form-control mr-sm-2"/>
 
         <label class="company freelance">E-mail:</label>
-        <input type="email" th:name="email" class="company freelance form-control mr-sm-2"/>
+        <input type="email" th:name="email" th:value="${userExist} ? ${user.email} : ''" class="company freelance form-control mr-sm-2"/>
 
         <label class="company freelance">Telefon nummer:</label>
-        <input type="number" th:name="phoneNumber" class="company freelance form-control mr-sm-2"/>
+        <input type="number" th:name="phoneNumber" th:value="${userExist} ? ${user.phoneNumber} : ''" class="company freelance form-control mr-sm-2"/>
 
         <label class="">By:</label>
         <!--<input type="text" th:name="city" class="form-control mr-sm-2"/>-->
@@ -51,7 +53,7 @@
         <!--<input type="number" th:name="bankNumber" class="form-control mr-sm-2"/>-->
 
         <label class="company freelance">Brugernavn:</label>
-        <input type="text" th:name="username" class="company freelance form-control mr-sm-2"/>
+        <input type="text" th:name="username" th:value="${userExist} ? ${user.username} : ''" class="company freelance form-control mr-sm-2"/>
 
         <label class="company freelance">Adgangkode:</label>
         <input type="password" th:name="password1" class="company freelance form-control mr-sm-2"/>
