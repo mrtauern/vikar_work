@@ -18,5 +18,5 @@ public interface FreelanceService {
     void deleteWorker(long id);
     Iterable<Worker> findAll();
     ArrayList<MapMarker> markerList();
-    String checkSession(int userId, String sessionString);
+    String[] checkSession(String sessionString);
 }

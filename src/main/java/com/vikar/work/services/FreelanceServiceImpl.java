@@ -70,20 +70,11 @@ public class FreelanceServiceImpl implements FreelanceService {
         return markers;
     }
 
-    public String checkSession(int userId, String sessionString) {
-        String returnString = "login";
+    public String[] checkSession(String sessionString) {
+        String[] returnString = new String[] {"",""};
 
-        if(!sessionString.equals("")){
-            String[] sessionLogin = sessionString.split("w");
-
-            log.info("SessionString: "+sessionString);
-
-            if(sessionLogin[1].equals(""+userId)) {
-                returnString = "editWorker";
-            } else {
-                returnString = "redirect:/editWorker/"+sessionLogin[1];
-            }
-        }
+        returnString[0] = sessionString.substring(1);
+        returnString[1] = sessionString.substring(0, 1);
 
         return returnString;
     }

@@ -48,35 +48,26 @@ public class FreelanceController {
     public String editWorker(@PathVariable("id") long userId, Model model, HttpSession session){
         log.info("edit Worker called med id: " + userId);
 
-        String returnString = "login";
 
 
-        if(session.getAttribute("login") != null) {
-            returnString = freelanceService.checkSession((int) userId, ""+session.getAttribute("login"));
-            if(!returnString.equals("login")) {
-                model.addAttribute("worker", freelanceService.findById(userId));
-            }
-        }
-
-        return returnString;
-
-/*        if(session.getAttribute("login") != null){
+        if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
+            String test = (String)session.getAttribute("login");
+            String[] sessionId = freelanceService.checkSession(test);
 
-            String sessionString = ""+session.getAttribute("login");
-            String[] sessionLogin = sessionString.split("w");
-
-            if(sessionLogin[1].equals(""+userId)) {
+            if(sessionId[0].equals(""+userId)) {
                 model.addAttribute("worker", freelanceService.findById(userId));
+
                 return "editWorker";
             } else {
-                return "redirect:/editWorker/"+sessionLogin[1];
+
+                return "redirect:/editWorker/"+userId;
             }
 
         } else {
             log.info("Not logged in!");
             return "login";
-        }*/
+        }
     }
 
     @PostMapping("/editWorker")
@@ -108,13 +99,31 @@ public class FreelanceController {
     }
 
     @GetMapping("/addToCv/{workerId}")
-    public String addToCv(@PathVariable("workerId") long workerId, Model model){
+    public String addToCv(@PathVariable("workerId") long workerId, Model model, HttpSession session){
         log.info("Add to cv called (get)");
 
-        model.addAttribute("pageTitle", "Tilføj til CV");
-        model.addAttribute("workerId", workerId);
 
-        return "add_to_cv";
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
+            if(sessionId[0].equals(""+workerId)) {
+                model.addAttribute("pageTitle", "Tilføj til CV");
+                model.addAttribute("workerId", workerId);
+                return "add_to_cv";
+            }
+            else {
+                //måske anden redirect her?
+                log.info("not correct workerId");
+                return "index";
+            }
+        }
+
+        else {
+            //måske anden redirect her?
+            return "login";
+        }
+
+
+
     }
 
     @PostMapping("/addToCv")
