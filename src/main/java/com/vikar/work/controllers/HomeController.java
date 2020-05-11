@@ -181,7 +181,7 @@ public class HomeController {
             log.info("Username or password is wrong!");
         }
 
-        return "redirect:/assignments";
+        return "redirect:/landingPage";
     }
 
     private void setLogin(HttpSession session, char type, long id){
@@ -216,5 +216,59 @@ public class HomeController {
         log.info("User not logged in");
 
         return "not_logged_in";
+    }
+
+    @GetMapping("/settings")
+    public String settings(HttpSession session){
+        long id = 0;
+        String type = "";
+
+        if(session.getAttribute("login") != null){
+            String userId = (String) session.getAttribute("login");
+            log.info("User full id: " + userId);
+
+            id = Long.valueOf(userId.substring(1));
+            type = userId.substring(0, 1);
+
+            log.info("User id: " + id);
+            log.info("Type: " + type);
+
+            if(type.equals("w")){
+                return "redirect:/editWorker/" + id;
+            } else if (type.equals("c")) {
+                return "redirect:/editCompany/" + id;
+            } else {
+                return "redirect:/notLoggedIn";
+            }
+        } else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @GetMapping("/landingPage")
+    public String landingPage(HttpSession session){
+        long id = 0;
+        String type = "";
+
+        if(session.getAttribute("login") != null){
+            String userId = (String) session.getAttribute("login");
+            log.info("User full id: " + userId);
+
+            id = Long.valueOf(userId.substring(1));
+            type = userId.substring(0, 1);
+
+            log.info("User id: " + id);
+            log.info("Type: " + type);
+
+            if(type.equals("w")){
+                return "redirect:/assignments";
+            } else if (type.equals("c")) {
+                return "redirect:/activeAssignmentList";
+            } else {
+                return "redirect:/notLoggedIn";
+            }
+        } else {
+            return "redirect:/notLoggedIn";
+        }
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -152,6 +153,31 @@ public class FreelanceController {
         model.addAttribute("pageTitle", "Map Overview");
 
         return "googleMap";
+    }
+
+    @GetMapping("/showProfile")
+    public String showProfile(HttpSession session){
+        long id = 0;
+        String type = "";
+
+        if(session.getAttribute("login") != null){
+            String userId = (String) session.getAttribute("login");
+            log.info("User full id: " + userId);
+
+            id = Long.valueOf(userId.substring(1));
+            type = userId.substring(0, 1);
+
+            log.info("User id: " + id);
+            log.info("Type: " + type);
+
+            if(type.equals("w")){
+                return "redirect:/showProfile/" + id;
+            } else {
+                return "redirect:/notLoggedIn";
+            }
+        } else {
+            return "redirect:/notLoggedIn";
+        }
     }
 
     @GetMapping("/showProfile/{id}")

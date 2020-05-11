@@ -10,12 +10,14 @@
 </html>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Freelancer</title>
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
 </head>
 <body>
 <div class="container">
+
+    <header th:include="fragments/header :: navbar"></header>
+
     <h1>Edit User</h1>
 
     <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
@@ -25,43 +27,43 @@
         <label>Fornavn:</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
 
-        <br>
-
         <label>Efternavn:</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.lastname}" required>
-        <br>
+
         <label>Email(brugernavn):</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.email}" required>
-        <br>
+
         <label>Password:</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
-        <br>
+
         <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
-        <br>
+
         <label>By:</label>
         <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
-        <br>
+
         <label>PostNr:</label>
 
         <input type="number" class="form-control mr-sm-2"  th:field="${worker.zip}" required>
 
-        <br>
+
         <label>CVR (hvis privatperson vælg nul):</label>
         <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
-        <br>
 
-        <input class="btn btn-light" type="button" value="Annuller" onclick="location.href='/adminListProducts';"/>
+
+        <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
 
         <button class="btn btn-primary" type="submit">Gem</button>
 
     </form>
 
+    <br>
     <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
         <input type="hidden" th:field="${worker.id}">
-        <button class="btn btn-primary" type="submit">Delete</button>
+        <button class="btn btn-danger" type="submit">Delete</button>
 
     </form>
 
+    <footer th:include="fragments/footer :: bottom"></footer>
 
 </div>
 </body>
