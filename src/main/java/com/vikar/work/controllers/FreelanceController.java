@@ -52,16 +52,19 @@ public class FreelanceController {
 
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
-            String test = (String)session.getAttribute("login");
-            String[] sessionId = freelanceService.checkSession(test);
+            /*String test = (String)session.getAttribute("login");*/
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
 
-            if(sessionId[0].equals(""+userId)) {
+            if(sessionId[0].equals(""+userId) && sessionId[1].equals("w")) {
                 model.addAttribute("worker", freelanceService.findById(userId));
 
                 return "editWorker";
-            } else {
+            } else if (sessionId[0].equals(""+userId) && sessionId[1].equals("c")){
 
-                return "redirect:/editWorker/"+userId;
+                return "index";
+            }
+            else {
+                return "redirect:/editWorker/"+sessionId[0];
             }
 
         } else {
@@ -84,18 +87,35 @@ public class FreelanceController {
             freelanceService.updateWorker(worker);
         }
 
-
-        //log.info(worker.lastname);
-
         return "redirect:/editWorker/"+worker.getId();
     }
 
     @PostMapping("/deleteWorker")
-    public String deleteWorker(@ModelAttribute Worker worker) {
+    public String deleteWorker(@ModelAttribute Worker worker, HttpSession session) {
         log.info("delete worker called id: "+worker.getId());
-        freelanceService.deleteWorker(worker.getId());
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+            /*String test = (String)session.getAttribute("login");*/
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
 
-        return "index";
+            if(sessionId[0].equals(""+worker.getId()) && sessionId[1].equals("w")) {
+                freelanceService.deleteWorker(worker.getId());
+
+                return "index";
+            }
+            else if (sessionId[0].equals(""+worker.getId()) && sessionId[1].equals("c")){
+
+                return "index";
+            }
+            else {
+
+                return "redirect:/editWorker/"+sessionId[0];
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @GetMapping("/addToCv/{workerId}")
@@ -105,15 +125,20 @@ public class FreelanceController {
 
         if(session.getAttribute("login") != null){
             String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
-            if(sessionId[0].equals(""+workerId)) {
+            if(sessionId[0].equals(""+workerId) && sessionId[1].equals("w")) {
                 model.addAttribute("pageTitle", "Tilføj til CV");
                 model.addAttribute("workerId", workerId);
                 return "add_to_cv";
             }
+            else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
+
+                return "index";
+            }
+
             else {
                 //måske anden redirect her?
                 log.info("not correct workerId");
-                return "index";
+                return "redirect:/addToCv/"+sessionId[0];
             }
         }
 
@@ -121,9 +146,6 @@ public class FreelanceController {
             //måske anden redirect her?
             return "login";
         }
-
-
-
     }
 
     @PostMapping("/addToCv")
@@ -131,21 +153,40 @@ public class FreelanceController {
                           @RequestParam("workplace")String workplace,
                           @RequestParam("jobTitle")String jobTitle,
                           @RequestParam("startDate")String startDate,
-                          @RequestParam("endDate")String endDate){
+                          @RequestParam("endDate")String endDate,
+                          HttpSession session){
 
-        Worker worker = freelanceService.findById(Long.parseLong(workerId)).get();
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
+            if(sessionId[0].equals(""+workerId) && sessionId[1].equals("w")) {
+                Worker worker = freelanceService.findById(Long.parseLong(workerId)).get();
 
-        CV cv = new CV(worker, workplace, jobTitle, startDate, endDate);
+                CV cv = new CV(worker, workplace, jobTitle, startDate, endDate);
 
-        cvService.save(cv);
+                cvService.save(cv);
 
-        log.info("Add to cv called (post)");
+                log.info("Add to cv called (post)");
+                return "redirect:/showProfile/"+workerId;
+            }
+            else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
 
-        return "redirect:/";
+                return "index";
+            }
+            else {
+                //måske anden redirect her?
+                log.info("not correct workerId");
+                return "redirect:/showProfile/"+workerId;
+            }
+        }
+        else {
+
+            //måske anden redirect her?
+            return "redirect:/showProfile/"+workerId;
+        }
     }
 
     @GetMapping("/removeFromCv/{cvId}")
-    public String removeFromCv(@PathVariable("cvId") String cvId){
+    public String removeFromCv(@PathVariable("cvId") String cvId, HttpSession session){
         log.info("Remove from cv called");
 
         CV cv = cvService.findById(Long.parseLong(cvId)).get();
@@ -153,19 +194,56 @@ public class FreelanceController {
         cvService.delete(cv);
 
         log.info("Cv with "+cvId+" is removed.");
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
+            if(sessionId[0].equals(""+cvService.findById(Long.parseLong(cvId)).get().getWorker().getId()) && sessionId[1].equals("w")) {
+                cvService.delete(cv);
+                return "redirect:/";
+            }
 
-        return "redirect:/";
+            else if (sessionId[0].equals(""+cvService.findById(Long.parseLong(cvId)).get().getWorker().getId()) && sessionId[1].equals("c")){
+
+                return "index";
+            }
+            else {
+                //måske anden redirect her?
+                log.info("not correct workerId");
+                return "redirect:/";
+            }
+        }
+        else {
+            //måske anden redirect her?
+            return "redirect:/";
+        }
+
     }
 
     @PostMapping("/removeFromCv")
     public String removeFromCv(@RequestParam("cvId") long cvId,
-                               @RequestParam("workerId")long workerId ) {
+                               @RequestParam("workerId")long workerId,
+                               HttpSession session) {
         log.info("removeFromCv called with cvId: "+cvId+" and workerId: "+workerId);
 
-        CV cv = cvService.findById(cvId).get();
-        cvService.delete(cv);
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        return "redirect:/showProfile/"+workerId;
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+
+            if(sessionId[0].equals(""+workerId) && sessionId[1].equals("w")) {
+                CV cv = cvService.findById(cvId).get();
+                cvService.delete(cv);
+
+                return "redirect:/showProfile/"+workerId;
+
+            } else {
+
+                return "redirect:/editWorker/"+sessionId[0];
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @GetMapping("/googleMap")
@@ -192,26 +270,33 @@ public class FreelanceController {
     }
 
     @GetMapping("/showProfile/{id}")
-    public String showProfile(@PathVariable("id") long userId, Model model) {
-
+    public String showProfile(@PathVariable("id") long userId, Model model, HttpSession session) {
         log.info("showprofile is called with Id "+ userId);
 
-        Worker worker = freelanceService.findById(userId).get();
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        Iterable<CV> cvList = cvService.findAll();
-        ArrayList<CV> workerCV = new ArrayList<>();
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+            Worker worker = freelanceService.findById(userId).get();
 
-        for (CV cv: cvList) {
-            if(cv.getWorker().getId() == userId){
-                workerCV.add(cv);
+            Iterable<CV> cvList = cvService.findAll();
+            ArrayList<CV> workerCV = new ArrayList<>();
+
+            for (CV cv: cvList) {
+                if(cv.getWorker().getId() == userId){
+                    workerCV.add(cv);
+                }
+
             }
 
+            model.addAttribute("Worker", worker);
+            model.addAttribute("pageTitle", "Vis profil");
+            model.addAttribute("workerCV", workerCV);
+
+            return "showProfile";
+        } else {
+            log.info("Not logged in!");
+            return "login";
         }
-
-        model.addAttribute("Worker", worker);
-        model.addAttribute("pageTitle", "Vis profil");
-        model.addAttribute("workerCV", workerCV);
-
-        return "showProfile";
     }
 }
