@@ -1,5 +1,6 @@
 package com.vikar.work.services;
 
+import com.vikar.work.controllers.FreelanceController;
 import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Company;
 import com.vikar.work.models.MapMarker;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service("FreelanceService")
 public class FreelanceServiceImpl implements FreelanceService {
@@ -36,6 +38,8 @@ public class FreelanceServiceImpl implements FreelanceService {
     public Iterable<Worker> findAll(){
         return freelanceRepo.findAll();
     }
+
+    Logger log = Logger.getLogger(FreelanceService.class.getName());
 
     @Override
     public ArrayList<MapMarker> markerList() {
@@ -64,6 +68,24 @@ public class FreelanceServiceImpl implements FreelanceService {
         markers.add(markerTest2);
 
         return markers;
+    }
+
+    public String checkSession(int userId, String sessionString) {
+        String returnString = "login";
+
+        if(!sessionString.equals("")){
+            String[] sessionLogin = sessionString.split("w");
+
+            log.info("SessionString: "+sessionString);
+
+            if(sessionLogin[1].equals(""+userId)) {
+                returnString = "editWorker";
+            } else {
+                returnString = "redirect:/editWorker/"+sessionLogin[1];
+            }
+        }
+
+        return returnString;
     }
 
 

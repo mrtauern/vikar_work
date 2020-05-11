@@ -16,12 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Qualifier("FreelanceController")
 @Controller
+@SessionAttributes("login")
 public class FreelanceController {
 
     public FreelanceController(){
@@ -43,17 +45,43 @@ public class FreelanceController {
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
     @GetMapping("/editWorker/{id}")
-    public String editWorker(@PathVariable("id") long userId, Model model){
+    public String editWorker(@PathVariable("id") long userId, Model model, HttpSession session){
         log.info("edit Worker called med id: " + userId);
 
-        model.addAttribute("worker", freelanceService.findById(userId));
+        String returnString = "login";
 
 
-        return "editWorker";
+        if(session.getAttribute("login") != null) {
+            returnString = freelanceService.checkSession((int) userId, ""+session.getAttribute("login"));
+            if(!returnString.equals("login")) {
+                model.addAttribute("worker", freelanceService.findById(userId));
+            }
+        }
+
+        return returnString;
+
+/*        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+
+            String sessionString = ""+session.getAttribute("login");
+            String[] sessionLogin = sessionString.split("w");
+
+            if(sessionLogin[1].equals(""+userId)) {
+                model.addAttribute("worker", freelanceService.findById(userId));
+                return "editWorker";
+            } else {
+                return "redirect:/editWorker/"+sessionLogin[1];
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }*/
     }
 
     @PostMapping("/editWorker")
     public String editWorker (@ModelAttribute Worker worker, Model model) {
+        //skal der også session check her???
         log.info("editworker putmapping called...");
         String test = ""+worker.getCVRNumber();
         log.info("CVR test "+test);
@@ -68,7 +96,7 @@ public class FreelanceController {
 
         //log.info(worker.lastname);
 
-        return "redirect:/editWorker/1";
+        return "redirect:/editWorker/"+worker.getId();
     }
 
     @PostMapping("/deleteWorker")
