@@ -235,7 +235,12 @@ public class FreelanceController {
 
                 return "redirect:/showProfile/"+workerId;
 
-            } else {
+            }
+            else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
+
+                return "index";
+            }
+            else {
 
                 return "redirect:/editWorker/"+sessionId[0];
             }
