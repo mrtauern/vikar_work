@@ -11,6 +11,12 @@
 
     <a href="/createAssignment" class="btn btn-success">Opret opgave</a>
 
+    <br><br>
+
+    <a href="/archivedAssignmentList">Vis arkiverede opgaver</a>
+
+    <br><br>
+
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
@@ -41,23 +47,9 @@
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
     $(document).ready(function () {
-
-        //call function when page is loaded
-        /*updateNotificationCount();
-
-        function updateNotificationCount() {
-            $.get("notification-count", function(fragment) { // get from controller
-                $("#notificationCount").replaceWith(fragment); // update snippet of page
-            });
-        }*/
-
-        /*$("#countNotification").on("click", function () {
-            $("#countNotification").load("/notification");
-        });*/
-
 
         refresh();
 
@@ -69,7 +61,7 @@
             refresh();
         }, 3000)
     }
-</script>
+</script>-->
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 </body>
 </html>

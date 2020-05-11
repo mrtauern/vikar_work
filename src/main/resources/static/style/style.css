@@ -196,6 +196,14 @@ span#countNotification{
     padding: 0 6px;
 }
 
+span#logo{
+    font-weight: bold;
+}
+
+span#logo span.red{
+    color: #FF0000;
+}
+
 /*a:hover {
     color: #fffafe;
 }

@@ -257,7 +257,7 @@ public class AssignmentController {
 
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
-        model.addAttribute("numNotifications", 2);
+        //model.addAttribute("numNotifications", 2);
 
         return "active_assignment_list";
     }
