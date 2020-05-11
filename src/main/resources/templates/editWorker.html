@@ -18,50 +18,54 @@
 
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Edit User</h1>
+    <div id="inner_container">
 
-    <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
+        <h1>Edit User</h1>
 
-        <input type="hidden" th:field="${worker.id}">
+        <form th:method="put" th:action="@{/editWorker}" th:object="${worker}">
 
-        <label>Fornavn:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
+            <input type="hidden" th:field="${worker.id}">
 
-        <label>Efternavn:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${worker.lastname}" required>
+            <label>Fornavn:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.firstname}" required>
 
-        <label>Email(brugernavn):</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${worker.email}" required>
+            <label>Efternavn:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.lastname}" required>
 
-        <label>Password:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
+            <label>Email(brugernavn):</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.email}" required>
 
-        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
+            <label>Password:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
 
-        <label>By:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
+            <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
 
-        <label>PostNr:</label>
+            <label>By:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.city}" required>
 
-        <input type="number" class="form-control mr-sm-2"  th:field="${worker.zip}" required>
+            <label>PostNr:</label>
 
-
-        <label>CVR (hvis privatperson vælg nul):</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
+            <input type="number" class="form-control mr-sm-2"  th:field="${worker.zip}" required>
 
 
-        <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
+            <label>CVR (hvis privatperson vælg nul):</label>
+            <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
 
-        <button class="btn btn-primary" type="submit">Gem</button>
 
-    </form>
+            <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
 
-    <br>
-    <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
-        <input type="hidden" th:field="${worker.id}">
-        <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-primary" type="submit">Gem</button>
 
-    </form>
+        </form>
+
+        <br>
+        <form th:method="post" th:action="@{/deleteWorker}" th:object="${worker}">
+            <input type="hidden" th:field="${worker.id}">
+            <button class="btn btn-danger" type="submit">Delete</button>
+
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 

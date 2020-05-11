@@ -7,48 +7,52 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Opret Arbejds Opgave</h1>
-    <form id="createAssignment" method="Post" th:action="@{/editAssignment}" th:object="${assignment}">
-        <input type="hidden" th:field="${assignment.id}">
+    <div id="inner_container">
+
+        <h1>Opret Arbejds Opgave</h1>
+        <form id="createAssignment" method="Post" th:action="@{/editAssignment}" th:object="${assignment}">
+            <input type="hidden" th:field="${assignment.id}">
 
 
-        <label class="assignment">Opgave overskrift:</label>
-        <input type="text" th:name="name" th:field="${assignment.name}" required class="form-control mr-sm-2"/>
+            <label class="assignment">Opgave overskrift:</label>
+            <input type="text" th:name="name" th:field="${assignment.name}" required class="form-control mr-sm-2"/>
 
-        <label class="Description">Opgave beskrivelse</label>
-        <textarea rows="5" cols="50" th:name="description"th:field="${assignment.description}" required class="form-control mr-sm-2"></textarea>
+            <label class="Description">Opgave beskrivelse</label>
+            <textarea rows="5" cols="50" th:name="description"th:field="${assignment.description}" required class="form-control mr-sm-2"></textarea>
 
-        <label class="streetName">Vej:</label>
-        <input type="text" th:name="streetName"th:field ="${assignment.streetName}" required class="form-control mr-sm-2"/>
-        <input type="number" th:name="houseNumber"th:field ="${assignment.houseNumber}" required class="form-control mr-sm-2"/>
+            <label class="streetName">Vej:</label>
+            <input type="text" th:name="streetName"th:field ="${assignment.streetName}" required class="form-control mr-sm-2"/>
+            <input type="number" th:name="houseNumber"th:field ="${assignment.houseNumber}" required class="form-control mr-sm-2"/>
 
-        <label class="city">By:</label>
-        <input type="text" th:name="city"th:field ="${assignment.city}" required class="form-control mr-sm-2"/>
+            <label class="city">By:</label>
+            <input type="text" th:name="city"th:field ="${assignment.city}" required class="form-control mr-sm-2"/>
 
-        <label class="zip">Post nr.:</label>
-        <input type="number" th:name="ZIP"th:field ="${assignment.ZIP}" required class="form-control mr-sm-2"/>
+            <label class="zip">Post nr.:</label>
+            <input type="number" th:name="ZIP"th:field ="${assignment.ZIP}" required class="form-control mr-sm-2"/>
 
-        <label class="experience">Erfaring krævet:</label>
-        <input type="text" th:name="neededExperience"th:field ="${assignment.neededExperience}" required class="form-control mr-sm-2"/>
+            <label class="experience">Erfaring krævet:</label>
+            <input type="text" th:name="neededExperience"th:field ="${assignment.neededExperience}" required class="form-control mr-sm-2"/>
 
-        <label class="hourlyWage">Timeløn:</label>
-        <input type="number" th:name="hourlyWage"th:field ="${assignment.hourlyWage}" required class="form-control mr-sm-2"/>
+            <label class="hourlyWage">Timeløn:</label>
+            <input type="number" th:name="hourlyWage"th:field ="${assignment.hourlyWage}" required class="form-control mr-sm-2"/>
 
-        <label>Opgave startdato:</label>
-        <input id="dateStart" type="date" th:name="dateStart" th:value ="${dateStart}" required class="form-control mr-sm-2"/>
+            <label>Opgave startdato:</label>
+            <input id="dateStart" type="date" th:name="dateStart" th:value ="${dateStart}" required class="form-control mr-sm-2"/>
 
-        <label>Opgave slutdato:</label>
-        <input id="dateEnd" type="date" th:name="dateEnd" th:value ="${dateEnd}" required class="form-control mr-sm-2"/>
+            <label>Opgave slutdato:</label>
+            <input id="dateEnd" type="date" th:name="dateEnd" th:value ="${dateEnd}" required class="form-control mr-sm-2"/>
 
-        <label>jobType:</label>
-        <select id="profession" th:name="profession" required class="form-control">
-            <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}" th:selected="${job.id} == ${assigmentJobId}"></option>
-        <!--<option th:if="${testId != jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>-->
-        </select>
+            <label>jobType:</label>
+            <select id="profession" th:name="profession" required class="form-control">
+                <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}" th:selected="${job.id} == ${assigmentJobId}"></option>
+            <!--<option th:if="${testId != jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>-->
+            </select>
 
-        <button class="btn btn-primary" type="submit">gem ændringer</button>
+            <button class="btn btn-primary" type="submit">gem ændringer</button>
 
-    </form>
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>

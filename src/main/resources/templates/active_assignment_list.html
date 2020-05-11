@@ -7,42 +7,46 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Aktive opgaver</h1>
+    <div id="inner_container">
 
-    <a href="/createAssignment" class="btn btn-success">Opret opgave</a>
+        <h1>Aktive opgaver</h1>
 
-    <br><br>
+        <a href="/createAssignment" class="btn btn-success">Opret opgave</a>
 
-    <a href="/archivedAssignmentList">Vis arkiverede opgaver</a>
+        <br><br>
 
-    <br><br>
+        <a href="/archivedAssignmentList">Vis arkiverede opgaver</a>
 
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>Navn</th>
-                <th>By</th>
-                <!--<th>Erfaring krævet</th>-->
-                <th>Start dato</th>
-                <th>Timeløn</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="assignment : ${assignments}">
-                <td th:text="${assignment.name}"></td>
-                <td th:text="${assignment.city}"></td>
-                <!--<td th:text="${assignment.neededExperience}"></td>-->
-                <td th:text="${assignment.dateStart}"></td>
-                <td th:text="${assignment.hourlyWage + ' kr.'}"></td>
-                <td>
-                    <a th:href="${'/showAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-ellipsis-h"></i> Vis detaljer</a>
-                    <a th:href="${'/editAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-pen"></i> Rediger</a>
-                    <a th:href="${'/archiveAssignment/' + assignment.id}" class="btn btn-outline-danger"><i class="fas fa-archive"></i> Arkiver</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <br><br>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Navn</th>
+                    <th>By</th>
+                    <!--<th>Erfaring krævet</th>-->
+                    <th>Start dato</th>
+                    <th>Timeløn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="assignment : ${assignments}">
+                    <td th:text="${assignment.name}"></td>
+                    <td th:text="${assignment.city}"></td>
+                    <!--<td th:text="${assignment.neededExperience}"></td>-->
+                    <td th:text="${assignment.dateStart}"></td>
+                    <td th:text="${assignment.hourlyWage + ' kr.'}"></td>
+                    <td>
+                        <a th:href="${'/showAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-ellipsis-h"></i> Vis detaljer</a>
+                        <a th:href="${'/editAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-pen"></i> Rediger</a>
+                        <a th:href="${'/archiveAssignment/' + assignment.id}" class="btn btn-outline-danger"><i class="fas fa-archive"></i> Arkiver</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>

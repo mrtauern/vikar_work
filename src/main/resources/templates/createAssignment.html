@@ -7,48 +7,52 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Opret Arbejds Opgave</h1>
+    <div id="inner_container">
 
-    <form id="createAssignment" method="Post" th:action="@{/createAssignment}" th:object="${assignment}">
+        <h1>Opret Arbejds Opgave</h1>
+
+        <form id="createAssignment" method="Post" th:action="@{/createAssignment}" th:object="${assignment}">
 
 
 
-        <label class="assignment">Opgave overskrift:</label>
-        <input type="text" th:name="name"class="form-control mr-sm-2"/>
+            <label class="assignment">Opgave overskrift:</label>
+            <input type="text" th:name="name"class="form-control mr-sm-2"/>
 
-        <label class="assignment Description">Opgave beskrivelse</label>
-        <textarea rows="5" cols="50" th:name="description"class="form-control mr-sm-2"></textarea>
+            <label class="assignment Description">Opgave beskrivelse</label>
+            <textarea rows="5" cols="50" th:name="description"class="form-control mr-sm-2"></textarea>
 
-        <label class="streetName">Vej:</label>
-        <input type="text" th:name="streetName"class="form-control mr-sm-2"/>
-        <input type="number" th:name="houseNumber"class="form-control mr-sm-2"/>
+            <label class="streetName">Vej:</label>
+            <input type="text" th:name="streetName"class="form-control mr-sm-2"/>
+            <input type="number" th:name="houseNumber"class="form-control mr-sm-2"/>
 
-        <label class="city">By:</label>
-        <input type="text" th:name="city"class="form-control mr-sm-2"/>
+            <label class="city">By:</label>
+            <input type="text" th:name="city"class="form-control mr-sm-2"/>
 
-        <label class="zip">Post nr.:</label>
-        <input type="number" th:name="ZIP"class="form-control mr-sm-2"/>
+            <label class="zip">Post nr.:</label>
+            <input type="number" th:name="ZIP"class="form-control mr-sm-2"/>
 
-        <label class="experience">Erfaring krævet:</label>
-        <input type="text" th:name="neededExperience"class="form-control mr-sm-2"/>
+            <label class="experience">Erfaring krævet:</label>
+            <input type="text" th:name="neededExperience"class="form-control mr-sm-2"/>
 
-        <label class="hourlyWage">Timeløn:</label>
-        <input type="number" th:name="hourlyWage"class="form-control mr-sm-2"/>
+            <label class="hourlyWage">Timeløn:</label>
+            <input type="number" th:name="hourlyWage"class="form-control mr-sm-2"/>
 
-        <label> Start Dato for opgaven</label>
-        <input type="date" th:name="dateStart" class="form-control mr-sm-2"/>
+            <label> Start Dato for opgaven</label>
+            <input type="date" th:name="dateStart" class="form-control mr-sm-2"/>
 
-        <label> Start Dato for opgaven</label>
-        <input type="date" th:name="dateEnd" class="form-control mr-sm-2"/>
+            <label> Start Dato for opgaven</label>
+            <input type="date" th:name="dateEnd" class="form-control mr-sm-2"/>
 
-        <label>jobType:</label>
-        <select id="type_select" th:name="profession" class="form-control">
-            <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>
-        </select>
+            <label>jobType:</label>
+            <select id="type_select" th:name="profession" class="form-control">
+                <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>
+            </select>
 
-        <button class="btn btn-primary" type="submit">Opret</button>
+            <button class="btn btn-primary" type="submit">Opret</button>
 
-    </form>
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
