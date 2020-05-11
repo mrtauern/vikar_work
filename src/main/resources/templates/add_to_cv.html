@@ -7,27 +7,31 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Tilføj til CV</h1>
+    <div id="inner_container">
 
-    <form th:action="@{/addToCv}" method="post">
+        <h1>Tilføj til CV</h1>
 
-        <input type="hidden" th:name="workerId" th:value="${workerId}" required>
+        <form th:action="@{/addToCv}" method="post">
 
-        <label>Arbejdsplads:</label>
-        <input type="text" th:name="workplace" class="form-control mr-sm-2" required>
+            <input type="hidden" th:name="workerId" th:value="${workerId}" required>
 
-        <label>Job title:</label>
-        <input type="text" th:name="jobTitle" class="form-control mr-sm-2" required>
+            <label>Arbejdsplads:</label>
+            <input type="text" th:name="workplace" class="form-control mr-sm-2" required>
 
-        <label>Start dato:</label>
-        <input type="date" th:name="startDate" class="form-control mr-sm-2" required>
+            <label>Job title:</label>
+            <input type="text" th:name="jobTitle" class="form-control mr-sm-2" required>
 
-        <label>Slut dato:</label>
-        <input type="date" th:name="endDate" class="form-control mr-sm-2">
+            <label>Start dato:</label>
+            <input type="date" th:name="startDate" class="form-control mr-sm-2" required>
 
-        <button type="submit" class="btn btn-primary">Tilføj</button>
+            <label>Slut dato:</label>
+            <input type="date" th:name="endDate" class="form-control mr-sm-2">
 
-    </form>
+            <button type="submit" class="btn btn-primary">Tilføj</button>
+
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>

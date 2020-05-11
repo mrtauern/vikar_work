@@ -18,50 +18,54 @@
 
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Edit Company</h1>
+    <div id="inner_container">
 
-    <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
+        <h1>Edit Company</h1>
 
-        <input type="hidden" th:field="${company.id}">
+        <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
 
-        <label>Company name:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.companyName}" required>
+            <input type="hidden" th:field="${company.id}">
 
-        <label>Brugernavn:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.username}" required>
+            <label>Company name:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${company.companyName}" required>
 
-        <label>Password:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.password}" required>
+            <label>Brugernavn:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${company.username}" required>
 
-
-        <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.houseNumber}" required>
-
-
-        <label>By:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${company.city}" required>
-
-        <label>PostNr:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${company.zip}" required>
-
-        <label>CVR nummer:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${company.CVRNumber}" required>
+            <label>Password:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${company.password}" required>
 
 
-        <label>Bank nummer:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${company.bankNumber}" required>
+            <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.houseNumber}" required>
 
-        <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
 
-        <button class="btn btn-primary" type="submit">Gem</button>
+            <label>By:</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${company.city}" required>
 
-    </form>
+            <label>PostNr:</label>
+            <input type="number" class="form-control mr-sm-2"  th:field="${company.zip}" required>
 
-    <br>
-    <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
-        <input type="hidden" th:field="${company.id}">
-        <button class="btn btn-danger" type="submit">Delete</button>
+            <label>CVR nummer:</label>
+            <input type="number" class="form-control mr-sm-2"  th:field="${company.CVRNumber}" required>
 
-    </form>
+
+            <label>Bank nummer:</label>
+            <input type="number" class="form-control mr-sm-2"  th:field="${company.bankNumber}" required>
+
+            <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
+
+            <button class="btn btn-primary" type="submit">Gem</button>
+
+        </form>
+
+        <br>
+        <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
+            <input type="hidden" th:field="${company.id}">
+            <button class="btn btn-danger" type="submit">Delete</button>
+
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 

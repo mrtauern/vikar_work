@@ -6,38 +6,42 @@
 <body>
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
-    <br>
-    <h1>Profile</h1>
-    <h3>Navn:</h3>
-    <span th:text="${Worker.firstname}"></span>
-    <span th:text="${Worker.lastname}"></span>
-    <br>
-    <br> <br>
-    <h4>Adresse:</h4>
-    <span th:text="${Worker.streetName}"></span> <span th:text="${Worker.houseNumber}"></span>
-    <br>
-    <span th:text="${Worker.zip}"></span> <span th:text="${Worker.city}"></span>
-    <br>
-    <br>
 
-    <div>
-        <h4>CV:</h4>
-        <span th:each="cv : ${workerCV}">
-            <br>
-            <span class="sad" th:text="${cv.workplace}"></span>
-            <span class="sad" th:text="${cv.jobTitle}"></span>
-            <span class="sad" th:text="${cv.startDate}"></span>
-            <span class="sad" th:text="${cv.endDate}"></span>
+    <div id="inner_container">
 
-            <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}">
-                <input th:name="cvId" type="hidden" th:value="${cv.id}">
-                <input th:name="workerId" type="hidden" th:value="${Worker.id}">
-                <button type="submit">Remove</button>
-            </form>
-        </span>
-        <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
+        <br>
+        <h1>Profile</h1>
+        <h3>Navn:</h3>
+        <span th:text="${Worker.firstname}"></span>
+        <span th:text="${Worker.lastname}"></span>
+        <br>
+        <br> <br>
+        <h4>Adresse:</h4>
+        <span th:text="${Worker.streetName}"></span> <span th:text="${Worker.houseNumber}"></span>
+        <br>
+        <span th:text="${Worker.zip}"></span> <span th:text="${Worker.city}"></span>
+        <br>
+        <br>
+
+        <div>
+            <h4>CV:</h4>
+            <span th:each="cv : ${workerCV}">
+                <br>
+                <span class="sad" th:text="${cv.workplace}"></span>
+                <span class="sad" th:text="${cv.jobTitle}"></span>
+                <span class="sad" th:text="${cv.startDate}"></span>
+                <span class="sad" th:text="${cv.endDate}"></span>
+
+                <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}">
+                    <input th:name="cvId" type="hidden" th:value="${cv.id}">
+                    <input th:name="workerId" type="hidden" th:value="${Worker.id}">
+                    <button type="submit">Remove</button>
+                </form>
+            </span>
+            <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
+        </div>
+
     </div>
-
 
     <footer th:include="fragments/footer :: bottom"></footer>
 

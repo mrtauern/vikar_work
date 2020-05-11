@@ -7,17 +7,21 @@
 <div class="container">
     <header th:include="fragments/header :: indexbar"></header>
 
-    <h1>Login</h1>
+    <div id="inner_container">
 
-    <form method="Post" th:action="@{/login}" th:object="${user}">
-        <label>Brugernavn:</label>
-        <input type="text" th:name="username" class="form-control mr-sm-2" required>
+        <h1>Login</h1>
 
-        <label>Adgangskode:</label>
-        <input type="password" th:name="password1" class="form-control mr-sm-2" required>
+        <form method="Post" th:action="@{/login}" th:object="${user}">
+            <label>Brugernavn:</label>
+            <input type="text" th:name="username" class="form-control mr-sm-2" required>
 
-        <button type="submit" class="btn btn-primary">Log ind</button>
-    </form>
+            <label>Adgangskode:</label>
+            <input type="password" th:name="password1" class="form-control mr-sm-2" required>
+
+            <button type="submit" class="btn btn-primary">Log ind</button>
+        </form>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
