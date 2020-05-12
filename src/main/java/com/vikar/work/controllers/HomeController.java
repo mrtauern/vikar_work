@@ -1,8 +1,6 @@
 package com.vikar.work.controllers;
 
-import com.vikar.work.models.Company;
-import com.vikar.work.models.User;
-import com.vikar.work.models.Worker;
+import com.vikar.work.models.*;
 import com.vikar.work.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +29,9 @@ public class HomeController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    MessageService messageService;
 
     Logger log = Logger.getLogger(HomeController.class.getName());
 
@@ -270,5 +271,101 @@ public class HomeController {
         } else {
             return "redirect:/notLoggedIn";
         }
+    }
+
+    @GetMapping("/sendMessage")
+    public String sendMessage(HttpSession session, @ModelAttribute Message message, Model model) {
+        log.info("sendMessage called...");
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+
+        if(session.getAttribute("login") != null){
+            model.addAttribute("pageTitle", "Send Besked");
+            model.addAttribute("senderId", sessionId[0]);
+            model.addAttribute("senderType", sessionId[1]);
+
+            return "sendMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @PostMapping("/sendMessage")
+    public String createAssignment(@ModelAttribute Message message,
+                                   @RequestParam("senderId") Long senderId,
+                                   @RequestParam("senderType") String senderType,
+                                   @RequestParam("username") String recipientName) {
+        log.info("sendMessage called POST called...");
+        Worker wSender = new Worker();
+        Company cSender = new Company();
+
+        if(senderType.equals("w")) {
+            wSender = freelanceService.findById(senderId).get();
+        } else if(senderType.equals("c")) {
+            cSender = companyService.findById(senderId).get();
+        } else {
+            log.info("something went wrong");
+        }
+
+        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
+        ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();
+        Company sendToCompany = new Company();
+        Worker sendToWorker = new Worker();
+
+        for (Company c: companies) {
+            if(c.companyName == recipientName) {
+                sendToCompany = c;
+            }
+        }
+
+        for (Worker w: workers) {
+            if(w.username == recipientName) {
+                sendToWorker = w;
+            }
+        }
+
+        if(sendToCompany.companyName != null) {
+            Message sendMessage = new Message();
+            sendMessage.setContent(message.getContent());
+
+            if(senderType.equals("w")) {
+                sendMessage.setSenderWorker(wSender);
+            }else {
+                sendMessage.setSenderCompany(cSender);
+            }
+            sendMessage.setHeadline(message.getHeadline());
+            sendMessage.setRecipientCompany(sendToCompany);
+            messageService.save(sendMessage);
+
+        } else if (sendToWorker.username != null) {
+            Message sendMessage = new Message();
+            sendMessage.setContent(message.getContent());
+
+            if(senderType.equals("w")) {
+                sendMessage.setSenderWorker(wSender);
+            }else {
+                sendMessage.setSenderCompany(cSender);
+            }
+            sendMessage.setHeadline(message.getHeadline());
+            sendMessage.setRecipientWorker(sendToWorker);
+            messageService.save(sendMessage);
+
+        } else {
+            //error
+            log.info("something went wrong");
+        }
+
+/*        Job tempJob = new Job();
+        tempJob = jobService.findById(jobId).get();
+
+        *//*assignment.getJobTitles().add(tempJob);*//*
+        tempJob.getAssignments().add(assignment);
+        assignment.setJob(tempJob);
+
+        jobService.save(tempJob);
+        assignmentService.save(assignment);*/
+
+        //skal nok laves til indboks eller sendte beskeder
+        return "sendMessage";
     }
 }

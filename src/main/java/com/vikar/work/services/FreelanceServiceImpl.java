@@ -66,5 +66,14 @@ public class FreelanceServiceImpl implements FreelanceService {
         return markers;
     }
 
+    public String[] checkSession(String sessionString) {
+        String[] returnString = new String[] {"",""};
+
+        returnString[0] = sessionString.substring(1);
+        returnString[1] = sessionString.substring(0, 1);
+
+        return returnString;
+    }
+
 
 }
