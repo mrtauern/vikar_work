@@ -11,35 +11,35 @@
 
         <br>
         <h1>Vis Opgave</h1>
-        <h3>Job:</h3>
+        <h2>Job</h2>
 
         <p>
             <span th:text="${assignment.name}"></span>
         </p>
 
-        <h4>Beskrivelse:</h4>
+        <h3>Beskrivelse</h3>
         <p>
             <span th:text="${assignment.description}"></span>
         </p>
-        <h4>Adresse:</h4>
+        <h3>Adresse</h3>
         <p>
         <span th:text="${assignment.streetName}"></span> <span th:text="${assignment.houseNumber}"></span>
         <br>
         <span th:text="${assignment.ZIP}"></span> <span th:text="${assignment.city}"></span>
         </p>
 
-        <h4>Krav til erfaring:</h4>
+        <h3>Krav til erfaring</h3>
         <p>
             <span th:text="${assignment.neededExperience}"></span>
         </p>
 
-        <h4>Forventet timeløn:</h4>
+        <h3>Forventet timeløn</h3>
         <p>
             <span th:text="${assignment.hourlyWage}"></span>
         </p>
 
         <div id="apply">
-            <h3>Tilmeldte ansøgere:</h3>
+            <h3>Tilmeldte ansøgere</h3>
             <span th:if="${type == 'w'}">
                 <form th:if="${!requested}" th:method="post" th:action="@{/applyForAssignment}" class="form-inline">
                     <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
@@ -65,7 +65,7 @@
 
         <span th:if="${type == 'c'}">
 
-        <h4>Opgave aktiv status: </h4>
+        <h4>Opgave aktiv status </h4>
             <form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
                 <input th:name="id" type="hidden" th:field="${assignment.id}">
 
