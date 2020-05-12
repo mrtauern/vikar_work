@@ -297,6 +297,8 @@ public class FreelanceController {
             model.addAttribute("Worker", worker);
             model.addAttribute("pageTitle", "Vis profil");
             model.addAttribute("workerCV", workerCV);
+            model.addAttribute("SessionID", sessionId[0]);
+            model.addAttribute("SessionType", sessionId[1]);
 
             return "showProfile";
         } else {

@@ -32,10 +32,10 @@
             <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}">
                 <input th:name="cvId" type="hidden" th:value="${cv.id}">
                 <input th:name="workerId" type="hidden" th:value="${Worker.id}">
-                <button type="submit">Remove</button>
+                <button th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" type="submit">Remove</button>
             </form>
         </span>
-        <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
+        <a th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
     </div>
 
 
