@@ -21,6 +21,8 @@ body{
 
 h1{
     margin: 30px 0 50px 0;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 h1#error_header{
@@ -54,6 +56,12 @@ a.nav-link.front_page{
     padding: 6px 20px !important;
     color: #FF0000 !important;
     margin-right: 15px;
+}
+
+a.nav-link.front_page:hover{
+    color: #343A40 !IMPORTANT;
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF !important;
 }
 
 a.nav-link.front_page.fill{
@@ -209,8 +217,76 @@ div#floating-panel{
     padding-left: 10px;
 }
 
+div#apply{
+    background-color: #CCCCCC;
+    padding: 10px;
+    overflow: overlay;
+}
+
+div#apply span{
+    float: right;
+}
+
+div#apply h3{
+    float: left;
+    margin: 0;
+    padding: 3px 0 2px 0;
+}
+
+div#workersOnAssignment{
+    background-color: #EEEEEE;
+    overflow: overlay;
+    padding: 10px;
+}
+
+div#workersOnAssignment span{
+    float: left;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+div#workersOnAssignment span i{
+    float: left;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+div#workersOnAssignment span span{
+    width: fit-content;
+    margin: 0;
+}
+
+div#workersOnAssignment span:first-child{
+    margin: 0;
+}
+
 form input{
     margin-bottom: 10px;
+}
+
+form input.form-control{
+    border: none;
+    border-bottom: solid 3px #000000;
+    border-radius: 0;
+}
+
+form#search_form{
+    padding: 3px 12px 0 12px;
+
+}
+
+form#search_form input.form-control{
+    border-radius: 20px;
+    padding: 6px 20px !important;
+    border: none;
+}
+
+form#search_form button.btn.btn-primary{
+    border-radius: 20px;
+    padding: 7px 20px !important;
+    border: none;
+    font-weight: bold;
 }
 
 form.form-inline input{
@@ -219,6 +295,10 @@ form.form-inline input{
 
 form select{
     margin-bottom: 10px;
+}
+
+form label{
+    font-weight: bold;
 }
 
 span#countNotification{

@@ -51,6 +51,6 @@ public class CompanyController {
         log.info("delete worker called id: "+company.getId());
         companyService.deleteCompany(company.getId());
 
-        return "index";
+        return "redirect:/log_out";
     }
 }

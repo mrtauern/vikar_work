@@ -12,20 +12,61 @@
         <br>
         <h1>Profile</h1>
         <h3>Navn:</h3>
-        <span th:text="${Worker.firstname}"></span>
-        <span th:text="${Worker.lastname}"></span>
-        <br>
-        <br> <br>
+        <p>
+            <span th:text="${Worker.firstname}"></span>
+            <span th:text="${Worker.lastname}"></span>
+        </p>
         <h4>Adresse:</h4>
-        <span th:text="${Worker.streetName}"></span> <span th:text="${Worker.houseNumber}"></span>
-        <br>
-        <span th:text="${Worker.zip}"></span> <span th:text="${Worker.city}"></span>
-        <br>
-        <br>
+        <p>
+            <span th:text="${Worker.streetName}"></span> <span th:text="${Worker.houseNumber}"></span>
+            <br>
+            <span th:text="${Worker.zip}"></span> <span th:text="${Worker.city}"></span>
+        </p>
+
+        <script type="text/javascript">
+            function confirm_delete(form) {
+                if(!confirm("Er du sikker på at du ønsker at slette dette CV?\nHandlingen kan ikke fortrydes!")) {
+                    return false;
+                } else {
+                    //form.submit();
+                    return true;
+                }
+            }
+        </script>
 
         <div>
             <h4>CV:</h4>
-            <span th:each="cv : ${workerCV}">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Arbejdspalds</th>
+                        <th>Job title</th>
+                        <th>Start dato</th>
+                        <th>Slut dato</th>
+                        <th>
+                            <a th:href="@{'/addToCv/'+${Worker.id}}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tilføj</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cv : ${workerCV}">
+                        <td th:text="${cv.workplace}"></td>
+                        <td th:text="${cv.jobTitle}"></td>
+                        <td th:text="${cv.startDate}"></td>
+                        <td th:text="${cv.endDate}"></td>
+                        <td>
+                            <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}" onsubmit="return confirm_delete(this.form)">
+                                <input th:name="cvId" type="hidden" th:value="${cv.id}">
+                                <input th:name="workerId" type="hidden" th:value="${Worker.id}">
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Slet</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <!--<span th:each="cv : ${workerCV}">
                 <br>
                 <span class="sad" th:text="${cv.workplace}"></span>
                 <span class="sad" th:text="${cv.jobTitle}"></span>
@@ -38,7 +79,7 @@
                     <button type="submit">Remove</button>
                 </form>
             </span>
-            <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
+            <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>-->
         </div>
 
     </div>

@@ -20,7 +20,7 @@
 
     <div id="inner_container">
 
-        <h1>Edit Company</h1>
+        <h1>Rediger firma</h1>
 
         <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
 
@@ -59,9 +59,21 @@
         </form>
 
         <br>
-        <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
+
+        <script type="text/javascript">
+            function confirm_delete(form) {
+                if(!confirm("Er du sikker på at du ønsker at slette dette firma?\nHandlingen kan ikke fortrydes!")) {
+                    return false;
+                } else {
+                    //form.submit();
+                    return true;
+                }
+            }
+        </script>
+
+        <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}" onsubmit="return confirm_delete(this.form)">
             <input type="hidden" th:field="${company.id}">
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-danger" type="submit">Slet</button>
 
         </form>
 

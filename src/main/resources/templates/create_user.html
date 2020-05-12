@@ -25,7 +25,7 @@
             <!--<input type="text" th:name="companyName" class="form-control mr-sm-2"/>-->
 
             <label class="company freelance">Fornavn:</label>
-            <input type="text" th:name="firstname" th:value="${userExist} ? ${user.firstname} : ''" class="company freelance form-control mr-sm-2"/>
+            <input type="text" th:name="firstname" th:value="${userExist} ? ${user.firstname} : ''" class="company freelance form-control mr-sm-2" autofocus/>
 
             <label class="company freelance">Efternavn:</label>
             <input type="text" th:name="lastname" th:value="${userExist} ? ${user.lastname} : ''" class="company freelance form-control mr-sm-2"/>

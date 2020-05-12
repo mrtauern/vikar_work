@@ -77,7 +77,7 @@ public class FreelanceController {
         log.info("delete worker called id: "+worker.getId());
         freelanceService.deleteWorker(worker.getId());
 
-        return "index";
+        return "redirect:/log_out";
     }
 
     @GetMapping("/addToCv/{workerId}")
@@ -105,7 +105,7 @@ public class FreelanceController {
 
         log.info("Add to cv called (post)");
 
-        return "redirect:/";
+        return "redirect:/showProfile";
     }
 
     @GetMapping("/removeFromCv/{cvId}")
