@@ -274,6 +274,31 @@ public class FreelanceController {
         return "googleMap";
     }
 
+    @GetMapping("/showProfile")
+    public String showProfile(HttpSession session){
+        long id = 0;
+        String type = "";
+
+        if(session.getAttribute("login") != null){
+            String userId = (String) session.getAttribute("login");
+            log.info("User full id: " + userId);
+
+            id = Long.valueOf(userId.substring(1));
+            type = userId.substring(0, 1);
+
+            log.info("User id: " + id);
+            log.info("Type: " + type);
+
+            if(type.equals("w")){
+                return "redirect:/showProfile/" + id;
+            } else {
+                return "redirect:/notLoggedIn";
+            }
+        } else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
     @GetMapping("/showProfile/{id}")
     public String showProfile(@PathVariable("id") long userId, Model model, HttpSession session) {
         log.info("showprofile is called with Id "+ userId);

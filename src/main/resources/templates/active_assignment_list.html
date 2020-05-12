@@ -7,57 +7,53 @@
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1>Aktive opgaver</h1>
+    <div id="inner_container">
 
-    <a href="/createAssignment" class="btn btn-success">Opret opgave</a>
+        <h1>Aktive opgaver</h1>
 
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>Navn</th>
-                <th>By</th>
-                <!--<th>Erfaring krævet</th>-->
-                <th>Start dato</th>
-                <th>Timeløn</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="assignment : ${assignments}">
-                <td th:text="${assignment.name}"></td>
-                <td th:text="${assignment.city}"></td>
-                <!--<td th:text="${assignment.neededExperience}"></td>-->
-                <td th:text="${assignment.dateStart}"></td>
-                <td th:text="${assignment.hourlyWage + ' kr.'}"></td>
-                <td>
-                    <a th:href="${'/showAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-ellipsis-h"></i> Vis detaljer</a>
-                    <a th:href="${'/editAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-pen"></i> Rediger</a>
-                    <a th:href="${'/archiveAssignment/' + assignment.id}" class="btn btn-outline-danger"><i class="fas fa-archive"></i> Arkiver</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <a href="/createAssignment" class="btn btn-success">Opret opgave</a>
+
+        <br><br>
+
+        <a href="/archivedAssignmentList">Vis arkiverede opgaver</a>
+
+        <br><br>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Navn</th>
+                    <th>By</th>
+                    <!--<th>Erfaring krævet</th>-->
+                    <th>Start dato</th>
+                    <th>Timeløn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="assignment : ${assignments}">
+                    <td th:text="${assignment.name}"></td>
+                    <td th:text="${assignment.city}"></td>
+                    <!--<td th:text="${assignment.neededExperience}"></td>-->
+                    <td th:text="${assignment.dateStart}"></td>
+                    <td th:text="${assignment.hourlyWage + ' kr.'}"></td>
+                    <td>
+                        <a th:href="${'/showAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-ellipsis-h"></i> Vis detaljer</a>
+                        <a th:href="${'/editAssignment/' + assignment.id}" class="btn btn-outline-dark mr-2"><i class="fas fa-pen"></i> Rediger</a>
+                        <a th:href="${'/archiveAssignment/' + assignment.id}" class="btn btn-outline-danger"><i class="fas fa-archive"></i> Arkiver</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
     $(document).ready(function () {
-
-        //call function when page is loaded
-        /*updateNotificationCount();
-
-        function updateNotificationCount() {
-            $.get("notification-count", function(fragment) { // get from controller
-                $("#notificationCount").replaceWith(fragment); // update snippet of page
-            });
-        }*/
-
-        /*$("#countNotification").on("click", function () {
-            $("#countNotification").load("/notification");
-        });*/
-
 
         refresh();
 
@@ -69,7 +65,7 @@
             refresh();
         }, 3000)
     }
-</script>
+</script>-->
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 </body>
 </html>

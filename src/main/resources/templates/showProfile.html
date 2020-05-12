@@ -6,7 +6,10 @@
 <body>
 <div class="container">
     <header th:include="fragments/header :: navbar"></header>
-    <br>
+
+    <div id="inner_container">
+
+      <br>
     <h1>Profile</h1>
     <h3>Navn:</h3>
     <span th:text="${Worker.firstname}"></span>
@@ -38,8 +41,9 @@
         <a th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>
     </div>
 
+    </div>
 
-
+    <footer th:include="fragments/footer :: bottom"></footer>
 
 
 </div>
