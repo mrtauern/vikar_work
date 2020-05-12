@@ -174,16 +174,6 @@ public class AssignmentController {
         log.info("create assignment jobid " + jobId);
         log.info("Start date + " + assignment.getDateStart());
 
-        Job tempJob = new Job();
-        tempJob = jobService.findById(jobId).get();
-
-        /*assignment.getJobTitles().add(tempJob);*/
-        tempJob.getAssignments().add(assignment);
-        assignment.setJob(tempJob);
-
-        jobService.save(tempJob);
-        assignmentService.save(assignment);
-
         return "createAssignment";
     }
 
