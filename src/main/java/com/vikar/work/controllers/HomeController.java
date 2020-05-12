@@ -277,6 +277,7 @@ public class HomeController {
     public String sendMessage(HttpSession session, @ModelAttribute Message message, Model model) {
         log.info("sendMessage called...");
         String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+        log.info("SenderId: "+sessionId[0]+" SenderType: "+sessionId[1]);
 
         if(session.getAttribute("login") != null){
             model.addAttribute("pageTitle", "Send Besked");
@@ -304,7 +305,7 @@ public class HomeController {
         } else if(senderType.equals("c")) {
             cSender = companyService.findById(senderId).get();
         } else {
-            log.info("something went wrong");
+            log.info("something went wrong1");
         }
 
         ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
@@ -312,19 +313,23 @@ public class HomeController {
         Company sendToCompany = new Company();
         Worker sendToWorker = new Worker();
 
+        log.info("RecipientName: "+recipientName);
+
         for (Company c: companies) {
-            if(c.companyName == recipientName) {
+            if(c.getUsername().equals(recipientName)) {
                 sendToCompany = c;
+                log.info("sending to company: "+c.getUsername());
             }
         }
 
         for (Worker w: workers) {
-            if(w.username == recipientName) {
+            if(w.getUsername().equals(recipientName)) {
                 sendToWorker = w;
+                log.info("sending to worker: "+w.getUsername());
             }
         }
 
-        if(sendToCompany.companyName != null) {
+        if(sendToCompany.getUsername() != null) {
             Message sendMessage = new Message();
             sendMessage.setContent(message.getContent());
 
@@ -337,7 +342,7 @@ public class HomeController {
             sendMessage.setRecipientCompany(sendToCompany);
             messageService.save(sendMessage);
 
-        } else if (sendToWorker.username != null) {
+        } else if (sendToWorker.getUsername() != null) {
             Message sendMessage = new Message();
             sendMessage.setContent(message.getContent());
 
@@ -352,20 +357,55 @@ public class HomeController {
 
         } else {
             //error
-            log.info("something went wrong");
+            log.info("something went wrong2");
         }
-
-/*        Job tempJob = new Job();
-        tempJob = jobService.findById(jobId).get();
-
-        *//*assignment.getJobTitles().add(tempJob);*//*
-        tempJob.getAssignments().add(assignment);
-        assignment.setJob(tempJob);
-
-        jobService.save(tempJob);
-        assignmentService.save(assignment);*/
 
         //skal nok laves til indboks eller sendte beskeder
         return "sendMessage";
+    }
+
+    @GetMapping("/inbox")
+    public String inbox(HttpSession session, Model model) {
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+            ArrayList<Message> messages = (ArrayList<Message>) messageService.findAll();
+            model.addAttribute("pageTitle", "Inbox");
+
+            //testdata
+            Message testdata = new Message();
+            testdata.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
+            testdata.setSenderWorker(freelanceService.findById(1).get());
+            testdata.setHeadline("Dette er en test");
+            testdata.setContent("Hej Dette er en test min ven");
+            messageService.save(testdata);
+
+            if(sessionId[1].equals("c")) {
+                ArrayList<Message> messagesToCompany = new ArrayList<>();
+
+                for (Message m: messages) {
+                    if(m.getRecipientCompany().getId() == Integer.valueOf(sessionId[0])) {
+                        messagesToCompany.add(m);
+                    }
+                }
+                model.addAttribute("messages",messagesToCompany);
+            } else if(sessionId[1].equals("w")) {
+                ArrayList<Message> messagesToWorker = new ArrayList<>();
+
+                for (Message m: messages) {
+                    if(m.getRecipientWorker().getId() == Integer.valueOf(sessionId[0])) {
+                        messagesToWorker.add(m);
+                    }
+                }
+                model.addAttribute("messages",messagesToWorker);
+            }
+            else {
+                log.info("Error sessiontype is neither c or w");
+            }
+
+            return "inbox";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
     }
 }
