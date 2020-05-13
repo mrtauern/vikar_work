@@ -80,6 +80,7 @@ public class AssignmentController {
         model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
         model.addAttribute("assignment", assignment);
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
+        model.addAttribute("WOA", assignment.getAssignmentRequests().size());
 
         return "showAssignment";
     }

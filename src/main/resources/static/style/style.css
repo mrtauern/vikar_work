@@ -345,6 +345,7 @@ span#countNotification{
     font-weight: bold;
     height: 20px;
     min-width: 20px;
+    width: fit-content;
     display: block;
     border-radius: 10px;
     text-align: center;
