@@ -14,7 +14,10 @@ public class Assignment {
     private Long id;
 
     private String name;
+
+    @Column( length = 100000 )
     private String description;
+
     private String streetName;
     private String city;
     private String neededExperience;
@@ -57,6 +60,23 @@ public class Assignment {
     public Assignment(long id, Boolean isArchived) {
         this.id = id;
         this.isArchived = isArchived;
+    }
+
+    public Assignment(Long id, String name, String description, String streetName, String city, String neededExperience, Date dateStart, Date dateEnd, Long houseNumber, Long ZIP, int hourlyWage, Boolean isArchived, Job job, Set<Worker> assignmentRequests) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.streetName = streetName;
+        this.city = city;
+        this.neededExperience = neededExperience;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.houseNumber = houseNumber;
+        this.ZIP = ZIP;
+        this.hourlyWage = hourlyWage;
+        this.isArchived = isArchived;
+        this.job = job;
+        this.assignmentRequests = assignmentRequests;
     }
 
     public Assignment(String name, String description, String streetName, String city, String neededExperience, Date dateStart, Date dateEnd, Long houseNumber, Long ZIP, int hourlyWage, Company company, Job job, Set<Worker> assignmentRequests) {
