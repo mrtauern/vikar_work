@@ -34,5 +34,14 @@ public class CompanyServiceImpl implements CompanyService {
     public Iterable<Company> findAll(){
         return companyRepo.findAll();
     }
+
+    public String[] checkSession(String sessionString) {
+        String[] returnString = new String[] {"",""};
+
+        returnString[0] = sessionString.substring(1);
+        returnString[1] = sessionString.substring(0, 1);
+
+        return returnString;
+    }
 }
 

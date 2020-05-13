@@ -16,4 +16,5 @@ public interface CompanyService {
     Company updateCompany(Company company);
     void deleteCompany(long id);
     Iterable<Company> findAll();
+    String[] checkSession(String sessionString);
 }

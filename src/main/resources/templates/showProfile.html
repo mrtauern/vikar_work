@@ -44,7 +44,7 @@
                         <th>Start dato</th>
                         <th>Slut dato</th>
                         <th>
-                            <a th:href="@{'/addToCv/'+${Worker.id}}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tilføj</a>
+                            <a th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" th:href="@{'/addToCv/'+${Worker.id}}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tilføj</a>
                         </th>
                     </tr>
                 </thead>
@@ -58,39 +58,19 @@
                             <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}" onsubmit="return confirm_delete(this.form)">
                                 <input th:name="cvId" type="hidden" th:value="${cv.id}">
                                 <input th:name="workerId" type="hidden" th:value="${Worker.id}">
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Slet</button>
+                                <button th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" type="submit"><i class="fas fa-trash-alt"></i> Slet</button>
                             </form>
                         </td>
                     </tr>
                 </tbody>
             </table>
-
-
-            <!--<span th:each="cv : ${workerCV}">
-                <br>
-                <span class="sad" th:text="${cv.workplace}"></span>
-                <span class="sad" th:text="${cv.jobTitle}"></span>
-                <span class="sad" th:text="${cv.startDate}"></span>
-                <span class="sad" th:text="${cv.endDate}"></span>
-
-                <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}">
-                    <input th:name="cvId" type="hidden" th:value="${cv.id}">
-                    <input th:name="workerId" type="hidden" th:value="${Worker.id}">
-                    <button type="submit">Remove</button>
-                </form>
-            </span>
-            <a th:href="@{'/addToCv/'+${Worker.id}}">Tilføj til CV</a>-->
         </div>
 
     </div>
 
     <footer th:include="fragments/footer :: bottom"></footer>
 
-
 </div>
-
-
-
 
 </body>
 </html>

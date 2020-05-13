@@ -7,6 +7,7 @@ import com.vikar.work.models.Job;
 import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
 import com.vikar.work.services.AssignmentService;
+import com.vikar.work.services.CompanyService;
 import com.vikar.work.services.FreelanceService;
 import com.vikar.work.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class AssignmentController {
 
     @Autowired
     JobService jobService;
+
+    @Autowired
+    CompanyService companyService;
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
@@ -78,188 +82,329 @@ public class AssignmentController {
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
 
         return "showAssignment";
-
     }
 
     @RequestMapping(value = "/assignmentSetActive", method = RequestMethod.POST)
-    public String assignmentSetActive(@RequestParam("id") long id, @RequestParam("arkiveret") int arkiveret) {
+    public String assignmentSetActive(@RequestParam("id") long id, @RequestParam("arkiveret") int arkiveret, HttpSession session) {
 
         log.info("Setactive called with id " + id);
-        Assignment oldAssignment = assignmentService.findById(id).get();
-        //hvis arkiveret er 0 sæt til false hvis arkiveret er 1 sæt true
-        if (arkiveret == 0) {
-            oldAssignment.setArchived(false);
-        } else if (arkiveret == 1) {
-            oldAssignment.setArchived(true);
+
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+
+            if(sessionId[0].equals(""+id) && sessionId[1].equals("c")) {
+                Assignment oldAssignment = assignmentService.findById(id).get();
+                //hvis arkiveret er 0 sæt til false hvis arkiveret er 1 sæt true
+                if (arkiveret == 0) {
+                    oldAssignment.setArchived(false);
+                } else if (arkiveret == 1) {
+                    oldAssignment.setArchived(true);
+                }
+
+                log.info("Arkiveret? " + oldAssignment.getArchived());
+
+
+                assignmentService.save(oldAssignment);
+
+                return "redirect:/showAssignment/" + id;
+
+            }
+            else if (sessionId[0].equals(""+id) && sessionId[1].equals("w")){
+
+                return "redirect:/showAssignment/" + id;
+            }
+
+            else {
+
+                return "redirect:/showAssignment/" + id;
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
         }
 
-        log.info("Arkiveret? " + oldAssignment.getArchived());
 
-
-        assignmentService.save(oldAssignment);
-
-        return "redirect:/showAssignment/" + id;
     }
 
     @RequestMapping(value = "/applyForAssignment", method = RequestMethod.POST)
-    public String applyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId) {
+    public String applyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId, HttpSession session) {
         log.info("applyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
 
-        //Create dummy user and assign to assignment
-        Assignment assignment = assignmentService.findById(assignmentId).get();
-        Worker worker = freelanceService.findById(userId).get();
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        /*Worker tempworker = new Worker();
-        tempworker.setCVRNumber(51234234);
-        tempworker.setBankNumber(234235551);
-        tempworker.setHouseNumber(44);
-        tempworker.setZip(223311);
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-        tempworker.setFirstname("Smalle");
-        tempworker.setLastname("Smallesen");
-        tempworker.setEmail("SmalleSmallesen@gmail.com");
-        tempworker.setPassword("SmukkeSmalle21");
-        tempworker.setStreetName("Andersvej");
-        tempworker.setCity("Copenhagen");
-        tempworker.setUsername("user222");
+            if(sessionId[1].equals("w")) {
+                Assignment assignment = assignmentService.findById(assignmentId).get();
+                Worker worker = freelanceService.findById(userId).get();
 
-        //add dummy user to assignment
-        tempworker.getRequestedAssignments().add(oldAssignment);
-        oldAssignment.getAssignmentRequests().add(tempworker);*/
+                assignment.getAssignmentRequests().add(worker);
+                worker.getRequestedAssignments().add(assignment);
 
-        assignment.getAssignmentRequests().add(worker);
-        worker.getRequestedAssignments().add(assignment);
+                //save data in database
+                assignmentService.save(assignment);
+                freelanceService.save(worker);
 
-        //save data in database
-        assignmentService.save(assignment);
-        freelanceService.save(worker);
+                return "redirect:/showAssignment/" + assignmentId;
 
-        return "redirect:/showAssignment/" + assignmentId;
+            }
+            else if (sessionId[1].equals("c")){
+
+                return "redirect:/showAssignment/" + assignmentId;
+            }
+
+            else {
+
+                return "redirect:/showAssignment/" + assignmentId;
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @RequestMapping(value = "/unapplyForAssignment", method = RequestMethod.POST)
-    public String unapplyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId) {
+    public String unapplyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId, HttpSession session) {
         log.info("unapplyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
 
-        //Create dummy user and assign to assignment
-        Assignment assignment = assignmentService.findById(assignmentId).get();
-        Worker worker = freelanceService.findById(userId).get();
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        assignment.getAssignmentRequests().remove(worker);
-        worker.getRequestedAssignments().remove(assignment);
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-        //save data in database
-        assignmentService.save(assignment);
-        freelanceService.save(worker);
+            //Create dummy user and assign to assignment
+            Assignment assignment = assignmentService.findById(assignmentId).get();
+            Worker worker = freelanceService.findById(userId).get();
 
-        return "redirect:/showAssignment/" + assignmentId;
+            assignment.getAssignmentRequests().remove(worker);
+            worker.getRequestedAssignments().remove(assignment);
+
+            //save data in database
+            assignmentService.save(assignment);
+            freelanceService.save(worker);
+
+            return "redirect:/showAssignment/" + assignmentId;
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @GetMapping("/createAssignment")
-    public String createAssignment(Model model) {
+    public String createAssignment(Model model, HttpSession session) {
 
         log.info("create Assignment called");
 
-        model.addAttribute("pageTitle", "Opret opgave");
-        model.addAttribute("jobList", jobService.findAll());
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-        return "createAssignment";
+            if(sessionId[1].equals("c")) {
+                model.addAttribute("pageTitle", "Opret opgave");
+                model.addAttribute("jobList", jobService.findAll());
+
+                return "createAssignment";
+
+            }
+            else if (sessionId[1].equals("w")){
+
+                return "redirect:/assignments";
+            }
+
+            else {
+
+                return "index";
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @PostMapping("/createAssignment")
-    public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId) {
+    public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId, HttpSession session) {
 
         log.info("Create Assignment POST called");
         log.info("create assignment jobid " + jobId);
         log.info("Start date + " + assignment.getDateStart());
 
-        Job tempJob = new Job();
-        tempJob = jobService.findById(jobId).get();
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        /*assignment.getJobTitles().add(tempJob);*/
-        tempJob.getAssignments().add(assignment);
-        assignment.setJob(tempJob);
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-        jobService.save(tempJob);
-        assignmentService.save(assignment);
+            if(sessionId[1].equals("c")) {
+                Job tempJob = new Job();
+                tempJob = jobService.findById(jobId).get();
 
-        return "createAssignment";
+                tempJob.getAssignments().add(assignment);
+                assignment.setJob(tempJob);
+
+                jobService.save(tempJob);
+                assignmentService.save(assignment);
+
+                return "createAssignment";
+
+            }
+            else if (sessionId[1].equals("w")){
+
+                return "redirect:/assignments";
+            }
+
+            else {
+
+                return "index";
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
+
     }
 
     @GetMapping("/editAssignment/{id}")
-    public String editAssignment(@PathVariable("id") long id, Model model){
+    public String editAssignment(@PathVariable("id") long id, Model model, HttpSession session){
 
         log.info("edit Assignment called med id" + id);
-        Assignment tempAssignment = assignmentService.findById(id).get();
-        String dateStartString = tempAssignment.getDateStart().toString();
-        String dateEndString = tempAssignment.getDateEnd().toString();
-        String[] splitDateStart = dateStartString.split(" ");
-        String[] splitDateEnd = dateEndString.split(" ");
 
-        Job tempJob = tempAssignment.getJob();
-        log.info(tempJob.getId()+"tempjob id");
 
-        model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
-        model.addAttribute("jobId", tempJob.getId());
-        model.addAttribute("pageTitle", "Edit Assignment");
-        model.addAttribute("dateStart", splitDateStart[0]);
-        model.addAttribute("dateEnd", splitDateEnd[0]);
-        model.addAttribute("assignment", assignmentService.findById(id));
-        model.addAttribute("jobList", jobService.findAll());
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        return "editAssignment";
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+// NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
+            if(sessionId[1].equals("c")) {
+                Assignment tempAssignment = assignmentService.findById(id).get();
+                String dateStartString = tempAssignment.getDateStart().toString();
+                String dateEndString = tempAssignment.getDateEnd().toString();
+                String[] splitDateStart = dateStartString.split(" ");
+                String[] splitDateEnd = dateEndString.split(" ");
+
+                Job tempJob = tempAssignment.getJob();
+                log.info(tempJob.getId()+"tempjob id");
+
+                model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
+                model.addAttribute("jobId", tempJob.getId());
+                model.addAttribute("pageTitle", "Edit Assignment");
+                model.addAttribute("dateStart", splitDateStart[0]);
+                model.addAttribute("dateEnd", splitDateEnd[0]);
+                model.addAttribute("assignment", assignmentService.findById(id));
+                model.addAttribute("jobList", jobService.findAll());
+
+                return "editAssignment";
+
+            }
+            else if (sessionId[1].equals("w")){
+
+                return "redirect:/showAssignment/" + id;
+            }
+
+            else {
+
+                return "redirect:/showAssignment/" + id;
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
+
     }
 
     @PostMapping("/editAssignment")
     public String editAssignment(@ModelAttribute Assignment assignment,
-                                 @RequestParam("profession") Long jobId){
+                                 @RequestParam("profession") Long jobId,
+                                 HttpSession session){
 
         log.info("edit Assignment postmaping called");
         log.info("job id: "+jobId);
         log.info("Assignment ID "+assignment.getId());
 
 
-        Job tempJob = new Job();
-        Job oldJob = new Job();
-        Assignment oldAssignment = new Assignment();
-        oldAssignment = assignmentService.findById(assignment.getId()).get();
-        oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
-        tempJob = jobService.findById(jobId).get();
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+// NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
+            if(sessionId[1].equals("c")) {
+                Job tempJob = new Job();
+                Job oldJob = new Job();
+                Assignment oldAssignment = new Assignment();
+                oldAssignment = assignmentService.findById(assignment.getId()).get();
+                oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
+                tempJob = jobService.findById(jobId).get();
 
 
-        assignment.setJob(tempJob);
-        oldJob.getAssignments().remove(oldAssignment);
+                assignment.setJob(tempJob);
+                oldJob.getAssignments().remove(oldAssignment);
 
-        tempJob.getAssignments().remove(assignment);
-        tempJob.getAssignments().add(assignment);
+                tempJob.getAssignments().remove(assignment);
+                tempJob.getAssignments().add(assignment);
 
-        log.info("presave");
-        jobService.save(tempJob);
-        assignmentService.save(assignment);
-        log.info("postsave");
+                log.info("presave");
+                jobService.save(tempJob);
+                assignmentService.save(assignment);
+                log.info("postsave");
 
-        return "redirect:/editAssignment/" + assignment.getId();
+                return "redirect:/editAssignment/" + assignment.getId();
+
+            }
+            else if (sessionId[1].equals("w")){
+
+                return "redirect:/showAssignment/" + assignment.getId();
+            }
+
+            else {
+
+                return "redirect:/showAssignment/" + assignment.getId();
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
+
     }
 
     @GetMapping("/activeAssignmentList")
-    public String activeAssignmentList(Model model){
+    public String activeAssignmentList(Model model, HttpSession session){
         log.info("Active assignment list called...");
 
-        List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
-        List<Assignment> assignments = new ArrayList<>();
 
-        for (Assignment a: assignmentList) {
-            if(a.getArchived() == false){
-                assignments.add(a);
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+            List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+            List<Assignment> assignments = new ArrayList<>();
+
+            for (Assignment a: assignmentList) {
+                if(a.getArchived() == false){
+                    assignments.add(a);
+                }
             }
-        }
+
 
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
         //model.addAttribute("numNotifications", 2);
 
-        return "active_assignment_list";
+
+            return "active_assignment_list";
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     /*@RequestMapping(value="/notification-count", method=RequestMethod.GET)
@@ -285,59 +430,96 @@ public class AssignmentController {
     }
 
     @GetMapping("/archiveAssignment/{id}")
-    public String archiveAssignment(@PathVariable("id") long id){
+    public String archiveAssignment(@PathVariable("id") long id, HttpSession session){
         log.info("Archive assignment called...");
 
-        Assignment assignment = assignmentService.findById(id).get();
-        assignment.setArchived(true);
-        assignmentService.save(assignment);
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        log.info("Assignment (id: "+id+") is archived");
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+// kan ikke checke på om det er den korrekte virksomhed som har assignment pt.
+            if(sessionId[1].equals("c")) {
+                Assignment assignment = assignmentService.findById(id).get();
+                assignment.setArchived(true);
+                assignmentService.save(assignment);
 
-        return "redirect:/activeAssignmentList";
+                log.info("Assignment (id: "+id+") is archived");
+
+                return "redirect:/activeAssignmentList";
+
+            }
+            else if (sessionId[1].equals("w")){
+
+                return "redirect:/activeAssignmentList";
+            }
+
+            else {
+
+                return "redirect:/activeAssignmentList";
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @GetMapping("/archivedAssignmentList")
-    public String archivedAssignmentList(Model model){
+    public String archivedAssignmentList(Model model, HttpSession session){
         log.info("Archived assignment list called...");
 
-        List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
-        List<Assignment> assignments = new ArrayList<>();
+        if(session.getAttribute("login") != null){
 
-        for (Assignment a: assignmentList) {
-            if(a.getArchived() == true){
-                assignments.add(a);
+            List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+            List<Assignment> assignments = new ArrayList<>();
+
+            for (Assignment a: assignmentList) {
+                if(a.getArchived() == true){
+                    assignments.add(a);
+                }
             }
+
+            model.addAttribute("assignments", assignments);
+            model.addAttribute("pageTitle", "Arkiveret opgaver");
+
+            return "archived_assignment_list";
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
         }
-
-        model.addAttribute("assignments", assignments);
-        model.addAttribute("pageTitle", "Arkiveret opgaver");
-
-        return "archived_assignment_list";
     }
 
     @GetMapping("/assignments")
-    public String assignments(Model model){
+    public String assignments(Model model, HttpSession session){
         log.info("Landing page Assignments called list called...");
 
-        List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
-        List<Assignment> assignments = new ArrayList<>();
-        ArrayList<MapMarker> markerList = new ArrayList<>();
-        Gson gsonBuilder = new GsonBuilder().create();
+        if(session.getAttribute("login") != null){
 
-        for (Assignment a: assignmentList) {
-            if(a.getArchived() == false){
-                assignments.add(a);
-                markerList.add(new MapMarker(a.getStreetName(), a.getHouseNumber()));
+            List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+            List<Assignment> assignments = new ArrayList<>();
+            ArrayList<MapMarker> markerList = new ArrayList<>();
+            Gson gsonBuilder = new GsonBuilder().create();
+
+            for (Assignment a: assignmentList) {
+                if(a.getArchived() == false){
+                    assignments.add(a);
+                    markerList.add(new MapMarker(a.getStreetName(), a.getHouseNumber()));
+                }
             }
+
+            String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
+
+            model.addAttribute("json", jsonFromJavaArrayList);
+            model.addAttribute("assignments", assignments);
+            model.addAttribute("pageTitle", "Landing Page");
+
+            return "assignments";
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
         }
 
-        String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
-
-        model.addAttribute("json", jsonFromJavaArrayList);
-        model.addAttribute("assignments", assignments);
-        model.addAttribute("pageTitle", "Landing Page");
-
-        return "assignments";
     }
 }
