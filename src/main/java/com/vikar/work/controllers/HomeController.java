@@ -292,7 +292,7 @@ public class HomeController {
     }
 
     @PostMapping("/sendMessage")
-    public String createAssignment(@ModelAttribute Message message,
+    public String sendMessage(@ModelAttribute Message message,
                                    @RequestParam("senderId") Long senderId,
                                    @RequestParam("senderType") String senderType,
                                    @RequestParam("username") String recipientName) {
@@ -371,17 +371,27 @@ public class HomeController {
             ArrayList<Message> messages = (ArrayList<Message>) messageService.findAll();
             model.addAttribute("pageTitle", "Inbox");
 
+         if(messages.size() == 0) {
             //testdata
-            Message testdata = new Message();
-            testdata.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
-            testdata.setSenderWorker(freelanceService.findById(1).get());
-            testdata.setHeadline("Dette er en test");
-            testdata.setContent("Hej Dette er en test min ven");
-            messageService.save(testdata);
+                Message testdata = new Message();
+                testdata.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
+                testdata.setSenderWorker(freelanceService.findById(1).get());
+                testdata.setHeadline("Dette er en test");
+                testdata.setContent("Hej Dette er en test min ven");
+                Message testdata2 = new Message();
+                testdata2.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
+                testdata2.setSenderWorker(freelanceService.findById(1).get());
+                testdata2.setHeadline("Dette er en test2");
+                testdata2.setContent("Hej Dette er en test min ven2");
+                messageService.save(testdata);
+                messageService.save(testdata2);
+                messages = (ArrayList<Message>) messageService.findAll();
+         }
+
 
             if(sessionId[1].equals("c")) {
                 ArrayList<Message> messagesToCompany = new ArrayList<>();
-
+                /*messagesToCompany.clear();*/
                 for (Message m: messages) {
                     if(m.getRecipientCompany().getId() == Integer.valueOf(sessionId[0])) {
                         messagesToCompany.add(m);
@@ -390,6 +400,7 @@ public class HomeController {
                 model.addAttribute("messages",messagesToCompany);
             } else if(sessionId[1].equals("w")) {
                 ArrayList<Message> messagesToWorker = new ArrayList<>();
+                /*messagesToWorker.*/
 
                 for (Message m: messages) {
                     if(m.getRecipientWorker().getId() == Integer.valueOf(sessionId[0])) {
@@ -407,5 +418,55 @@ public class HomeController {
         else {
             return "redirect:/notLoggedIn";
         }
+    }
+
+    @GetMapping("/showMessage/{id}")
+    public String showMessage(HttpSession session, @PathVariable("id") long messageId, Model model) {
+        log.info("showMessage called with id: "+messageId);
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+            Message message = messageService.findById(messageId).get();
+            model.addAttribute("pageTitle", "Vis besked");
+
+
+            if(sessionId[1].equals("c")) {
+                Company company = companyService.findById(Integer.valueOf(sessionId[0])).get();
+                if(company.getId() == message.getRecipientCompany().getId()) {
+                    model.addAttribute("message", message);
+                    log.info("adding message");
+                    if(message.getSenderWorker() !=null) {
+                        model.addAttribute("sender",message.getSenderWorker());
+                        log.info("setting sender worker");
+                    }else if(message.getSenderCompany()!=null) {
+                        model.addAttribute("sender",message.getSenderCompany());
+                        log.info("setting sender company");
+                    }
+                }
+                model.addAttribute("replier",company);
+            } else if(sessionId[1].equals("w")) {
+                Worker worker = freelanceService.findById(Integer.valueOf(sessionId[0])).get();
+                if(worker.getId() == message.getRecipientWorker().getId()) {
+                    model.addAttribute("message", message);
+                    log.info("adding message");
+                    if(message.getSenderWorker() !=null) {
+                        model.addAttribute("sender",message.getSenderWorker());
+                        log.info("setting sender worker");
+                    }else if(message.getSenderCompany()!=null) {
+                        model.addAttribute("sender",message.getSenderCompany());
+                        log.info("setting sender company");
+                    }
+                }
+                model.addAttribute("replier",worker);
+            }
+            else {
+                log.info("Error sessiontype is neither c or w");
+            }
+
+            return "showMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+
     }
 }

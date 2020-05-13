@@ -41,6 +41,9 @@ public class Message {
 
     private Boolean deleted = false;
 
+    public Message() {
+    }
+
     @Nullable
     public Worker getSenderWorker() {
         return senderWorker;
@@ -115,5 +118,13 @@ public class Message {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
     }
 }

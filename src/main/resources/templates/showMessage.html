@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+
+    <div id="inner_container">
+
+        <br>
+        <h1>Besked:</h1>
+        <h3>Fra:</h3>
+        <span th:text="${sender.firstname}"></span>
+        <span th:text="${sender.lastname}"></span>
+        (<span th:text="${sender.username}"></span>)
+        <br>
+        <br>
+
+        <h3><span th:text="${message.headline}"></span></h3>
+        <span th:text="${message.content}"></span>
+        <br>
+
+        <br>
+        <form method="Post" th:action="@{/replyMessage}" th:object="${message}">
+            <input th:name="recipientUsername" type="hidden" th:value="${sender.username}">
+            <button type="submit">Reply</button>
+        </form>
+
+    </div>
+
+    <footer th:include="fragments/footer :: bottom"></footer>
+
+
+</div>
+</body>
+</html>

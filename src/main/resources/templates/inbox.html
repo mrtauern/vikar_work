@@ -10,13 +10,12 @@
     <div id="inner_container">
 
         <br>
-        <h1>Indbox: </h1>
+        <h1>Indboks: </h1>
 
-        <div id="messages">
+        <div id="test">
         <span th:each="message : ${messages}">
             <br>
-                <!--<a th:href="@{'/showMessage/'+${message.id}}">Hej</a>--><a href="/googleMap">Hej</a>
-            <!--<span class="sad" th:text="${message.headline}"></span>-->
+            <a th:href="@{'showMessage/'+${message.id}}"><span class="test2" th:text="${message.headline}"></span></a>
         </span>
         </div>
         <br>
