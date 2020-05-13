@@ -283,6 +283,28 @@ public class HomeController {
             model.addAttribute("pageTitle", "Send Besked");
             model.addAttribute("senderId", sessionId[0]);
             model.addAttribute("senderType", sessionId[1]);
+            model.addAttribute("reply",false);
+
+            return "sendMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @GetMapping("/sendMessage/{recipientUser}/{messageId}")
+    public String sendMessage(HttpSession session, @PathVariable("recipientUser") String recipientUser, @PathVariable("messageId") long messageId, Model model) {
+        log.info("sendMessage called from reply with recipientUser: "+recipientUser+" and messageId: "+messageId);
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+
+        if(session.getAttribute("login") != null){
+            Message prevMessage = messageService.findById(messageId).get();
+            model.addAttribute("prevMessage", prevMessage);
+            model.addAttribute("recipient",recipientUser);
+            model.addAttribute("reply", true);
+            model.addAttribute("pageTitle", "Send Besked");
+            model.addAttribute("senderId", sessionId[0]);
+            model.addAttribute("senderType", sessionId[1]);
 
             return "sendMessage";
         }
@@ -343,6 +365,7 @@ public class HomeController {
             messageService.save(sendMessage);
 
         } else if (sendToWorker.getUsername() != null) {
+            log.info("time to send the message to worker: "+sendToWorker.getUsername());
             Message sendMessage = new Message();
             sendMessage.setContent(message.getContent());
 
@@ -361,7 +384,7 @@ public class HomeController {
         }
 
         //skal nok laves til indboks eller sendte beskeder
-        return "sendMessage";
+        return "redirect:/inbox";
     }
 
     @GetMapping("/inbox")
@@ -371,44 +394,30 @@ public class HomeController {
             ArrayList<Message> messages = (ArrayList<Message>) messageService.findAll();
             model.addAttribute("pageTitle", "Inbox");
 
-         if(messages.size() == 0) {
-            //testdata
-                Message testdata = new Message();
-                testdata.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
-                testdata.setSenderWorker(freelanceService.findById(1).get());
-                testdata.setHeadline("Dette er en test");
-                testdata.setContent("Hej Dette er en test min ven");
-                Message testdata2 = new Message();
-                testdata2.setRecipientCompany(companyService.findById(Integer.valueOf(sessionId[0])).get());
-                testdata2.setSenderWorker(freelanceService.findById(1).get());
-                testdata2.setHeadline("Dette er en test2");
-                testdata2.setContent("Hej Dette er en test min ven2");
-                messageService.save(testdata);
-                messageService.save(testdata2);
-                messages = (ArrayList<Message>) messageService.findAll();
-         }
-
-
             if(sessionId[1].equals("c")) {
                 ArrayList<Message> messagesToCompany = new ArrayList<>();
-                /*messagesToCompany.clear();*/
                 for (Message m: messages) {
+
                     if(m.getRecipientCompany().getId() == Integer.valueOf(sessionId[0])) {
                         messagesToCompany.add(m);
                     }
                 }
                 model.addAttribute("messages",messagesToCompany);
-            } else if(sessionId[1].equals("w")) {
-                ArrayList<Message> messagesToWorker = new ArrayList<>();
-                /*messagesToWorker.*/
+            }
 
+            else if(sessionId[1].equals("w")) {
+                ArrayList<Message> messagesToWorker = new ArrayList<>();
+                log.info("found worker...");
                 for (Message m: messages) {
                     if(m.getRecipientWorker().getId() == Integer.valueOf(sessionId[0])) {
+                        log.info("adding message to worker inbox");
                         messagesToWorker.add(m);
                     }
                 }
+                log.info("er det her der kommer null point exception?=");
                 model.addAttribute("messages",messagesToWorker);
             }
+
             else {
                 log.info("Error sessiontype is neither c or w");
             }
@@ -426,6 +435,7 @@ public class HomeController {
         if(session.getAttribute("login") != null){
             String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
             Message message = messageService.findById(messageId).get();
+            Boolean isCompany = false;
             model.addAttribute("pageTitle", "Vis besked");
 
 
@@ -439,7 +449,8 @@ public class HomeController {
                         log.info("setting sender worker");
                     }else if(message.getSenderCompany()!=null) {
                         model.addAttribute("sender",message.getSenderCompany());
-                        log.info("setting sender company");
+                        isCompany = true;
+                        log.info("setting sender company "+message.getSenderCompany().getCompanyName());
                     }
                 }
                 model.addAttribute("replier",company);
@@ -453,10 +464,12 @@ public class HomeController {
                         log.info("setting sender worker");
                     }else if(message.getSenderCompany()!=null) {
                         model.addAttribute("sender",message.getSenderCompany());
+                        isCompany = true;
                         log.info("setting sender company");
                     }
                 }
                 model.addAttribute("replier",worker);
+                model.addAttribute("isCompany",isCompany);
             }
             else {
                 log.info("Error sessiontype is neither c or w");

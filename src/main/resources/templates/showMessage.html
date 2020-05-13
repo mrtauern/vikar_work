@@ -12,21 +12,19 @@
         <br>
         <h1>Besked:</h1>
         <h3>Fra:</h3>
-        <span th:text="${sender.firstname}"></span>
-        <span th:text="${sender.lastname}"></span>
+        <span th:if="@{${isCompany} == false}" th:text="${sender.firstname}"></span>
+        <span th:if="@{${isCompany} == false}" th:text="${sender.lastname}"></span>
+        <span th:if="@{${isCompany} == true}" th:text="${sender.companyName}"></span>
         (<span th:text="${sender.username}"></span>)
         <br>
         <br>
-
+        <!--<input th:if="@{${reply} == false}" type="text" th:name="headline" class="form-control mr-sm-2"/>-->
         <h3><span th:text="${message.headline}"></span></h3>
         <span th:text="${message.content}"></span>
         <br>
 
         <br>
-        <form method="Post" th:action="@{/replyMessage}" th:object="${message}">
-            <input th:name="recipientUsername" type="hidden" th:value="${sender.username}">
-            <button type="submit">Reply</button>
-        </form>
+        <a th:href="@{'/sendMessage/'+${sender.username}+'/'+${message.id}}">Besvar</a>
 
     </div>
 
