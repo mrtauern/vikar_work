@@ -15,26 +15,28 @@
 
 
 
-            <label class="assignment">Opgave overskrift:</label>
-            <input type="text" th:name="name"class="form-control mr-sm-2"/>
+            <label class="assignment">Overskrift</label>
+            <input type="text" th:name="name"class="form-control mr-sm-2" autofocus/>
 
-            <label class="assignment Description">Opgave beskrivelse</label>
+            <label class="assignment Description">Beskrivelse</label>
             <textarea rows="5" cols="50" th:name="description"class="form-control mr-sm-2"></textarea>
 
-            <label class="streetName">Vej:</label>
+            <label class="streetName">Vej</label>
             <input type="text" th:name="streetName"class="form-control mr-sm-2"/>
+
+            <label class="streetName">Hus nr</label>
             <input type="number" th:name="houseNumber"class="form-control mr-sm-2"/>
 
-            <label class="city">By:</label>
+            <label class="city">By</label>
             <input type="text" th:name="city"class="form-control mr-sm-2"/>
 
-            <label class="zip">Post nr.:</label>
+            <label class="zip">Post nr.</label>
             <input type="number" th:name="ZIP"class="form-control mr-sm-2"/>
 
-            <label class="experience">Erfaring krævet:</label>
+            <label class="experience">Erfaring krævet</label>
             <input type="text" th:name="neededExperience"class="form-control mr-sm-2"/>
 
-            <label class="hourlyWage">Timeløn:</label>
+            <label class="hourlyWage">Timeløn</label>
             <input type="number" th:name="hourlyWage"class="form-control mr-sm-2"/>
 
             <label> Start Dato for opgaven</label>
@@ -43,7 +45,7 @@
             <label> Start Dato for opgaven</label>
             <input type="date" th:name="dateEnd" class="form-control mr-sm-2"/>
 
-            <label>jobType:</label>
+            <label>jobType</label>
             <select id="type_select" th:name="profession" class="form-control">
                 <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>
             </select>

@@ -101,15 +101,15 @@ public class FreelanceController {
             if(sessionId[0].equals(""+worker.getId()) && sessionId[1].equals("w")) {
                 freelanceService.deleteWorker(worker.getId());
 
-                return "index";
+                return "redirect:/log_out";
             }
             else if (sessionId[0].equals(""+worker.getId()) && sessionId[1].equals("c")){
 
-                return "index";
+                return "redirect:/log_out";
             }
             else {
 
-                return "redirect:/editWorker/"+sessionId[0];
+                return "redirect:/log_out";
             }
 
         } else {
@@ -169,8 +169,7 @@ public class FreelanceController {
                 return "redirect:/showProfile/"+workerId;
             }
             else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
-
-                return "index";
+                return "redirect:/showProfile/"+workerId;
             }
             else {
                 //måske anden redirect her?

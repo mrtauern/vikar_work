@@ -95,7 +95,6 @@ public class CompanyController {
     public String deleteCompany(@ModelAttribute Company company, HttpSession session) {
         log.info("delete worker called id: "+company.getId());
 
-
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
 
@@ -104,16 +103,16 @@ public class CompanyController {
             if(sessionId[0].equals(""+company.Id) && sessionId[1].equals("c")) {
                 companyService.deleteCompany(company.getId());
 
-                return "index";
+                return "redirect:/log_out";
 
             }
             else if (sessionId[0].equals(""+company.Id) && sessionId[1].equals("w")){
 
-                return "index";
+                return "redirect:/landingPage";
             }
             else {
 
-                return "redirect:/editCompany/"+sessionId[0];
+                return "redirect:/landingPage";
             }
 
         } else {

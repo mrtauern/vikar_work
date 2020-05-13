@@ -20,36 +20,36 @@
 
     <div id="inner_container">
 
-        <h1>Edit Company</h1>
+        <h1>Rediger firma</h1>
 
         <form th:method="put" th:action="@{/editCompany}" th:object="${company}">
 
             <input type="hidden" th:field="${company.id}">
 
-            <label>Company name:</label>
+            <label>Firmanavn</label>
             <input type="text" class="form-control mr-sm-2"  th:field="${company.companyName}" required>
 
-            <label>Brugernavn:</label>
+            <label>Brugernavn</label>
             <input type="text" class="form-control mr-sm-2"  th:field="${company.username}" required>
 
-            <label>Password:</label>
+            <label>Password</label>
             <input type="text" class="form-control mr-sm-2"  th:field="${company.password}" required>
 
 
-            <label>Vej:</label><input type="text" class="form-control mr-sm-2"  th:field="${company.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.houseNumber}" required>
+            <label>Vej</label><input type="text" class="form-control mr-sm-2"  th:field="${company.streetName}" required> <label>Nr:</label><input type="number" class="form-control mr-sm-2"  th:field="${company.houseNumber}" required>
 
 
-            <label>By:</label>
+            <label>By</label>
             <input type="text" class="form-control mr-sm-2"  th:field="${company.city}" required>
 
-            <label>PostNr:</label>
+            <label>Post nr.</label>
             <input type="number" class="form-control mr-sm-2"  th:field="${company.zip}" required>
 
-            <label>CVR nummer:</label>
+            <label>CVR nummer</label>
             <input type="number" class="form-control mr-sm-2"  th:field="${company.CVRNumber}" required>
 
 
-            <label>Bank nummer:</label>
+            <label>Bank nummer</label>
             <input type="number" class="form-control mr-sm-2"  th:field="${company.bankNumber}" required>
 
             <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
@@ -59,9 +59,21 @@
         </form>
 
         <br>
-        <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}">
+
+        <script type="text/javascript">
+            function confirm_delete(form) {
+                if(!confirm("Er du sikker på at du ønsker at slette dette firma?\nHandlingen kan ikke fortrydes!")) {
+                    return false;
+                } else {
+                    //form.submit();
+                    return true;
+                }
+            }
+        </script>
+
+        <form th:method="post" th:action="@{/deleteCompany}" th:object="${company}" onsubmit="return confirm_delete(this.form)">
             <input type="hidden" th:field="${company.id}">
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-danger" type="submit">Slet</button>
 
         </form>
 

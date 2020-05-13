@@ -25,8 +25,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <form action="/" th:action="@{/search}" method="post" class="form-inline">
-                        <input type="text" th:name="searchJob" placeholder="Søg efter profiler eller job opslag" class="form-control mr-2">
+                    <form action="/" th:action="@{/search}" method="post" class="form-inline" id="search_form">
+                        <input type="text" th:name="searchJob" placeholder="Søg..." class="form-control mr-2">
                         <button class="btn btn-primary" type="submit">Søg</button>
                     </form>
                 </li>
@@ -34,9 +34,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbardrop" href="#">Bruger Menu</a>
                     <div class="dropdown-menu">
-                        <a href="/log_out" class="dropdown-item">Log af</a>
-                        <a href="/settings" class="dropdown-item">Indstillinger</a>
-                        <a href="/showProfile" class="dropdown-item">Udførte Job opgaver</a>
+                        <a href="/log_out" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log af</a>
+                        <a href="/settings" class="dropdown-item"><i class="fas fa-user-edit"></i> Rediger oplysninger</a>
+                        <a href="/showProfile" class="dropdown-item"><i class="fas fa-address-card"></i> Se bruger oplysninger og CV</a>
                     </div>
                 </li>
 
