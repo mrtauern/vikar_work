@@ -28,6 +28,9 @@ public class Assignment {
 
     private int hourlyWage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
+
     private Boolean isArchived = false;
 
 
@@ -54,6 +57,22 @@ public class Assignment {
     public Assignment(long id, Boolean isArchived) {
         this.id = id;
         this.isArchived = isArchived;
+    }
+
+    public Assignment(String name, String description, String streetName, String city, String neededExperience, Date dateStart, Date dateEnd, Long houseNumber, Long ZIP, int hourlyWage, Company company, Job job, Set<Worker> assignmentRequests) {
+        this.name = name;
+        this.description = description;
+        this.streetName = streetName;
+        this.city = city;
+        this.neededExperience = neededExperience;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.houseNumber = houseNumber;
+        this.ZIP = ZIP;
+        this.hourlyWage = hourlyWage;
+        this.company = company;
+        this.job = job;
+        this.assignmentRequests = assignmentRequests;
     }
 
     public Boolean getArchived() {
@@ -174,5 +193,13 @@ public class Assignment {
 
     public void setZIP(Long ZIP) {
         this.ZIP = ZIP;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

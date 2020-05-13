@@ -5,6 +5,7 @@ import com.vikar.work.models.*;
 import com.vikar.work.repositories.*;
 
 import com.vikar.work.services.AssignmentService;
+import com.vikar.work.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -12,7 +13,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class TestData implements ApplicationListener<ContextRefreshedEvent> {
@@ -22,7 +25,12 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     private AssignmentRepo assignmentRepo;
 
     @Autowired
+    @Qualifier("AssignmentService")
     private AssignmentService assignmentService;
+
+    @Autowired
+    @Qualifier("CompanyService")
+    private CompanyService companyService;
 
     @Autowired
     @Qualifier("FreelanceRepo")
@@ -45,7 +53,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
     List<CV> cvs = new ArrayList<>();
 
-    Company company = new Company();
+    List<Company> companies = new ArrayList<>();
   
     private List<Assignment> createAssignment(){
         List<Assignment> assignments = new ArrayList<>();
@@ -140,18 +148,38 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker3.setCity("Tølløse");
         worker3.setUsername("user567");
 
+        Company company1 = new Company();
+        Company company2 = new Company();
 
-        company.setCVRNumber(12345678);
-        company.setBankNumber(987654321);
-        company.setHouseNumber(67);
-        company.setZip(3030);
-        company.setPhoneNumber(12345678);
+        company1.setCVRNumber(12345678);
+        company1.setBankNumber(987654321);
+        company1.setHouseNumber(67);
+        company1.setZip(3030);
+        company1.setPhoneNumber(12345678);
 
-        company.setCompanyName("AudiBilService");
-        company.setUsername("Audi");
-        company.setPassword("1234");
-        company.setStreetName("Route66");
-        company.setCity("Ingolfstadt");
+        company1.setCompanyName("AudiBilService");
+        company1.setUsername("Audi");
+        company1.setPassword("1234");
+        company1.setStreetName("Route66");
+        company1.setCity("Ingolfstadt");
+
+        company2.setCVRNumber(12345679);
+        company2.setBankNumber(987654322);
+        company2.setHouseNumber(345);
+        company2.setZip(3035);
+        company2.setPhoneNumber(12345687);
+
+        company2.setCompanyName("BMWservice");
+        company2.setUsername("BMW");
+        company2.setPassword("1234");
+        company2.setStreetName("Autobahn");
+        company2.setCity("Ausfart");
+
+        /*company1.getAssignments().add(assignment1);
+        company1.getAssignments().add(assignment2);
+
+        assignment1.setCompany(company1);
+        assignment2.setCompany(company1);*/
 
         //add assignment requests to workers
         /*worker1.getRequestedAssignments().add(assignment1);
@@ -170,6 +198,9 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
         worker1.getCvs().add(cv1);
 
+        companies.add(company1);
+        companies.add(company2);
+
         jobs.add(jobs1);
         jobs.add(jobs2);
         jobs.add(jobs3);
@@ -185,15 +216,52 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         return assignments;
     }
 
+    private void combineAssignmentWithCompany(){
+        Assignment assignment1 = assignmentService.findById(1).get();
+        Assignment assignment2 = assignmentService.findById(2).get();
+        Company company = companyService.findById(1).get();
+
+        assignment1.setCompany(company);
+        assignment2.setCompany(company);
+
+        company.getAssignments().add(assignment1);
+        company.getAssignments().add(assignment2);
+
+        assignmentService.save(assignment1);
+        assignmentService.save(assignment2);
+        companyService.save(company);
+    }
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("context refreshed TestData");
 
 
+
         assignmentRepo.saveAll(createAssignment());
+        companyRepo.saveAll(companies);
         jobRepo.saveAll(jobs);
         freelanceRepo.saveAll(workers);
-        companyRepo.save(company);
+
+        //combineAssignmentWithCompany();
+
+        Assignment assignment1 = assignmentService.findById(1).get();
+        Assignment assignment2 = assignmentService.findById(2).get();
+        Company company = companyService.findById(1).get();
+
+        assignment1.setCompany(company);
+        assignment2.setCompany(company);
+
+        Set<Assignment> assignmentSet = new HashSet<>();
+
+        assignmentSet.add(assignment1);
+        assignmentSet.add(assignment2);
+
+        company.setAssignments(assignmentSet);
+
+        assignmentService.save(assignment1);
+        assignmentService.save(assignment2);
+        companyService.save(company);
 
         //cvRepo.saveAll(cvs);
     }
