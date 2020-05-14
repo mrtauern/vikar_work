@@ -59,6 +59,22 @@ public class Worker {
     @ManyToMany(mappedBy = "assignmentRequests")
     private Set<Assignment> requestedAssignments = new HashSet<>();
 
+    public Worker(String CVRNumber, String bankNumber, String zip, String houseNumber, Set<CV> cvs, String firstname, String lastname, String email, String password, String username, String streetName, String city, long phoneNumber) {
+        this.CVRNumber = ""+CVRNumber;
+        this.bankNumber = ""+bankNumber;
+        this.zip = ""+zip;
+        this.houseNumber = ""+houseNumber;
+        this.cvs = cvs;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.streetName = streetName;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Worker(long id, String CVRNumber, String bankNumber, String zip, String houseNumber, Set<CV> cvs, String firstname, String lastname, String email, String password, String username, String streetName, String city, long phoneNumber, Set<Assignment> requestedAssignments) {
         Id = id;
         this.CVRNumber = ""+CVRNumber;

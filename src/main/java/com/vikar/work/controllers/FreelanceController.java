@@ -79,15 +79,34 @@ public class FreelanceController {
         log.info("editworker putmapping called...");
         String test = ""+worker.getCVRNumber();
         log.info("CVR test "+test);
+
+        log.info("id: "+worker.getId());
+        log.info("bankNumber: "+worker.getBankNumber());
+        log.info("zip: "+worker.getZip());
+        log.info("houseNumber: "+worker.getHouseNumber());
+        log.info("firstName: "+worker.getFirstname());
+        log.info("lastName: "+worker.getLastname());
+        log.info("email: "+worker.getEmail());
+        log.info("password: "+worker.getPassword());
+        log.info("username: "+worker.getUsername());
+        log.info("street name: "+worker.getStreetName());
+        log.info("city: "+worker.getCity());
+        log.info("phone number: "+worker.getPhoneNumber());
+
+        Worker oldWorker = freelanceService.findById(worker.getId()).get();
+
+        worker.setCvs(oldWorker.getCvs());
+        worker.setRequestedAssignments(oldWorker.getRequestedAssignments());
+
         if (worker.getCVRNumber() > 0) {
-            freelanceService.updateWorker(worker);
+            freelanceService.save(worker);
         }
         else {
             worker.setCVRNumber(0);
-            freelanceService.updateWorker(worker);
+            freelanceService.save(worker);
         }
 
-        return "redirect:/editWorker/"+worker.getId();
+        return "redirect:/landingPage";
     }
 
     @PostMapping("/deleteWorker")
