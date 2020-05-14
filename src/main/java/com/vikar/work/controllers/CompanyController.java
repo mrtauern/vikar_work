@@ -39,6 +39,7 @@ public class CompanyController {
 
             if(sessionId[0].equals(""+companyId) && sessionId[1].equals("c")) {
                 model.addAttribute("company", companyService.findById(companyId));
+                model.addAttribute("loginType", sessionId[1]);
 
                 return "editCompany";
 
