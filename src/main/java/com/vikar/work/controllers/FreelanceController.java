@@ -44,16 +44,17 @@ public class FreelanceController {
 
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
+
+
     @GetMapping("/editWorker/{id}")
     public String editWorker(@PathVariable("id") long userId, Model model, HttpSession session){
         log.info("edit Worker called med id: " + userId);
-
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+        model.addAttribute("loginType", sessionId[1]);
 
 
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
-            /*String test = (String)session.getAttribute("login");*/
-            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
 
             if(sessionId[0].equals(""+userId) && sessionId[1].equals("w")) {
                 model.addAttribute("worker", freelanceService.findById(userId));
@@ -74,29 +75,22 @@ public class FreelanceController {
     }
 
     @PostMapping("/editWorker")
-    public String editWorker (@ModelAttribute Worker worker, Model model) {
+    public String editWorker (@ModelAttribute Worker worker, Model model, HttpSession session) {
         //skal der også session check her???
         log.info("editworker putmapping called...");
         String test = ""+worker.getCVRNumber();
         log.info("CVR test "+test);
 
-        log.info("id: "+worker.getId());
-        log.info("bankNumber: "+worker.getBankNumber());
-        log.info("zip: "+worker.getZip());
-        log.info("houseNumber: "+worker.getHouseNumber());
-        log.info("firstName: "+worker.getFirstname());
-        log.info("lastName: "+worker.getLastname());
-        log.info("email: "+worker.getEmail());
-        log.info("password: "+worker.getPassword());
-        log.info("username: "+worker.getUsername());
-        log.info("street name: "+worker.getStreetName());
-        log.info("city: "+worker.getCity());
-        log.info("phone number: "+worker.getPhoneNumber());
+
+        log.info("worker id "+worker.getId());
+        log.info("username: "+worker.getUsername()+" firstname "+worker.getFirstname()+" lastname "+worker.getLastname());
 
         Worker oldWorker = freelanceService.findById(worker.getId()).get();
-
-        worker.setCvs(oldWorker.getCvs());
         worker.setRequestedAssignments(oldWorker.getRequestedAssignments());
+        worker.setCvs(oldWorker.getCvs());
+
+
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
 
         if (worker.getCVRNumber() > 0) {
             freelanceService.save(worker);
@@ -106,7 +100,9 @@ public class FreelanceController {
             freelanceService.save(worker);
         }
 
+        model.addAttribute("loginType", sessionId[1]);
         return "redirect:/landingPage";
+
     }
 
     @PostMapping("/deleteWorker")
@@ -272,7 +268,6 @@ public class FreelanceController {
     @GetMapping("/googleMap")
     public String googleMap(Model model) {
         log.info("googleMap called");
-
         Gson gsonBuilder = new GsonBuilder().create();
 
         ArrayList<MapMarker> markerList = new ArrayList<>();
@@ -338,6 +333,7 @@ public class FreelanceController {
             }
 
             model.addAttribute("Worker", worker);
+            model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("pageTitle", "Vis profil");
             model.addAttribute("workerCV", workerCV);
             model.addAttribute("SessionID", sessionId[0]);

@@ -41,6 +41,12 @@
             <label>Password</label>
             <input type="text" class="form-control mr-sm-2"  th:field="${worker.password}" required>
 
+            <label>Telefon nummer</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.phoneNumber}" required>
+
+            <label>Bank nummer</label>
+            <input type="text" class="form-control mr-sm-2"  th:field="${worker.bankNumber}" required>
+
             <label>Vej</label><input type="text" class="form-control mr-sm-2"  th:field="${worker.streetName}" required> <label>Nr</label><input type="number" class="form-control mr-sm-2"  th:field="${worker.houseNumber}" required>
 
             <label>By</label>
@@ -53,10 +59,6 @@
 
             <label>CVR (hvis privatperson vælg nul)</label>
             <input type="number" class="form-control mr-sm-2"  th:field="${worker.CVRNumber}" required>
-
-            <label>Bank nr.</label>
-            <input type="number" class="form-control mr-sm-2"  th:field="${worker.bankNumber}" required>
-
 
             <button class="btn btn-light" type="button" onclick="location.href='/landingPage';">Annuller</button>
 

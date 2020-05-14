@@ -287,6 +287,7 @@ public class HomeController {
             model.addAttribute("senderId", sessionId[0]);
             model.addAttribute("senderType", sessionId[1]);
             model.addAttribute("reply",false);
+            model.addAttribute("loginType", sessionId[1]);
 
             return "sendMessage";
         }
@@ -308,6 +309,7 @@ public class HomeController {
             model.addAttribute("pageTitle", "Send Besked");
             model.addAttribute("senderId", sessionId[0]);
             model.addAttribute("senderType", sessionId[1]);
+            model.addAttribute("loginType", sessionId[1]);
 
             return "sendMessage";
         }
@@ -411,7 +413,7 @@ public class HomeController {
                 log.info("message list size >0");
                 model.addAttribute("messages", messages);
             }
-
+            model.addAttribute("loginType", sessionId[1]);
             return "inbox";
         }
         else {
@@ -460,6 +462,7 @@ public class HomeController {
                 }
                 model.addAttribute("replier",worker);
                 model.addAttribute("isCompany",isCompany);
+                model.addAttribute("loginType", sessionId[1]);
             }
             else {
                 log.info("Error sessiontype is neither c or w");

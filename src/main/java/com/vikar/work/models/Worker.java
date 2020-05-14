@@ -31,6 +31,7 @@ public class Worker {
     @Convert(converter = AttributeEncryptor.class)
     public String houseNumber;
 
+    @Nullable
     @OneToMany(cascade = CascadeType.ALL)
     private Set<CV> cvs = new HashSet<>();
 
@@ -54,8 +55,10 @@ public class Worker {
     @Convert(converter = AttributeEncryptor.class)
     public String city;
 
+    @Nullable
     public long phoneNumber;
-  
+
+    @Nullable
     @ManyToMany(mappedBy = "assignmentRequests")
     private Set<Assignment> requestedAssignments = new HashSet<>();
 
@@ -217,5 +220,6 @@ public class Worker {
     public void setRequestedAssignments(Set<Assignment> requestedAssignments) {
         this.requestedAssignments = requestedAssignments;
     }
+
 }
 

@@ -2,10 +2,7 @@ package com.vikar.work.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vikar.work.models.Assignment;
-import com.vikar.work.models.Job;
-import com.vikar.work.models.MapMarker;
-import com.vikar.work.models.Worker;
+import com.vikar.work.models.*;
 import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.CompanyService;
 import com.vikar.work.services.FreelanceService;
@@ -69,16 +66,22 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
 
-        Worker worker = freelanceService.findById(id).get();
         Assignment assignment = assignmentService.findById(assignmentId).get();
 
-        log.info("Assignment worker: "+assignment.getAssignmentRequests().contains(worker));
+        if(type.equals("w")) {
+            Worker worker = freelanceService.findById(id).get();
+            log.info("Assignment worker: " + assignment.getAssignmentRequests().contains(worker));
+            model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
+        }
+
+        String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
         model.addAttribute("userId", id);
         model.addAttribute("type", type);
+        model.addAttribute("loginType", sessionId[1]);
 
-        model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
         model.addAttribute("assignment", assignment);
+        model.addAttribute("companyId", assignment.getCompany().getId());
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
         model.addAttribute("WOA", assignment.getAssignmentRequests().size());
 
@@ -124,7 +127,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
 
 
@@ -165,7 +168,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
     }
 
@@ -210,23 +213,24 @@ public class AssignmentController {
             if(sessionId[1].equals("c")) {
                 model.addAttribute("pageTitle", "Opret opgave");
                 model.addAttribute("jobList", jobService.findAll());
+                model.addAttribute("loginType", sessionId[1]);
 
                 return "createAssignment";
 
             }
             else if (sessionId[1].equals("w")){
 
-                return "redirect:/assignments";
+                return "redirect:/landingPage";
             }
 
             else {
 
-                return "index";
+                return "redirect:/notLoggedIn";
             }
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
     }
 
@@ -245,14 +249,19 @@ public class AssignmentController {
             if(sessionId[1].equals("c")) {
                 Job tempJob = new Job();
                 tempJob = jobService.findById(jobId).get();
+                Company company = companyService.findById(Long.parseLong(sessionId[0])).get();
 
                 tempJob.getAssignments().add(assignment);
                 assignment.setJob(tempJob);
+                assignment.setCompany(company);
+
+                company.getAssignments().add(assignment);
 
                 jobService.save(tempJob);
                 assignmentService.save(assignment);
+                companyService.save(company);
 
-                return "createAssignment";
+                return "redirect:/landingPage";
 
             }
             else if (sessionId[1].equals("w")){
@@ -262,12 +271,12 @@ public class AssignmentController {
 
             else {
 
-                return "index";
+                return "redirect:/landingPage";
             }
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
 
     }
@@ -282,13 +291,26 @@ public class AssignmentController {
             log.info(""+session.getAttribute("login"));
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+            Assignment tempAssignment = assignmentService.findById(id).get();
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
-            if(sessionId[1].equals("c")) {
-                Assignment tempAssignment = assignmentService.findById(id).get();
-                String dateStartString = tempAssignment.getDateStart().toString();
-                String dateEndString = tempAssignment.getDateEnd().toString();
-                String[] splitDateStart = dateStartString.split(" ");
-                String[] splitDateEnd = dateEndString.split(" ");
+
+            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
+/*                Assignment tempAssignment = assignmentService.findById(id).get();*/
+                if(tempAssignment.getDateStart() != null) {
+                    String dateStartString = tempAssignment.getDateStart().toString();
+                    String[] splitDateStart = dateStartString.split(" ");
+                    model.addAttribute("dateStart", splitDateStart[0]);
+                } else {
+                    model.addAttribute("dateStart", "0");
+                }
+
+                if(tempAssignment.getDateEnd() != null) {
+                    String dateEndString = tempAssignment.getDateEnd().toString();
+                    String[] splitDateEnd = dateEndString.split(" ");
+                    model.addAttribute("dateEnd", splitDateEnd[0]);
+                } else {
+                    model.addAttribute("dateEnd", "0");
+                }
 
                 Job tempJob = tempAssignment.getJob();
                 log.info(tempJob.getId()+"tempjob id");
@@ -296,10 +318,11 @@ public class AssignmentController {
                 model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
                 model.addAttribute("jobId", tempJob.getId());
                 model.addAttribute("pageTitle", "Edit Assignment");
-                model.addAttribute("dateStart", splitDateStart[0]);
-                model.addAttribute("dateEnd", splitDateEnd[0]);
+
+
                 model.addAttribute("assignment", assignmentService.findById(id));
                 model.addAttribute("jobList", jobService.findAll());
+                model.addAttribute("loginType", sessionId[1]);
 
                 return "editAssignment";
 
@@ -316,7 +339,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
 
     }
@@ -331,18 +354,19 @@ public class AssignmentController {
         log.info("Assignment ID "+assignment.getId());
 
 
+
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
             if(sessionId[1].equals("c")) {
-                Job tempJob = new Job();
+                /*Job tempJob = new Job();
                 Job oldJob = new Job();
-                Assignment oldAssignment = new Assignment();
-                oldAssignment = assignmentService.findById(assignment.getId()).get();
-                oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
-                tempJob = jobService.findById(jobId).get();
+                Assignment oldAssignment = new Assignment();*/
+                Assignment oldAssignment = assignmentService.findById(assignment.getId()).get();
+                Job oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
+                Job tempJob = jobService.findById(jobId).get();
 
 
                 assignment.setJob(tempJob);
@@ -351,27 +375,29 @@ public class AssignmentController {
                 tempJob.getAssignments().remove(assignment);
                 tempJob.getAssignments().add(assignment);
 
+                assignment.setCompany(oldAssignment.getCompany());
+
                 log.info("presave");
                 jobService.save(tempJob);
                 assignmentService.save(assignment);
                 log.info("postsave");
 
-                return "redirect:/editAssignment/" + assignment.getId();
+                return "redirect:/landingPage";
 
             }
             else if (sessionId[1].equals("w")){
 
-                return "redirect:/showAssignment/" + assignment.getId();
+                return "redirect:/landingPage";
             }
 
             else {
 
-                return "redirect:/showAssignment/" + assignment.getId();
+                return "redirect:/notLoggedIn";
             }
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
 
     }
@@ -380,16 +406,15 @@ public class AssignmentController {
     public String activeAssignmentList(Model model, HttpSession session){
         log.info("Active assignment list called...");
 
-
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
 
-            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
             List<Assignment> assignments = new ArrayList<>();
 
             for (Assignment a: assignmentList) {
-                if(a.getArchived() == false){
+                if(a.getArchived() == false && a.getCompany().getId() == Long.parseLong(sessionId[0])){
                     assignments.add(a);
                 }
             }
@@ -397,6 +422,7 @@ public class AssignmentController {
 
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
+        model.addAttribute("loginType", sessionId[1]);
         //model.addAttribute("numNotifications", 2);
 
 
@@ -404,7 +430,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
     }
 
@@ -461,7 +487,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
     }
 
@@ -471,11 +497,12 @@ public class AssignmentController {
 
         if(session.getAttribute("login") != null){
 
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
             List<Assignment> assignments = new ArrayList<>();
 
             for (Assignment a: assignmentList) {
-                if(a.getArchived() == true){
+                if(a.getArchived() == true && a.getCompany().getId() == Long.parseLong(sessionId[0])){
                     assignments.add(a);
                 }
             }
@@ -487,14 +514,14 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
     }
 
     @GetMapping("/assignments")
     public String assignments(Model model, HttpSession session){
         log.info("Landing page Assignments called list called...");
-
+        String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
         if(session.getAttribute("login") != null){
 
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
@@ -512,6 +539,7 @@ public class AssignmentController {
             String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
             model.addAttribute("json", jsonFromJavaArrayList);
+            model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("assignments", assignments);
             model.addAttribute("pageTitle", "Landing Page");
 
@@ -519,7 +547,7 @@ public class AssignmentController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/notLoggedIn";
         }
 
     }

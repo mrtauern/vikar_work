@@ -1,8 +1,11 @@
 package com.vikar.work.models;
 
 import com.vikar.work.component.AttributeEncryptor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Company {
@@ -40,6 +43,10 @@ public class Company {
 
     public long phoneNumber;
 
+    @Nullable
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Assignment> assignments = new HashSet<>();
+
     public Company() {
     }
 
@@ -55,6 +62,21 @@ public class Company {
         this.streetName = streetName;
         this.city = city;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Company(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password, String streetName, String city, long phoneNumber, Set<Assignment> assignments) {
+        Id = id;
+        this.CVRNumber = ""+CVRNumber;
+        this.bankNumber = ""+bankNumber;
+        this.zip = ""+zip;
+        this.houseNumber = ""+houseNumber;
+        this.companyName = companyName;
+        this.username = username;
+        this.password = password;
+        this.streetName = streetName;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+        this.assignments = assignments;
     }
 
 
@@ -144,5 +166,13 @@ public class Company {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Set<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(Set<Assignment> assignments) {
+        this.assignments = assignments;
     }
 }
