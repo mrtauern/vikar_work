@@ -21,6 +21,8 @@ body{
 
 h1{
     margin: 30px 0 50px 0;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 h1#error_header{
@@ -30,18 +32,31 @@ h1#error_header{
 h1.front_page{
     font-weight: bold;
     text-align: center;
+    background-color: #EFEFEF;
+    margin: 0;
+    padding: 30px 0 50px 0;
 }
 
 h1.front_page span.red{
-    color: #FF0000;
+    color: #E74C3C;
 }
 
 h2{
     margin: 20px 0 30px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #E74C3C;
 }
 
 h3{
     margin: 10px 0 20px 0;
+    font-weight: bold;
+    color: #E74C3C;
+}
+
+h4{
+    margin: 10px 0 20px 0;
+    font-weight: bold;
 }
 
 a.nav-link{
@@ -49,20 +64,26 @@ a.nav-link{
 }
 
 a.nav-link.front_page{
-    border: solid 1px #FF0000;
+    border: solid 1px #E74C3C;
     border-radius: 20px;
     padding: 6px 20px !important;
-    color: #FF0000 !important;
+    color: #E74C3C !important;
     margin-right: 15px;
+}
+
+a.nav-link.front_page:hover{
+    color: #343A40 !IMPORTANT;
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF !important;
 }
 
 a.nav-link.front_page.fill{
     color: #343A40 !IMPORTANT;
-    background-color: #FF0000;
+    background-color: #E74C3C;
 }
 
 p.errMsg{
-    color: #FF0000;
+    color: #E74C3C;
     font-size: 16px;
     /* border: solid 1px #FF0000; */
     /* padding: 10px; */
@@ -209,8 +230,98 @@ div#floating-panel{
     padding-left: 10px;
 }
 
+div#apply{
+    background-color: #CCCCCC;
+    padding: 10px;
+    overflow: overlay;
+}
+
+div#apply span{
+    float: right;
+}
+
+div#apply h3{
+    float: left;
+    margin: 0;
+    padding: 3px 0 2px 0;
+    color: #000000;
+}
+
+div#workersOnAssignment{
+    background-color: #EEEEEE;
+    overflow: overlay;
+    padding: 10px;
+}
+
+div#workersOnAssignment span{
+    float: left;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+div#workersOnAssignment span i{
+    float: left;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+div#workersOnAssignment span span{
+    width: fit-content;
+    margin: 0;
+}
+
+div#workersOnAssignment span:first-child{
+    margin: 0;
+}
+
+img.front_page{
+    width: 100%;
+}
+
 form input{
     margin-bottom: 10px;
+}
+
+form input.form-control{
+    border: none;
+    border-bottom: solid 3px #000000;
+    border-radius: 0;
+}
+
+form select.form-control{
+    appearance: none;
+    border: none;
+    border-bottom: solid 3px #000000;
+    border-radius: 0;
+}
+
+form textarea.form-control{
+    border: dotted 1px #AAAAAA;
+    border-bottom: solid 3px #000000;
+    border-radius: 0;
+}
+
+form#search_form{
+    padding: 3px 12px 0 12px;
+
+}
+
+form#search_form input.form-control{
+    border-radius: 20px;
+    padding: 6px 20px !important;
+    border: none;
+}
+
+form#search_form input.form-control:focus{
+    border-color: #1ABC9C;
+}
+
+form#search_form button.btn.btn-primary{
+    border-radius: 20px;
+    padding: 7px 20px !important;
+    border: none;
+    font-weight: bold;
 }
 
 form.form-inline input{
@@ -221,12 +332,20 @@ form select{
     margin-bottom: 10px;
 }
 
+form label{
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
 span#countNotification{
-    background-color: #FF0000;
+    background-color: #E74C3C;
     color: #FFFFFF;
     font-weight: bold;
     height: 20px;
     min-width: 20px;
+    width: fit-content;
     display: block;
     border-radius: 10px;
     text-align: center;
@@ -238,10 +357,11 @@ span#countNotification{
 
 span#logo{
     font-weight: bold;
+    padding-left: 20px;
 }
 
 span#logo span.red{
-    color: #FF0000;
+    color: #E74C3C;
 }
 
 /*a:hover {

@@ -1,5 +1,6 @@
 package com.vikar.work.controllers;
 
+import com.vikar.work.models.CV;
 import com.vikar.work.models.Company;
 import com.vikar.work.services.CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -27,30 +29,95 @@ public class CompanyController {
 
 
     @GetMapping("/editCompany/{id}")
-    public String editWorker(@PathVariable("id") long companyId, Model model){
+    public String editWorker(@PathVariable("id") long companyId, Model model, HttpSession session){
         log.info("edit Company called med id: " + companyId);
 
-        model.addAttribute("company", companyService.findById(companyId));
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-        return "editCompany";
+            if(sessionId[0].equals(""+companyId) && sessionId[1].equals("c")) {
+                model.addAttribute("company", companyService.findById(companyId));
+
+                return "editCompany";
+
+            }
+            else if (sessionId[0].equals(""+companyId) && sessionId[1].equals("w")){
+
+                return "index";
+            }
+
+            else {
+
+                return "redirect:/editCompany/"+sessionId[0];
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @PostMapping("/editCompany")
-    public String editWorker (@ModelAttribute Company company, Model model) {
+    public String editWorker (@ModelAttribute Company company, Model model, HttpSession session) {
         log.info("editCompany putmapping called...");
-        String test = ""+company.getCVRNumber();
 
-            companyService.updateCompany(company);
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
 
-        return "redirect:/editCompany/1";
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+
+            if(sessionId[0].equals(""+company.Id) && sessionId[1].equals("c")) {
+                String test = ""+company.getCVRNumber();
+
+                companyService.updateCompany(company);
+
+                return "redirect:/editCompany/"+company.Id;
+
+            }
+            else if (sessionId[0].equals(""+company.Id) && sessionId[1].equals("w")){
+
+                return "index";
+            }
+            else {
+
+                return "redirect:/editCompany/"+sessionId[0];
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 
     @PostMapping("/deleteCompany")
-    public String deleteCompany(@ModelAttribute Company company) {
+    public String deleteCompany(@ModelAttribute Company company, HttpSession session) {
         log.info("delete worker called id: "+company.getId());
-        companyService.deleteCompany(company.getId());
 
-        return "index";
+        if(session.getAttribute("login") != null){
+            log.info(""+session.getAttribute("login"));
+
+            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+
+            if(sessionId[0].equals(""+company.Id) && sessionId[1].equals("c")) {
+                companyService.deleteCompany(company.getId());
+
+                return "redirect:/log_out";
+
+            }
+            else if (sessionId[0].equals(""+company.Id) && sessionId[1].equals("w")){
+
+                return "redirect:/landingPage";
+            }
+            else {
+
+                return "redirect:/landingPage";
+            }
+
+        } else {
+            log.info("Not logged in!");
+            return "login";
+        }
     }
 }

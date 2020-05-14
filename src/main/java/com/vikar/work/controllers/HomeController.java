@@ -36,7 +36,7 @@ public class HomeController {
     Logger log = Logger.getLogger(HomeController.class.getName());
 
     @GetMapping("/")
-    public String index(HttpSession session){
+    public String index(HttpSession session, Model model){
         Optional<Company> company = companyService.findById(1);
         if(company.isPresent()){
             log.info("Fandt " + company.get().getCompanyName());
@@ -49,6 +49,8 @@ public class HomeController {
         } else {
             log.info("Not logged in!");
         }
+
+        model.addAttribute("pageTitle", "Forside");
 
         return "index";
     }
@@ -273,6 +275,7 @@ public class HomeController {
         }
     }
 
+
     @GetMapping("/sendMessage")
     public String sendMessage(HttpSession session, @ModelAttribute Message message, Model model) {
         log.info("sendMessage called...");
@@ -467,6 +470,13 @@ public class HomeController {
         else {
             return "redirect:/notLoggedIn";
         }
+    }
 
+
+    @GetMapping("/omOs")
+    public String omOs(Model model){
+        model.addAttribute("pageTitle", "Om os");
+
+        return "om_os";
     }
 }

@@ -11,62 +11,61 @@
 
         <br>
         <h1>Vis Opgave</h1>
-        <h3>Job:</h3>
-        <span th:text="${assignment.name}"></span>
-        <br>
-        <br>
+        <h2>Job</h2>
 
-        <h4>Beskrivelse:</h4>
-        <span th:text="${assignment.description}"></span>
-        <br>
-        <br>
-        <h4>Adresse:</h4>
+        <p>
+            <span th:text="${assignment.name}"></span>
+        </p>
+
+        <h3>Beskrivelse</h3>
+        <p>
+            <span th:text="${assignment.description}"></span>
+        </p>
+        <h3>Adresse</h3>
+        <p>
         <span th:text="${assignment.streetName}"></span> <span th:text="${assignment.houseNumber}"></span>
         <br>
         <span th:text="${assignment.ZIP}"></span> <span th:text="${assignment.city}"></span>
-        <br>
-        <br>
+        </p>
 
-        <h4>Krav til erfaring:</h4>
-        <span th:text="${assignment.neededExperience}"></span>
-        <br>
-        <br>
+        <h3>Krav til erfaring</h3>
+        <p>
+            <span th:text="${assignment.neededExperience}"></span>
+        </p>
 
+        <h3>Forventet timeløn</h3>
+        <p>
+            <span th:text="${assignment.hourlyWage}"></span>
+        </p>
 
-        <h4>Forventet timeløn:</h4>
-        <span th:text="${assignment.hourlyWage}"></span>
-        <br>
-        <br>
+        <div id="apply">
+            <h3>Tilmeldte ansøgere</h3>
+            <span th:if="${type == 'w'}">
+                <form th:if="${!requested}" th:method="post" th:action="@{/applyForAssignment}" class="form-inline">
+                    <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
+                    <input th:name="userId" type="hidden" th:value="${userId}">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-user-plus"></i> Ansøg</button>
+                </form>
 
-        <span th:if="${type == 'w'}">
-            <form th:if="${!requested}" th:method="post" th:action="@{/applyForAssignment}" class="form-inline">
-                <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
-                <input th:name="userId" type="hidden" th:value="${userId}">
-                <button class="btn btn-primary" type="submit">Ansøg</button>
-            </form>
-
-            <form th:if="${requested}" th:method="post" th:action="@{/unapplyForAssignment}" class="form-inline">
-                <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
-                <input th:name="userId" type="hidden" th:value="${userId}">
-                <label class="pr-3"><i class="fas fa-check mr-1"></i>Ansøgning sendt</label>
-                <button class="btn btn-danger" type="submit">Annuller ansøgning</button>
-            </form>
-        </span>
-
-        <h3>Tilmeldte ansøgere:</h3>
-
-        <br>
-        <div id="workersOnAssignment">
+                <form th:if="${requested}" th:method="post" th:action="@{/unapplyForAssignment}" class="form-inline">
+                    <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
+                    <input th:name="userId" type="hidden" th:value="${userId}">
+                    <label class="pr-3"><i class="fas fa-check mr-1"></i>Ansøgning sendt</label>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-user-times"></i></button>
+                </form>
+            </span>
+        </div>
+        <div th:if="${WOA > 0}" id="workersOnAssignment">
         <span th:each="worker : ${workersOnAssignment}">
-            <br>
-            <span class="sad" th:text="${worker.firstname}"></span>
+            <i class="fas fa-user-check"></i>
+            <span class="sad" th:text="${worker.firstname} + ' ' + ${worker.lastname}"></span>
         </span>
         </div>
         <br>
 
         <span th:if="${type == 'c'}">
 
-        <h4>Opgave aktiv status: </h4>
+        <h4>Opgave aktiv status </h4>
             <form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
                 <input th:name="id" type="hidden" th:field="${assignment.id}">
 

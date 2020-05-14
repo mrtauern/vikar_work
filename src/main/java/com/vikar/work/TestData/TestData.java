@@ -125,10 +125,10 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         worker2.setFirstname("palle");
         worker2.setLastname("pallesen");
         worker2.setEmail("pallepallesen@gmail.com");
-        worker2.setPassword("Smukkepalle21");
+        worker2.setPassword("pass4321");
         worker2.setStreetName("Svendevej");
         worker2.setCity("Copenhagen");
-        worker2.setUsername("user321");
+        worker2.setUsername("user4321");
 
         //testworker3
         Worker worker3 = new Worker();
