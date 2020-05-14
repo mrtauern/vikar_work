@@ -74,12 +74,23 @@ public class AssignmentController {
             model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
         }
 
+        Boolean accepted;
+        long acceptedId = 0;
+
+        if(assignment.getAcceptedWorker() != null){
+            accepted = true;
+            acceptedId = assignment.getAcceptedWorker().getId();
+        } else {
+            accepted = false;
+        }
+
         String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
         model.addAttribute("userId", id);
         model.addAttribute("type", type);
         model.addAttribute("loginType", sessionId[1]);
-
+        model.addAttribute("accepted", accepted);
+        model.addAttribute("acceptedId", acceptedId);
         model.addAttribute("assignment", assignment);
         model.addAttribute("companyId", assignment.getCompany().getId());
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
@@ -148,6 +159,11 @@ public class AssignmentController {
 
                 assignment.getAssignmentRequests().add(worker);
                 worker.getRequestedAssignments().add(assignment);
+
+                if(assignment.getJob().getId() == 2){
+                    assignment.setAcceptedWorker(worker);
+                    worker.getAcceptedWorker().add(assignment);
+                }
 
                 //save data in database
                 assignmentService.save(assignment);

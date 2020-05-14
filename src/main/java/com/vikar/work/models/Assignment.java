@@ -1,6 +1,7 @@
 package com.vikar.work.models;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,6 +34,10 @@ public class Assignment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
+
+    @Nullable
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Worker acceptedWorker;
 
     private Boolean isArchived = false;
 
@@ -91,6 +96,15 @@ public class Assignment {
         this.company = company;
         this.job = job;
         this.assignmentRequests = assignmentRequests;
+    }
+
+    @Nullable
+    public Worker getAcceptedWorker() {
+        return acceptedWorker;
+    }
+
+    public void setAcceptedWorker(@Nullable Worker acceptedWorker) {
+        this.acceptedWorker = acceptedWorker;
     }
 
     public Boolean getArchived() {

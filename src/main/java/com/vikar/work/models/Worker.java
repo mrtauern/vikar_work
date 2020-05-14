@@ -62,6 +62,10 @@ public class Worker {
     @ManyToMany(mappedBy = "assignmentRequests")
     private Set<Assignment> requestedAssignments = new HashSet<>();
 
+    @Nullable
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Assignment> acceptedWorker = new HashSet<>();
+
     public Worker(String CVRNumber, String bankNumber, String zip, String houseNumber, Set<CV> cvs, String firstname, String lastname, String email, String password, String username, String streetName, String city, long phoneNumber) {
         this.CVRNumber = ""+CVRNumber;
         this.bankNumber = ""+bankNumber;
@@ -221,5 +225,13 @@ public class Worker {
         this.requestedAssignments = requestedAssignments;
     }
 
+    @Nullable
+    public Set<Assignment> getAcceptedWorker() {
+        return acceptedWorker;
+    }
+
+    public void setAcceptedWorker(@Nullable Set<Assignment> acceptedWorker) {
+        this.acceptedWorker = acceptedWorker;
+    }
 }
 
