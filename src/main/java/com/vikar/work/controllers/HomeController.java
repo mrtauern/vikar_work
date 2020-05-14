@@ -482,4 +482,10 @@ public class HomeController {
 
         return "om_os";
     }
+
+    @GetMapping("/resetPassword")
+    public String resetPassword() {
+        messageService.sendEmail(1);
+        return "index";
+    }
 }

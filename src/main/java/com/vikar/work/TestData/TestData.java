@@ -117,7 +117,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
         worker1.setFirstname("Arne");
         worker1.setLastname("Kallesen");
-        worker1.setEmail("KalleKallesen@gmail.com");
+        worker1.setEmail("hhaidari25@gmail.com");
         worker1.setPassword("pass1234");
         worker1.setStreetName("Skoleholdervej");
         worker1.setCity("Copenhagen");

@@ -14,5 +14,6 @@ public interface MessageService {
     Iterable<Message> findAll();
     Message save(Message message);
     ArrayList<Message> findMessages(String sessionId, String sessionType);
+    void sendEmail(int userId);
 
 }
