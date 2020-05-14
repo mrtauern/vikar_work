@@ -160,7 +160,7 @@ public class AssignmentController {
                 assignment.getAssignmentRequests().add(worker);
                 worker.getRequestedAssignments().add(assignment);
 
-                if(assignment.getJob().getId() == 2){
+                if(assignment.getJob().getId() == 1){
                     assignment.setAcceptedWorker(worker);
                     worker.getAcceptedWorker().add(assignment);
                 }
