@@ -1,8 +1,6 @@
 package com.vikar.work.controllers;
 
-import com.vikar.work.models.Company;
-import com.vikar.work.models.User;
-import com.vikar.work.models.Worker;
+import com.vikar.work.models.*;
 import com.vikar.work.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +29,9 @@ public class HomeController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    MessageService messageService;
 
     Logger log = Logger.getLogger(HomeController.class.getName());
 
@@ -273,6 +274,204 @@ public class HomeController {
             return "redirect:/notLoggedIn";
         }
     }
+
+
+    @GetMapping("/sendMessage")
+    public String sendMessage(HttpSession session, @ModelAttribute Message message, Model model) {
+        log.info("sendMessage called...");
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+        log.info("SenderId: "+sessionId[0]+" SenderType: "+sessionId[1]);
+
+        if(session.getAttribute("login") != null){
+            model.addAttribute("pageTitle", "Send Besked");
+            model.addAttribute("senderId", sessionId[0]);
+            model.addAttribute("senderType", sessionId[1]);
+            model.addAttribute("reply",false);
+
+            return "sendMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @GetMapping("/sendMessage/{recipientUser}/{messageId}")
+    public String sendMessage(HttpSession session, @PathVariable("recipientUser") String recipientUser, @PathVariable("messageId") long messageId, Model model) {
+        log.info("sendMessage called from reply with recipientUser: "+recipientUser+" and messageId: "+messageId);
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+
+        if(session.getAttribute("login") != null){
+            Message prevMessage = messageService.findById(messageId).get();
+            model.addAttribute("prevMessage", prevMessage);
+            model.addAttribute("recipient",recipientUser);
+            model.addAttribute("reply", true);
+            model.addAttribute("pageTitle", "Send Besked");
+            model.addAttribute("senderId", sessionId[0]);
+            model.addAttribute("senderType", sessionId[1]);
+
+            return "sendMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @PostMapping("/sendMessage")
+    public String sendMessage(@ModelAttribute Message message,
+                                   @RequestParam("senderId") Long senderId,
+                                   @RequestParam("senderType") String senderType,
+                                   @RequestParam("username") String recipientName) {
+        log.info("sendMessage called POST called...");
+        Worker wSender = new Worker();
+        Company cSender = new Company();
+
+        if(senderType.equals("w")) {
+            wSender = freelanceService.findById(senderId).get();
+        } else if(senderType.equals("c")) {
+            cSender = companyService.findById(senderId).get();
+        } else {
+            log.info("something went wrong1");
+        }
+
+        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
+        ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();
+        Company sendToCompany = new Company();
+        Worker sendToWorker = new Worker();
+
+        log.info("RecipientName: "+recipientName);
+
+        for (Company c: companies) {
+            if(c.getUsername().equals(recipientName)) {
+                sendToCompany = c;
+                log.info("sending to company: "+c.getUsername());
+            }
+        }
+
+        for (Worker w: workers) {
+            if(w.getUsername().equals(recipientName)) {
+                sendToWorker = w;
+                log.info("sending to worker: "+w.getUsername());
+            }
+        }
+
+        if(sendToCompany.getUsername() != null) {
+            Message sendMessage = new Message();
+            sendMessage.setContent(message.getContent());
+
+            if(senderType.equals("w")) {
+                sendMessage.setSenderWorker(wSender);
+            }else {
+                sendMessage.setSenderCompany(cSender);
+            }
+            sendMessage.setHeadline(message.getHeadline());
+            sendMessage.setRecipientCompany(sendToCompany);
+            messageService.save(sendMessage);
+
+        } else if (sendToWorker.getUsername() != null) {
+            log.info("time to send the message to worker: "+sendToWorker.getUsername());
+            Message sendMessage = new Message();
+            sendMessage.setContent(message.getContent());
+
+            if(senderType.equals("w")) {
+                sendMessage.setSenderWorker(wSender);
+            }else {
+                sendMessage.setSenderCompany(cSender);
+            }
+            sendMessage.setHeadline(message.getHeadline());
+            sendMessage.setRecipientWorker(sendToWorker);
+            messageService.save(sendMessage);
+
+        } else {
+            //error
+            log.info("something went wrong2");
+        }
+
+        //skal nok laves til indboks eller sendte beskeder
+        return "redirect:/inbox";
+    }
+
+    @GetMapping("/inbox")
+    public String inbox(HttpSession session, Model model) {
+        log.info("inbox called");
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+            model.addAttribute("pageTitle", "Inbox");
+            log.info("added page title and session info variables");
+
+            ArrayList<Message> messages = messageService.findMessages(sessionId[0],sessionId[1]);
+            log.info("Found messages");
+
+            if(messages.size() == 0) {
+                log.info("message list size 0... adding empty message");
+                Message emptyMessage = new Message();
+                messages.add(emptyMessage);
+                model.addAttribute("messages",messages);
+            }
+            else {
+                log.info("message list size >0");
+                model.addAttribute("messages", messages);
+            }
+
+            return "inbox";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
+    @GetMapping("/showMessage/{id}")
+    public String showMessage(HttpSession session, @PathVariable("id") long messageId, Model model) {
+        log.info("showMessage called with id: "+messageId);
+        if(session.getAttribute("login") != null){
+            String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
+            Message message = messageService.findById(messageId).get();
+            Boolean isCompany = false;
+            model.addAttribute("pageTitle", "Vis besked");
+
+
+            if(sessionId[1].equals("c")) {
+                Company company = companyService.findById(Integer.valueOf(sessionId[0])).get();
+                if(company.getId() == message.getRecipientCompany().getId()) {
+                    model.addAttribute("message", message);
+                    log.info("adding message");
+                    if(message.getSenderWorker() !=null) {
+                        model.addAttribute("sender",message.getSenderWorker());
+                        log.info("setting sender worker");
+                    }else if(message.getSenderCompany()!=null) {
+                        model.addAttribute("sender",message.getSenderCompany());
+                        isCompany = true;
+                        log.info("setting sender company "+message.getSenderCompany().getCompanyName());
+                    }
+                }
+                model.addAttribute("replier",company);
+            } else if(sessionId[1].equals("w")) {
+                Worker worker = freelanceService.findById(Integer.valueOf(sessionId[0])).get();
+                if(worker.getId() == message.getRecipientWorker().getId()) {
+                    model.addAttribute("message", message);
+                    log.info("adding message");
+                    if(message.getSenderWorker() !=null) {
+                        model.addAttribute("sender",message.getSenderWorker());
+                        log.info("setting sender worker");
+                    }else if(message.getSenderCompany()!=null) {
+                        model.addAttribute("sender",message.getSenderCompany());
+                        isCompany = true;
+                        log.info("setting sender company");
+                    }
+                }
+                model.addAttribute("replier",worker);
+                model.addAttribute("isCompany",isCompany);
+            }
+            else {
+                log.info("Error sessiontype is neither c or w");
+            }
+
+            return "showMessage";
+        }
+        else {
+            return "redirect:/notLoggedIn";
+        }
+    }
+
 
     @GetMapping("/omOs")
     public String omOs(Model model){

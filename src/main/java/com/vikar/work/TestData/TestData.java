@@ -40,8 +40,13 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
     @Qualifier("CompanyRepo")
     private CompanyRepo companyRepo;
 
+    @Autowired
+    @Qualifier("MessageRepo")
+    private MessageRepo messageRepo;
+
     List<Worker> workers = new ArrayList<>();
     List<Job> jobs = new ArrayList<>();
+    List<Message> messages = new ArrayList<>();
 
     List<CV> cvs = new ArrayList<>();
 
