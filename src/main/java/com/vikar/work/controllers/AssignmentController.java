@@ -285,10 +285,21 @@ public class AssignmentController {
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
             if(sessionId[1].equals("c")) {
                 Assignment tempAssignment = assignmentService.findById(id).get();
-                String dateStartString = tempAssignment.getDateStart().toString();
-                String dateEndString = tempAssignment.getDateEnd().toString();
-                String[] splitDateStart = dateStartString.split(" ");
-                String[] splitDateEnd = dateEndString.split(" ");
+                if(tempAssignment.getDateStart() != null) {
+                    String dateStartString = tempAssignment.getDateStart().toString();
+                    String[] splitDateStart = dateStartString.split(" ");
+                    model.addAttribute("dateStart", splitDateStart[0]);
+                } else {
+                    model.addAttribute("dateStart", "0");
+                }
+
+                if(tempAssignment.getDateEnd() != null) {
+                    String dateEndString = tempAssignment.getDateEnd().toString();
+                    String[] splitDateEnd = dateEndString.split(" ");
+                    model.addAttribute("dateEnd", splitDateEnd[0]);
+                } else {
+                    model.addAttribute("dateEnd", "0");
+                }
 
                 Job tempJob = tempAssignment.getJob();
                 log.info(tempJob.getId()+"tempjob id");
@@ -296,8 +307,8 @@ public class AssignmentController {
                 model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
                 model.addAttribute("jobId", tempJob.getId());
                 model.addAttribute("pageTitle", "Edit Assignment");
-                model.addAttribute("dateStart", splitDateStart[0]);
-                model.addAttribute("dateEnd", splitDateEnd[0]);
+
+
                 model.addAttribute("assignment", assignmentService.findById(id));
                 model.addAttribute("jobList", jobService.findAll());
 
