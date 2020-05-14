@@ -167,7 +167,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         company1.setPassword("1234");
         company1.setStreetName("Route66");
         company1.setCity("Ingolfstadt");
-        company1.setEmail("hhaidari25@gmail.com");
+        company1.setEmail("FelixTheReal@gmail.com");
 
         company2.setCVRNumber(12345679);
         company2.setBankNumber(987654322);
