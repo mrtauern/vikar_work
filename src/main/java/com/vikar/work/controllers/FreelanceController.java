@@ -81,6 +81,7 @@ public class FreelanceController {
         String test = ""+worker.getCVRNumber();
         log.info("CVR test "+test);
 
+
         log.info("worker id "+worker.getId());
         log.info("username: "+worker.getUsername()+" firstname "+worker.getFirstname()+" lastname "+worker.getLastname());
 
@@ -98,8 +99,10 @@ public class FreelanceController {
             worker.setCVRNumber(0);
             freelanceService.save(worker);
         }
+
         model.addAttribute("loginType", sessionId[1]);
-        return "redirect:/editWorker/"+worker.getId();
+        return "redirect:/landingPage";
+
     }
 
     @PostMapping("/deleteWorker")

@@ -77,7 +77,7 @@ public class HomeController {
 
         Iterable<Company> companies = companyService.findAll();
         for (Company c: companies) {
-            if(c.getUsername().equals(user.getUsername())){
+            if(c.getUsername().toLowerCase().equals(user.getUsername().toLowerCase())){
                 log.info("Username already exist!");
                 redirAttr.addFlashAttribute("userExist", true);
                 redirAttr.addFlashAttribute("user", user);
@@ -87,7 +87,7 @@ public class HomeController {
 
         Iterable<Worker> workers = freelanceService.findAll();
         for (Worker w: workers) {
-            if(w.getUsername().equals(user.getUsername())){
+            if(w.getUsername().toLowerCase().equals(user.getUsername().toLowerCase())){
                 log.info("Username already exist!");
                 redirAttr.addFlashAttribute("userExist", true);
                 redirAttr.addFlashAttribute("user", user);
@@ -154,7 +154,7 @@ public class HomeController {
 
         Iterable<Company> companies = companyService.findAll();
         for (Company c: companies) {
-            if(c.getUsername().equals(user.getUsername())){
+            if(c.getUsername().toLowerCase().equals(user.getUsername().toLowerCase())){
                 userFound = true;
                 if(c.getPassword().equals(user.getPassword1())){
                     setLogin(session, 'c', c.getId());
@@ -168,7 +168,7 @@ public class HomeController {
 
         Iterable<Worker> workers = freelanceService.findAll();
         for (Worker w: workers) {
-            if(w.getUsername().equals(user.getUsername())){
+            if(w.getUsername().toLowerCase().equals(user.getUsername().toLowerCase())){
                 userFound = true;
                 if(w.getPassword().equals(user.getPassword1())){
                     setLogin(session, 'w', w.getId());

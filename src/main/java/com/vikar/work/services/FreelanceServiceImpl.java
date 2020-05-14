@@ -1,8 +1,5 @@
 package com.vikar.work.services;
 
-import com.vikar.work.controllers.FreelanceController;
-import com.vikar.work.models.Assignment;
-import com.vikar.work.models.Company;
 import com.vikar.work.models.MapMarker;
 import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.FreelanceRepo;
@@ -23,8 +20,8 @@ public class FreelanceServiceImpl implements FreelanceService {
     }
 
     @Override
-    public Worker save(Worker worker) {
-        return freelanceRepo.save(worker);
+    public void save(Worker worker) {
+        freelanceRepo.save(worker);
     }
   
     public Worker updateWorker(Worker worker) {
