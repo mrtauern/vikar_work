@@ -66,16 +66,20 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
 
-        Worker worker = freelanceService.findById(id).get();
         Assignment assignment = assignmentService.findById(assignmentId).get();
+
+        if(type.equals("w")) {
+            Worker worker = freelanceService.findById(id).get();
+            log.info("Assignment worker: " + assignment.getAssignmentRequests().contains(worker));
+            model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
+        }
+
         String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
-        log.info("Assignment worker: "+assignment.getAssignmentRequests().contains(worker));
 
         model.addAttribute("userId", id);
         model.addAttribute("type", type);
         model.addAttribute("loginType", sessionId[1]);
 
-        model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
         model.addAttribute("assignment", assignment);
         model.addAttribute("companyId", assignment.getCompany().getId());
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
