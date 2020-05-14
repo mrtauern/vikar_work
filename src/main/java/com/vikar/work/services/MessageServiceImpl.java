@@ -72,7 +72,7 @@ public class MessageServiceImpl implements MessageService {
         return recievedMessages;
     }
 
-    public void sendEmail(int userId) {
+    public void sendEmail(String email) {
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "true");
@@ -91,7 +91,7 @@ public class MessageServiceImpl implements MessageService {
 
             MimeMessage msg = new MimeMessage(session);
 
-            String to = "VikarWork@gmail.com, niklasld@gmail.com";
+            String to = "VikarWork@gmail.com, "+email;
 
             InternetAddress[] address = InternetAddress.parse(to, true);
 
@@ -103,7 +103,9 @@ public class MessageServiceImpl implements MessageService {
 
             mailText = "Hej" + "\n\n";
             mailText += "Reset dit password her \n\n";
-            mailText += "http://localhost/resetPassword/" + userId + "\n\n";
+            //hvis uploades skal skiftes til korrekt addresse
+            mailText += "http://localhost:8080/resetPassword/" + email + "/laventokenher"+"\n\n";
+            mailText += "Vi har resat dit password til 111222 du kan nu logge ind og ændre dit password på din profil... \n\n";
             mailText += "Med venlig hilsen.\n";
             mailText += "Vikar Work";
 

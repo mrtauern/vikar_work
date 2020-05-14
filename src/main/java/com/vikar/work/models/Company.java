@@ -41,6 +41,8 @@ public class Company {
     @Convert(converter = AttributeEncryptor.class)
     public String city;
 
+    public String email;
+
     public long phoneNumber;
 
     @Nullable
@@ -174,5 +176,13 @@ public class Company {
 
     public void setAssignments(Set<Assignment> assignments) {
         this.assignments = assignments;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
