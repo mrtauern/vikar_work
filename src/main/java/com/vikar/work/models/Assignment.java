@@ -62,8 +62,7 @@ public class Assignment {
         this.isArchived = isArchived;
     }
 
-    public Assignment(Long id, String name, String description, String streetName, String city, String neededExperience, Date dateStart, Date dateEnd, Long houseNumber, Long ZIP, int hourlyWage, Boolean isArchived, Job job, Set<Worker> assignmentRequests) {
-        this.id = id;
+    public Assignment(String name, String description, String streetName, String city, String neededExperience, Date dateStart, Date dateEnd, Long houseNumber, Long ZIP, int hourlyWage, Job job, Set<Worker> assignmentRequests) {
         this.name = name;
         this.description = description;
         this.streetName = streetName;
@@ -74,7 +73,6 @@ public class Assignment {
         this.houseNumber = houseNumber;
         this.ZIP = ZIP;
         this.hourlyWage = hourlyWage;
-        this.isArchived = isArchived;
         this.job = job;
         this.assignmentRequests = assignmentRequests;
     }

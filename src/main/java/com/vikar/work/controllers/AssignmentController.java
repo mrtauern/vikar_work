@@ -213,12 +213,12 @@ public class AssignmentController {
             }
             else if (sessionId[1].equals("w")){
 
-                return "redirect:/assignments";
+                return "redirect:/landingPage";
             }
 
             else {
 
-                return "redirect:/";
+                return "redirect:/notLoggedIn";
             }
 
         } else {
@@ -254,7 +254,7 @@ public class AssignmentController {
                 assignmentService.save(assignment);
                 companyService.save(company);
 
-                return "createAssignment";
+                return "redirect:/landingPage";
 
             }
             else if (sessionId[1].equals("w")){
@@ -264,7 +264,7 @@ public class AssignmentController {
 
             else {
 
-                return "redirect:/";
+                return "redirect:/landingPage";
             }
 
         } else {
@@ -286,7 +286,7 @@ public class AssignmentController {
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             Assignment tempAssignment = assignmentService.findById(id).get();
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
-            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getId()) {
+            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
 
                 String dateStartString = tempAssignment.getDateStart().toString();
                 String dateEndString = tempAssignment.getDateEnd().toString();
@@ -340,12 +340,12 @@ public class AssignmentController {
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
             if(sessionId[1].equals("c")) {
-                Job tempJob = new Job();
+                /*Job tempJob = new Job();
                 Job oldJob = new Job();
-                Assignment oldAssignment = new Assignment();
-                oldAssignment = assignmentService.findById(assignment.getId()).get();
-                oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
-                tempJob = jobService.findById(jobId).get();
+                Assignment oldAssignment = new Assignment();*/
+                Assignment oldAssignment = assignmentService.findById(assignment.getId()).get();
+                Job oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
+                Job tempJob = jobService.findById(jobId).get();
 
 
                 assignment.setJob(tempJob);
@@ -354,22 +354,24 @@ public class AssignmentController {
                 tempJob.getAssignments().remove(assignment);
                 tempJob.getAssignments().add(assignment);
 
+                assignment.setCompany(oldAssignment.getCompany());
+
                 log.info("presave");
                 jobService.save(tempJob);
                 assignmentService.save(assignment);
                 log.info("postsave");
 
-                return "redirect:/editAssignment/" + assignment.getId();
+                return "redirect:/landingPage";
 
             }
             else if (sessionId[1].equals("w")){
 
-                return "redirect:/showAssignment/" + assignment.getId();
+                return "redirect:/landingPage";
             }
 
             else {
 
-                return "redirect:/showAssignment/" + assignment.getId();
+                return "redirect:/notLoggedIn";
             }
 
         } else {
