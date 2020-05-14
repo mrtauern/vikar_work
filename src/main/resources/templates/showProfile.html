@@ -58,7 +58,7 @@
                             <form method="Post" th:action="@{/removeFromCv}" th:object="${removeCv}" onsubmit="return confirm_delete(this.form)">
                                 <input th:name="cvId" type="hidden" th:value="${cv.id}">
                                 <input th:name="workerId" type="hidden" th:value="${Worker.id}">
-                                <button th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" type="submit"><i class="fas fa-trash-alt"></i> Slet</button>
+                                <button th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i> Slet</button>
                             </form>
                         </td>
                     </tr>

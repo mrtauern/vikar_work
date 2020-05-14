@@ -55,7 +55,7 @@
                 </form>
             </span>
         </div>
-        <div id="workersOnAssignment">
+        <div th:if="${WOA > 0}" id="workersOnAssignment">
         <span th:each="worker : ${workersOnAssignment}">
             <i class="fas fa-user-check"></i>
             <span class="sad" th:text="${worker.firstname} + ' ' + ${worker.lastname}"></span>

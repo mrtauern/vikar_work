@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+
+    <div id="inner_container">
+
+        <br>
+        <h1>Indboks: </h1>
+
+        <div id="test">
+        <span th:each="message : ${messages}">
+            <br>
+            <a th:href="@{'showMessage/'+${message.id}}"><span class="test2" th:text="${message.headline}"></span></a>
+        </span>
+            <br><br>
+            <a href="/sendMessage">Send besked</a>
+        </div>
+        <br>
+    </div>
+
+    <footer th:include="fragments/footer :: bottom"></footer>
+</div>

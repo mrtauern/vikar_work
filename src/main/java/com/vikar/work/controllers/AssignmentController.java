@@ -68,16 +68,18 @@ public class AssignmentController {
 
         Worker worker = freelanceService.findById(id).get();
         Assignment assignment = assignmentService.findById(assignmentId).get();
-
+        String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
         log.info("Assignment worker: "+assignment.getAssignmentRequests().contains(worker));
 
         model.addAttribute("userId", id);
         model.addAttribute("type", type);
+        model.addAttribute("loginType", sessionId[1]);
 
         model.addAttribute("requested", assignment.getAssignmentRequests().contains(worker));
         model.addAttribute("assignment", assignment);
         model.addAttribute("companyId", assignment.getCompany().getId());
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
+        model.addAttribute("WOA", assignment.getAssignmentRequests().size());
 
         return "showAssignment";
     }
@@ -207,6 +209,7 @@ public class AssignmentController {
             if(sessionId[1].equals("c")) {
                 model.addAttribute("pageTitle", "Opret opgave");
                 model.addAttribute("jobList", jobService.findAll());
+                model.addAttribute("loginType", sessionId[1]);
 
                 return "createAssignment";
 
@@ -286,12 +289,24 @@ public class AssignmentController {
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             Assignment tempAssignment = assignmentService.findById(id).get();
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
-            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
 
-                String dateStartString = tempAssignment.getDateStart().toString();
-                String dateEndString = tempAssignment.getDateEnd().toString();
-                String[] splitDateStart = dateStartString.split(" ");
-                String[] splitDateEnd = dateEndString.split(" ");
+            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
+                Assignment tempAssignment = assignmentService.findById(id).get();
+                if(tempAssignment.getDateStart() != null) {
+                    String dateStartString = tempAssignment.getDateStart().toString();
+                    String[] splitDateStart = dateStartString.split(" ");
+                    model.addAttribute("dateStart", splitDateStart[0]);
+                } else {
+                    model.addAttribute("dateStart", "0");
+                }
+
+                if(tempAssignment.getDateEnd() != null) {
+                    String dateEndString = tempAssignment.getDateEnd().toString();
+                    String[] splitDateEnd = dateEndString.split(" ");
+                    model.addAttribute("dateEnd", splitDateEnd[0]);
+                } else {
+                    model.addAttribute("dateEnd", "0");
+                }
 
                 Job tempJob = tempAssignment.getJob();
                 log.info(tempJob.getId()+"tempjob id");
@@ -299,10 +314,11 @@ public class AssignmentController {
                 model.addAttribute("assigmentJobId", tempAssignment.getJob().getId());
                 model.addAttribute("jobId", tempJob.getId());
                 model.addAttribute("pageTitle", "Edit Assignment");
-                model.addAttribute("dateStart", splitDateStart[0]);
-                model.addAttribute("dateEnd", splitDateEnd[0]);
+
+
                 model.addAttribute("assignment", assignmentService.findById(id));
                 model.addAttribute("jobList", jobService.findAll());
+                model.addAttribute("loginType", sessionId[1]);
 
                 return "editAssignment";
 
@@ -332,6 +348,7 @@ public class AssignmentController {
         log.info("edit Assignment postmaping called");
         log.info("job id: "+jobId);
         log.info("Assignment ID "+assignment.getId());
+
 
 
         if(session.getAttribute("login") != null){
@@ -385,11 +402,10 @@ public class AssignmentController {
     public String activeAssignmentList(Model model, HttpSession session){
         log.info("Active assignment list called...");
 
-
+        String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
 
-            String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
             List<Assignment> assignments = new ArrayList<>();
 
@@ -402,6 +418,7 @@ public class AssignmentController {
 
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
+        model.addAttribute("loginType", sessionId[1]);
         //model.addAttribute("numNotifications", 2);
 
 
@@ -500,7 +517,7 @@ public class AssignmentController {
     @GetMapping("/assignments")
     public String assignments(Model model, HttpSession session){
         log.info("Landing page Assignments called list called...");
-
+        String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
         if(session.getAttribute("login") != null){
 
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
@@ -518,6 +535,7 @@ public class AssignmentController {
             String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
             model.addAttribute("json", jsonFromJavaArrayList);
+            model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("assignments", assignments);
             model.addAttribute("pageTitle", "Landing Page");
 

@@ -13,13 +13,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/landingPage">Forside</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Om os</a>
-                </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="far fa-bell"></i>
+
+                    <a class="nav-link" href="/inbox">
+                        <i class="far fa-comment"></i>
+
                         <span id="countNotification" th:text="${numNotifications}"></span>
                     </a>
                 </li>
@@ -36,7 +35,7 @@
                     <div class="dropdown-menu">
                         <a href="/log_out" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log af</a>
                         <a href="/settings" class="dropdown-item"><i class="fas fa-user-edit"></i> Rediger oplysninger</a>
-                        <a href="/showProfile" class="dropdown-item"><i class="fas fa-address-card"></i> Se bruger oplysninger og CV</a>
+                        <a th:if="@{${loginType == 'w'}}" th:href="@{/showProfile}" class="dropdown-item"><i class="fas fa-address-card"></i> Se bruger oplysninger og CV</a>
                     </div>
                 </li>
 
@@ -70,7 +69,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Om os</a>
+                    <a class="nav-link" href="/omOs">Om os</a>
                 </li>
                 </li>
 
