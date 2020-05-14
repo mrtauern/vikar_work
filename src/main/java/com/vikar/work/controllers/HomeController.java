@@ -482,4 +482,45 @@ public class HomeController {
 
         return "om_os";
     }
+
+    @GetMapping("/resetPassword")
+    public String resetPassword(Model model) {
+        log.info("Reset password called");
+
+        model.addAttribute("pageTitle", "Password Reset");
+
+        return "resetPassword";
+    }
+
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestParam("email1") String email) {
+            log.info("reset password postmapping called");
+            ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
+            ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();
+            int count = 0;
+            for (Worker w: workers) {
+                if (w.getEmail() != null && w.getEmail().equals(email)) {
+                    log.info("worker password set");
+                    w.setPassword("111222");
+                    freelanceService.save(w);
+                }
+            }
+            for (Company c: companies) {
+                count = count+1;
+                log.info(""+count);
+                if (c.getEmail() != null && c.getEmail().equals(email)) {
+                    log.info("company password set");
+                    c.setPassword("111222");
+                    companyService.save(c);
+                    log.info("password saved for company");
+                }
+                log.info(""+count);
+            }
+        log.info("sending email to: ");
+        messageService.sendEmail(email);
+        log.info("email sent");
+
+        return "login";
+
+    }
 }

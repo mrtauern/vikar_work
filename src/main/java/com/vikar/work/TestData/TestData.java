@@ -117,7 +117,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
 
         worker1.setFirstname("Arne");
         worker1.setLastname("Kallesen");
-        worker1.setEmail("KalleKallesen@gmail.com");
+        worker1.setEmail("palle@gmail.com");
         worker1.setPassword("pass1234");
         worker1.setStreetName("Skoleholdervej");
         worker1.setCity("Copenhagen");
@@ -167,6 +167,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         company1.setPassword("1234");
         company1.setStreetName("Route66");
         company1.setCity("Ingolfstadt");
+        company1.setEmail("FelixTheReal@gmail.com");
 
         company2.setCVRNumber(12345679);
         company2.setBankNumber(987654322);
