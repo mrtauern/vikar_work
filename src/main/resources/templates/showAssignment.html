@@ -40,7 +40,7 @@
 
         <div id="apply">
             <h3>Tilmeldte ansøgere</h3>
-            <span th:if="${type == 'w'}">
+            <span th:if="${type == 'w' and accepted == false}">
                 <form th:if="${!requested}" th:method="post" th:action="@{/applyForAssignment}" class="form-inline">
                     <input th:name="assignmentId" type="hidden" th:value="${assignment.id}">
                     <input th:name="userId" type="hidden" th:value="${userId}">
@@ -59,6 +59,7 @@
         <span th:each="worker : ${workersOnAssignment}">
             <i class="fas fa-user-check"></i>
             <span class="sad" th:text="${worker.firstname} + ' ' + ${worker.lastname}"></span>
+            <span th:if="${worker.Id == acceptedId}" class="accepted"><i class="fas fa-check mr-1"></i>Accepted</span>
         </span>
         </div>
         <br>
