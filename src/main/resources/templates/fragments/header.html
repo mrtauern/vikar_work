@@ -35,7 +35,7 @@
                     <div class="dropdown-menu">
                         <a href="/log_out" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log af</a>
                         <a href="/settings" class="dropdown-item"><i class="fas fa-user-edit"></i> Rediger oplysninger</a>
-                        <a href="/showProfile" class="dropdown-item"><i class="fas fa-address-card"></i> Se bruger oplysninger og CV</a>
+                        <a th:if="@{${loginType == 'w'}}" th:href="@{/showProfile}" class="dropdown-item"><i class="fas fa-address-card"></i> Se bruger oplysninger og CV</a>
                     </div>
                 </li>
 
