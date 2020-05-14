@@ -389,37 +389,24 @@ public class HomeController {
 
     @GetMapping("/inbox")
     public String inbox(HttpSession session, Model model) {
+        log.info("inbox called");
         if(session.getAttribute("login") != null){
             String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
-            ArrayList<Message> messages = (ArrayList<Message>) messageService.findAll();
             model.addAttribute("pageTitle", "Inbox");
+            log.info("added page title and session info variables");
 
-            if(sessionId[1].equals("c")) {
-                ArrayList<Message> messagesToCompany = new ArrayList<>();
-                for (Message m: messages) {
+            ArrayList<Message> messages = messageService.findMessages(sessionId[0],sessionId[1]);
+            log.info("Found messages");
 
-                    if(m.getRecipientCompany().getId() == Integer.valueOf(sessionId[0])) {
-                        messagesToCompany.add(m);
-                    }
-                }
-                model.addAttribute("messages",messagesToCompany);
+            if(messages.size() == 0) {
+                log.info("message list size 0... adding empty message");
+                Message emptyMessage = new Message();
+                messages.add(emptyMessage);
+                model.addAttribute("messages",messages);
             }
-
-            else if(sessionId[1].equals("w")) {
-                ArrayList<Message> messagesToWorker = new ArrayList<>();
-                log.info("found worker...");
-                for (Message m: messages) {
-                    if(m.getRecipientWorker().getId() == Integer.valueOf(sessionId[0])) {
-                        log.info("adding message to worker inbox");
-                        messagesToWorker.add(m);
-                    }
-                }
-                log.info("er det her der kommer null point exception?=");
-                model.addAttribute("messages",messagesToWorker);
-            }
-
             else {
-                log.info("Error sessiontype is neither c or w");
+                log.info("message list size >0");
+                model.addAttribute("messages", messages);
             }
 
             return "inbox";
