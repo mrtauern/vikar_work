@@ -79,12 +79,19 @@ public class FreelanceController {
         log.info("editworker putmapping called...");
         String test = ""+worker.getCVRNumber();
         log.info("CVR test "+test);
+        log.info("worker id "+worker.getId());
+        log.info("username: "+worker.getUsername()+" firstname "+worker.getFirstname()+" lastname "+worker.getLastname());
+
+        Worker oldWorker = freelanceService.findById(worker.getId()).get();
+        worker.setRequestedAssignments(oldWorker.getRequestedAssignments());
+        worker.setCvs(oldWorker.getCvs());
+
         if (worker.getCVRNumber() > 0) {
-            freelanceService.updateWorker(worker);
+            freelanceService.save(worker);
         }
         else {
             worker.setCVRNumber(0);
-            freelanceService.updateWorker(worker);
+            freelanceService.save(worker);
         }
 
         return "redirect:/editWorker/"+worker.getId();
