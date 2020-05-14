@@ -295,7 +295,7 @@ public class AssignmentController {
 // NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
 
             if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
-                Assignment tempAssignment = assignmentService.findById(id).get();
+/*                Assignment tempAssignment = assignmentService.findById(id).get();*/
                 if(tempAssignment.getDateStart() != null) {
                     String dateStartString = tempAssignment.getDateStart().toString();
                     String[] splitDateStart = dateStartString.split(" ");
