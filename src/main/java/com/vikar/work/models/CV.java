@@ -13,7 +13,6 @@ public class CV {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    //@JoinTable(name = "cv_worker", joinColumns = @JoinColumn(name = "worker_id"), inverseJoinColumns = @JoinColumn(name = "cv_id"))
     private Worker worker;
 
     private String workplace;

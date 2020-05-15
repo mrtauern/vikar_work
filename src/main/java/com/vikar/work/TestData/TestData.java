@@ -83,7 +83,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment2.setHouseNumber((long) 2);
         assignment2.setHourlyWage(55);
 
-        //assignment1.setZIP((long) 2222);
 
         //add a test job
         Job jobs1 = new Job();
@@ -98,16 +97,10 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         jobs4.setProfession("Elektriker");
 
 
-
         jobs2.getAssignments().add(assignment1);
         assignment1.setJob(jobs2);
         assignment2.setJob(jobs3);
 
-
-        //add date mm-dd-yyyy
-
-        /*assignment1.setDateStart(assignmentService.createDateFromString("10/08/2020"));
-        assignment1.setDateEnd(assignmentService.createDateFromString("12/08/2020"));*/
 
         Worker worker1 = new Worker();
         worker1.setCVRNumber(22311551);
@@ -167,7 +160,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         company1.setPassword("1234");
         company1.setStreetName("Route66");
         company1.setCity("Ingolfstadt");
-        company1.setEmail("FelixTheReal@gmail.com");
+        company1.setEmail("hhaidari25@gmail.com");
 
         company2.setCVRNumber(12345679);
         company2.setBankNumber(987654322);
@@ -181,17 +174,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         company2.setStreetName("Autobahn");
         company2.setCity("Ausfart");
 
-        /*company1.getAssignments().add(assignment1);
-        company1.getAssignments().add(assignment2);
-
-        assignment1.setCompany(company1);
-        assignment2.setCompany(company1);*/
-
-        //add assignment requests to workers
-        /*worker1.getRequestedAssignments().add(assignment1);
-        worker2.getRequestedAssignments().add(assignment1);
-        assignment1.getAssignmentRequests().add(worker1);
-        assignment1.getAssignmentRequests().add(worker2);*/
 
         CV cv1 = new CV();
         cv1.setWorker(worker1);
@@ -199,8 +181,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         cv1.setJobTitle("CEO");
         cv1.setStartDate("03/11/2014");
         cv1.setEndDate("07/05/2019");
-
-        //cvs.add(cv1);
 
         worker1.getCvs().add(cv1);
 
@@ -249,8 +229,6 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         jobRepo.saveAll(jobs);
         freelanceRepo.saveAll(workers);
 
-        //combineAssignmentWithCompany();
-
         Assignment assignment1 = assignmentService.findById(1).get();
         Assignment assignment2 = assignmentService.findById(2).get();
         Company company = companyService.findById(1).get();
@@ -269,6 +247,5 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignmentService.save(assignment2);
         companyService.save(company);
 
-        //cvRepo.saveAll(cvs);
     }
 }

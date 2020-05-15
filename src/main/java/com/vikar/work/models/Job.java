@@ -13,10 +13,6 @@ public class Job {
 
     String Profession;
 
-
-/*    @ManyToMany(mappedBy = "jobTitles")
-    private Set<Assignment> assignments = new HashSet<>();*/
-
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Assignment> assignments = new HashSet<>();
 

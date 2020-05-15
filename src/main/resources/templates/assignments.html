@@ -16,7 +16,6 @@
             <tr>
                 <th>Navn</th>
                 <th>By</th>
-                <!--<th>Erfaring krævet</th>-->
                 <th>Start dato</th>
                 <th>Timeløn</th>
                 <th></th>
@@ -26,7 +25,6 @@
             <tr th:each="assignment : ${assignments}">
                 <td th:text="${assignment.name}"></td>
                 <td th:text="${assignment.city}"></td>
-                <!--<td th:text="${assignment.neededExperience}"></td>-->
                 <td th:text="${assignment.dateStart}"></td>
                 <td th:text="${assignment.hourlyWage + ' kr.'}"></td>
                 <td>
@@ -43,8 +41,7 @@
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
 <script th:inline="javascript">
     // Initialize and add the map
     function initMap() {

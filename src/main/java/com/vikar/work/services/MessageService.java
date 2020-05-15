@@ -15,5 +15,6 @@ public interface MessageService {
     Message save(Message message);
     ArrayList<Message> findMessages(String sessionId, String sessionType);
     void sendEmail(String email);
+    void passwordReset(String email);
 
 }

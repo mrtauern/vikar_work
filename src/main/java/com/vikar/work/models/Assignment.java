@@ -42,12 +42,6 @@ public class Assignment {
     private Boolean isArchived = false;
 
 
-/*    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "assignment_job",
-            joinColumns = @JoinColumn(name = "assignment_id"),
-            inverseJoinColumns = @JoinColumn(name = "job_id"))
-    private Set<Job> jobTitles = new HashSet<>();*/
-
     @ManyToOne(cascade = CascadeType.ALL)
     private Job job;
 
@@ -178,14 +172,6 @@ public class Assignment {
     public void setHourlyWage(int hourlyWage) {
         this.hourlyWage = hourlyWage;
     }
-
-    /*public Set<Job> getJobTitles() {
-        return jobTitles;
-    }*/
-
-    /*public void setJobTitles(Set<Job> jobTitles) {
-        this.jobTitles = jobTitles;
-    }*/
 
     public Job getJob() {
         return job;
