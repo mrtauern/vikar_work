@@ -340,17 +340,17 @@ public class HomeController {
         Company sendToCompany = new Company();
         Worker sendToWorker = new Worker();
 
-        log.info("RecipientName: "+recipientName);
+        log.info("RecipientName: "+recipientName.toLowerCase());
 
         for (Company c: companies) {
-            if(c.getUsername().equals(recipientName)) {
+            if(c.getUsername().toLowerCase().equals(recipientName.toLowerCase())) {
                 sendToCompany = c;
                 log.info("sending to company: "+c.getUsername());
             }
         }
 
         for (Worker w: workers) {
-            if(w.getUsername().equals(recipientName)) {
+            if(w.getUsername().toLowerCase().equals(recipientName.toLowerCase())) {
                 sendToWorker = w;
                 log.info("sending to worker: "+w.getUsername());
             }

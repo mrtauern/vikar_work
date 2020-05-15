@@ -255,7 +255,7 @@ public class FreelanceController {
             return "redirect:/login";
         }
     }
-
+    // skal testes af Niklas eller Felix
     @GetMapping("/googleMap")
     public String googleMap(Model model) {
         log.info("googleMap called");

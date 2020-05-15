@@ -30,7 +30,9 @@ public class Message {
     @ManyToOne(cascade = CascadeType.ALL)
     private Company recipientCompany;
 
+    @Column( length = 100000 )
     private String content;
+
     private String headline;
 
     @CreationTimestamp

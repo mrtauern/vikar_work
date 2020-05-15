@@ -79,6 +79,11 @@ public class AssignmentController {
         }
 
         String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+        long companyId = 0;
+
+        if (assignment.getCompany() != null) {
+            companyId = assignment.getCompany().getId();
+        }
 
         model.addAttribute("userId", id);
         model.addAttribute("type", type);
@@ -86,7 +91,7 @@ public class AssignmentController {
         model.addAttribute("accepted", accepted);
         model.addAttribute("acceptedId", acceptedId);
         model.addAttribute("assignment", assignment);
-        model.addAttribute("companyId", assignment.getCompany().getId());
+        model.addAttribute("companyId", companyId);
         model.addAttribute("workersOnAssignment", assignment.getAssignmentRequests());
         model.addAttribute("WOA", assignment.getAssignmentRequests().size());
 
@@ -504,6 +509,7 @@ public class AssignmentController {
         }
     }
 
+    //Skal testes på Niklas eller Felix maskine
     @GetMapping("/assignments")
     public String assignments(Model model, HttpSession session){
         log.info("Landing page Assignments called list called...");

@@ -46,7 +46,7 @@ public class Company {
     public long phoneNumber;
 
     @Nullable
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Assignment> assignments = new HashSet<>();
 
     public Company() {

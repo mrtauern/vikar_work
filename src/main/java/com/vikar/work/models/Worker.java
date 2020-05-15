@@ -63,7 +63,7 @@ public class Worker {
     private Set<Assignment> requestedAssignments = new HashSet<>();
 
     @Nullable
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Assignment> acceptedWorker = new HashSet<>();
 
     public Worker(String CVRNumber, String bankNumber, String zip, String houseNumber, Set<CV> cvs, String firstname, String lastname, String email, String password, String username, String streetName, String city, long phoneNumber) {

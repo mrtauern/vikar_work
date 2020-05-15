@@ -1,6 +1,8 @@
 package com.vikar.work.controllers;
 
+import com.vikar.work.models.Assignment;
 import com.vikar.work.models.Company;
+import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Controller
@@ -21,6 +24,9 @@ public class CompanyController {
 
     @Autowired
     CompanyServiceImpl companyService;
+
+    @Autowired
+    AssignmentService assignmentService;
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
@@ -97,8 +103,16 @@ public class CompanyController {
             log.info(""+session.getAttribute("login"));
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+            ArrayList<Assignment> assignments = (ArrayList<Assignment>) assignmentService.findAll();
 
             if(sessionId[0].equals(""+company.Id) && sessionId[1].equals("c")) {
+                for (Assignment a: assignments) {
+                    if(a.getCompany().getId() == company.getId()) {
+                        a.setCompany(null);
+                        a.setArchived(true);
+                        assignmentService.save(a);
+                    }
+                }
                 companyService.deleteCompany(company.getId());
 
                 return "redirect:/log_out";

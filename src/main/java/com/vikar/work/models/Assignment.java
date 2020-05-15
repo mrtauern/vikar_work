@@ -32,6 +32,7 @@ public class Assignment {
 
     private int hourlyWage;
 
+    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
