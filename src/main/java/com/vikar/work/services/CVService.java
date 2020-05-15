@@ -14,5 +14,4 @@ public interface CVService {
     void delete(CV cv);
     void save(CV cv);
 
-/*    void deleteById();*/
 }

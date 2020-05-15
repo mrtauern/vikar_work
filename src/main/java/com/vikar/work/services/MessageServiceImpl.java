@@ -2,7 +2,9 @@ package com.vikar.work.services;
 
 import com.vikar.work.controllers.HomeController;
 import com.vikar.work.models.Assignment;
+import com.vikar.work.models.Company;
 import com.vikar.work.models.Message;
+import com.vikar.work.models.Worker;
 import com.vikar.work.repositories.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,13 @@ import java.util.logging.Logger;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     MessageRepo messageRepo;
+
+    @Autowired
+    CompanyService companyService;
+
+    @Autowired
+    FreelanceService freelanceService;
+
 
     Logger log = Logger.getLogger(MessageServiceImpl.class.getName());
 
@@ -104,7 +113,6 @@ public class MessageServiceImpl implements MessageService {
             mailText = "Hej" + "\n\n";
             mailText += "Reset dit password her \n\n";
             //hvis uploades skal skiftes til korrekt addresse
-            mailText += "http://localhost:8080/resetPassword/" + email + "/laventokenher"+"\n\n";
             mailText += "Vi har resat dit password til 111222 du kan nu logge ind og ændre dit password på din profil... \n\n";
             mailText += "Med venlig hilsen.\n";
             mailText += "Vikar Work";
@@ -117,5 +125,29 @@ public class MessageServiceImpl implements MessageService {
         } catch (MessagingException mex) {
             log.info("Unable to send an email" + mex);
         }
+    }
+
+    public void passwordReset(String email){
+        ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
+        ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();
+
+        for (Worker w: workers) {
+            if (w.getEmail() != null && w.getEmail().equals(email)) {
+                log.info("worker password set");
+                w.setPassword("111222");
+                freelanceService.save(w);
+            }
+        }
+        for (Company c: companies) {
+            if (c.getEmail() != null && c.getEmail().equals(email)) {
+                log.info("company password set");
+                c.setPassword("111222");
+                companyService.save(c);
+                log.info("password saved for company");
+            }
+        }
+        log.info("sending email to: ");
+        sendEmail(email);
+        log.info("email sent");
     }
 }

@@ -61,33 +61,6 @@ public class User {
         this.bankNumber = 0;
     }
 
-    /*public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password1, String password2, String streetName, String city) {
-        this.CVRNumber = CVRNumber;
-        this.bankNumber = bankNumber;
-        this.zip = zip;
-        this.houseNumber = houseNumber;
-        this.companyName = companyName;
-        this.username = username;
-        this.password1 = password1;
-        this.password2 = password2;
-        this.streetName = streetName;
-        this.city = city;
-    }
-
-    public User(long CVRNumber, long bankNumber, long zip, long houseNumber, String firstname, String lastname, String email, String password1, String password2, String username, String streetName, String city) {
-        this.CVRNumber = CVRNumber;
-        this.bankNumber = bankNumber;
-        this.zip = zip;
-        this.houseNumber = houseNumber;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password1 = password1;
-        this.password2 = password2;
-        this.username = username;
-        this.streetName = streetName;
-        this.city = city;
-    }*/
 
     public long getPhoneNumber() {
         return phoneNumber;

@@ -110,7 +110,6 @@ public class FreelanceController {
         log.info("delete worker called id: "+worker.getId());
         if(session.getAttribute("login") != null){
             log.info(""+session.getAttribute("login"));
-            /*String test = (String)session.getAttribute("login");*/
             String[] sessionId = freelanceService.checkSession((String)session.getAttribute("login"));
 
             if(sessionId[0].equals(""+worker.getId()) && sessionId[1].equals("w")) {
@@ -137,7 +136,6 @@ public class FreelanceController {
     public String addToCv(@PathVariable("workerId") long workerId, Model model, HttpSession session){
         log.info("Add to cv called (get)");
 
-
         if(session.getAttribute("login") != null){
             String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
             if(sessionId[0].equals(""+workerId) && sessionId[1].equals("w")) {
@@ -147,19 +145,17 @@ public class FreelanceController {
             }
             else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
 
-                return "index";
+                return "redirect:/";
             }
 
             else {
-                //måske anden redirect her?
                 log.info("not correct workerId");
                 return "redirect:/addToCv/"+sessionId[0];
             }
         }
 
         else {
-            //måske anden redirect her?
-            return "login";
+            return "redirect:/login";
         }
     }
 
@@ -187,14 +183,11 @@ public class FreelanceController {
                 return "redirect:/showProfile/"+workerId;
             }
             else {
-                //måske anden redirect her?
                 log.info("not correct workerId");
                 return "redirect:/showProfile/"+workerId;
             }
         }
         else {
-
-            //måske anden redirect her?
             return "redirect:/showProfile/"+workerId;
         }
     }
@@ -217,16 +210,14 @@ public class FreelanceController {
 
             else if (sessionId[0].equals(""+cvService.findById(Long.parseLong(cvId)).get().getWorker().getId()) && sessionId[1].equals("c")){
 
-                return "index";
+                return "redirect:/";
             }
             else {
-                //måske anden redirect her?
                 log.info("not correct workerId");
                 return "redirect:/";
             }
         }
         else {
-            //måske anden redirect her?
             return "redirect:/";
         }
 
@@ -252,7 +243,7 @@ public class FreelanceController {
             }
             else if (sessionId[0].equals(""+workerId) && sessionId[1].equals("c")){
 
-                return "index";
+                return "redirect:/";
             }
             else {
 
@@ -261,7 +252,7 @@ public class FreelanceController {
 
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/login";
         }
     }
 
@@ -276,8 +267,6 @@ public class FreelanceController {
         for (Assignment assignment: assignments) {
             markerList.add(new MapMarker(assignment.getStreetName(), assignment.getHouseNumber()));
         }
-        log.info("street: "+markerList.get(0).getStreetname());
-
         String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
         log.info(jsonFromJavaArrayList);
@@ -342,7 +331,7 @@ public class FreelanceController {
             return "showProfile";
         } else {
             log.info("Not logged in!");
-            return "login";
+            return "redirect:/login";
         }
     }
 }

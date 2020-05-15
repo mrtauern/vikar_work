@@ -13,6 +13,5 @@ import java.util.Optional;
 public interface CompanyRepo extends CrudRepository<Company, Long> {
 
     Optional<Company> findById(Long id);
-//    Optional<Company> saveAll(List<Company> company);
-//    Optional<Company> save(Company company);
+
 }

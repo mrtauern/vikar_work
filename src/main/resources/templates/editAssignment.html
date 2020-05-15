@@ -45,7 +45,6 @@
             <label>jobType</label>
             <select id="profession" th:name="profession" required class="form-control">
                 <option th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}" th:selected="${job.id} == ${assigmentJobId}"></option>
-            <!--<option th:if="${testId != jobId}" th:each="job : ${jobList}" th:value="${job.id}" th:text="${job.profession}"></option>-->
             </select>
 
             <button class="btn btn-primary" type="submit">gem ændringer</button>
@@ -56,16 +55,3 @@
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
-
-<!--
-<form th:method="post" th:action="@{/assignmentSetActive/}" class="form-inline d-block mx-2 float-left" th:object="${assignment}">
-    <input th:name="id" type="hidden" th:field="${assignment.id}">
-
-    <select th:name="arkiveret" onchange='this.form.submit()'class="form-control mr-2">
-        <option th:if="${assignment.archived}" value="1" text="Arkiveret" selected>Arkiveret</option>
-        <option th:if="${!assignment.archived}" value="1" text="Arkiveret">Arkiveret</option>
-
-        <option th:if="${!assignment.archived}" value="0" text="Aktiv" selected>Aktiv</option>
-        <option th:if="${assignment.archived}" value="0" text="Aktiv">Aktiv</option>
-    </select>
-</form>-->

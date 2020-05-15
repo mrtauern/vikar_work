@@ -12,7 +12,6 @@
         <h1>Send Besked</h1>
 
         <form id="sendMessage" method="Post" th:action="@{/sendMessage}" th:object="${message}">
-            <!--<a th:if="@{${SessionID} == ${Worker.id} and ${SessionType == 'w'}}" th:href="@{'/addToCv/'+${Worker.id}}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tilføj</a>-->
             <input type="hidden" th:name="senderId" th:value="${senderId}">
             <input type="hidden" th:name="senderType" th:value="${senderType}">
 

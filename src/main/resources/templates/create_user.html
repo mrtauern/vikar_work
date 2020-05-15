@@ -22,8 +22,6 @@
             </select>
 
             <label class="">Firma navn</label>
-            <!--<input type="text" th:name="companyName" class="form-control mr-sm-2"/>-->
-
             <label class="company freelance">Fornavn</label>
             <input type="text" th:name="firstname" th:value="${userExist} ? ${user.firstname} : ''" class="company freelance form-control mr-sm-2" autofocus/>
 
@@ -37,22 +35,16 @@
             <input type="number" th:name="phoneNumber" th:value="${userExist} ? ${user.phoneNumber} : ''" class="company freelance form-control mr-sm-2"/>
 
             <label class="">By</label>
-            <!--<input type="text" th:name="city" class="form-control mr-sm-2"/>-->
 
             <label class="">Post nr.</label>
-            <!--<input type="number" th:name="zip" class="form-control mr-sm-2"/>-->
 
             <label class="">Vej</label>
-            <!--<input type="text" th:name="streetName" class="form-control mr-sm-2"/>-->
 
             <label class="">Hus nr.</label>
-            <!--<input type="number" th:name="houseNumber" class="form-control mr-sm-2"/>-->
 
             <label class="">CVR</label>
-            <!--<input type="number" th:name="CVRNumber" class="form-control mr-sm-2"/>-->
 
             <label class="">Banknummer</label>
-            <!--<input type="number" th:name="bankNumber" class="form-control mr-sm-2"/>-->
 
             <label class="company freelance">Brugernavn</label>
             <input type="text" th:name="username" th:value="${userExist} ? ${user.username} : ''" class="company freelance form-control mr-sm-2"/>
@@ -71,8 +63,6 @@
 
     <footer th:include="fragments/footer :: bottom"></footer>
 </div>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 <script type="text/javascript">
     document.getElementById("type_select").addEventListener("change", changeType);
 

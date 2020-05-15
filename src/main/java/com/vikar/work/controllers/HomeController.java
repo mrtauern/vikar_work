@@ -388,7 +388,6 @@ public class HomeController {
             log.info("something went wrong2");
         }
 
-        //skal nok laves til indboks eller sendte beskeder
         return "redirect:/inbox";
     }
 
@@ -495,32 +494,9 @@ public class HomeController {
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestParam("email1") String email) {
             log.info("reset password postmapping called");
-            ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
-            ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();
-            int count = 0;
-            for (Worker w: workers) {
-                if (w.getEmail() != null && w.getEmail().equals(email)) {
-                    log.info("worker password set");
-                    w.setPassword("111222");
-                    freelanceService.save(w);
-                }
-            }
-            for (Company c: companies) {
-                count = count+1;
-                log.info(""+count);
-                if (c.getEmail() != null && c.getEmail().equals(email)) {
-                    log.info("company password set");
-                    c.setPassword("111222");
-                    companyService.save(c);
-                    log.info("password saved for company");
-                }
-                log.info(""+count);
-            }
-        log.info("sending email to: ");
-        messageService.sendEmail(email);
-        log.info("email sent");
+            messageService.passwordReset(email);
 
-        return "login";
+        return "redirect:/login";
 
     }
 }

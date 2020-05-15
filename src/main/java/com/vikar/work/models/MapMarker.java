@@ -1,12 +1,8 @@
 package com.vikar.work.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 public class MapMarker {
-    /*@javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)*/
+
     public long Id;
 
     private double latitude;

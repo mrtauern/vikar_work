@@ -8,10 +8,7 @@ import com.vikar.work.services.CompanyService;
 import com.vikar.work.services.FreelanceService;
 import com.vikar.work.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.Assign;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -49,9 +46,6 @@ public class AssignmentController {
         String type = "";
 
         log.info("showAssignment called with id: " + assignmentId);
-        //Assignment test = new Assignment();*/
-        //test = assignmentService.findById(assignmentId).get().getArchived();
-        //log.info("showAssignment called with id: " + assignmentId);
 
         if(session.getAttribute("login") != null){
             String userId = (String) session.getAttribute("login");
@@ -119,7 +113,6 @@ public class AssignmentController {
                 }
 
                 log.info("Arkiveret? " + oldAssignment.getArchived());
-
 
                 assignmentService.save(oldAssignment);
 
@@ -197,7 +190,6 @@ public class AssignmentController {
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
 
-            //Create dummy user and assign to assignment
             Assignment assignment = assignmentService.findById(assignmentId).get();
             Worker worker = freelanceService.findById(userId).get();
 
@@ -308,10 +300,8 @@ public class AssignmentController {
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
             Assignment tempAssignment = assignmentService.findById(id).get();
-// NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
 
             if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == tempAssignment.getCompany().getId()) {
-/*                Assignment tempAssignment = assignmentService.findById(id).get();*/
                 if(tempAssignment.getDateStart() != null) {
                     String dateStartString = tempAssignment.getDateStart().toString();
                     String[] splitDateStart = dateStartString.split(" ");
@@ -375,11 +365,7 @@ public class AssignmentController {
             log.info(""+session.getAttribute("login"));
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
-// NOTE kan pt ikke checkes om det er virksomheden der er ejer af opgaven da der ikke er et company id sat til assignment.
             if(sessionId[1].equals("c")) {
-                /*Job tempJob = new Job();
-                Job oldJob = new Job();
-                Assignment oldAssignment = new Assignment();*/
                 Assignment oldAssignment = assignmentService.findById(assignment.getId()).get();
                 Job oldJob = jobService.findById(oldAssignment.getJob().getId()).get();
                 Job tempJob = jobService.findById(jobId).get();
@@ -435,12 +421,9 @@ public class AssignmentController {
                 }
             }
 
-
         model.addAttribute("assignments", assignments);
         model.addAttribute("pageTitle", "Aktive opgaver");
         model.addAttribute("loginType", sessionId[1]);
-        //model.addAttribute("numNotifications", 2);
-
 
             return "active_assignment_list";
 
@@ -450,22 +433,9 @@ public class AssignmentController {
         }
     }
 
-    /*@RequestMapping(value="/notification-count", method=RequestMethod.GET)
-    public String getEventCount(ModelMap map, Model model) {
-        // TODO: retrieve the new value here so you can add it to model map
-        map.addAttribute("numNotifications", ""+3);
-        //model.addAttribute("numNotifications", 2);
-
-        // change "myview" to the name of your view
-        return "active_assignment_list :: #notificationCount";
-    }*/
-
     @GetMapping("/notification")
     public String notification(Model model) {
 
-        /*List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
-
-        model.addAttribute("numNotifications", assignmentList.size());*/
         model.addAttribute("numNotifications", refreshCount++);
         if(refreshCount > 20){ refreshCount = 1;}
 
@@ -480,9 +450,9 @@ public class AssignmentController {
             log.info(""+session.getAttribute("login"));
 
             String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
-// kan ikke checke på om det er den korrekte virksomhed som har assignment pt.
-            if(sessionId[1].equals("c")) {
-                Assignment assignment = assignmentService.findById(id).get();
+            Assignment assignment = assignmentService.findById(id).get();
+            if(sessionId[1].equals("c") && Long.parseLong(sessionId[0]) == assignment.getCompany().getId()) {
+
                 assignment.setArchived(true);
                 assignmentService.save(assignment);
 
