@@ -99,14 +99,23 @@ div#left{
     min-height: calc( 100% - 61px);
     float: left;
     padding-top: 16px;
+}
 
+div#left form#filter{
+    width: 200%;
+    z-index: 1;
+    position: relative;
+}
+
+div#left form#filter button{
+    margin-left: 10px;
 }
 
 div#right{
     width: 50%;
     min-height: calc( 100% - 61px);
     float: right;
-    padding-top: 12.9%;
+    padding-top: 192px;
 
 }
 

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -526,11 +527,18 @@ public class AssignmentController {
 
             String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
+            Date today = new Date();
+
+            String todayString = new SimpleDateFormat("yyyy-MM-dd").format(today);
+
             model.addAttribute("json", jsonFromJavaArrayList);
             model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("assignments", assignments);
             model.addAttribute("pageTitle", "Landing Page");
             model.addAttribute("jobs", jobs);
+            model.addAttribute("today", todayString);
+            model.addAttribute("jobId", 0);
+            model.addAttribute("wage", 0);
 
             return "assignments";
 
@@ -567,17 +575,23 @@ public class AssignmentController {
             }
 
             if (jobId != 0) {
-                for(int i=0; i < assignments.size(); i++){
+                for(int i=0; i < assignments.size(); ){
                     if(assignments.get(i).getJob().getId() != jobId){
                         assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
                     }
                 }
             }
 
             if (wage > 0) {
-                for(int i=0; i < assignments.size(); i++){
+                for(int i=0; i < assignments.size(); ){
                     if(assignments.get(i).getHourlyWage() < wage){
                         assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
                     }
                 }
             }
@@ -588,20 +602,30 @@ public class AssignmentController {
             Date today = new Date();
 
             if(date.after(today)){
-                for(int i=0; i < assignments.size(); i++){
+                //log.info("assignments size: " + assignments.size());
+                for(int i=0; i < assignments.size();){
+                    //log.info("Date start: "+assignments.get(i).getDateStart());
                     if(assignments.get(i).getDateStart().before(date)){
                         assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
                     }
                 }
             }
 
             String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
+            String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+
             model.addAttribute("json", jsonFromJavaArrayList);
             model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("assignments", assignments);
             model.addAttribute("pageTitle", "Landing Page");
             model.addAttribute("jobs", jobs);
+            model.addAttribute("today", dateString);
+            model.addAttribute("jobId", jobId);
+            model.addAttribute("wage", wage);
 
             return "assignments";
 

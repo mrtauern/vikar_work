@@ -11,18 +11,18 @@
 
         <h1>Opgaver</h1>
 
-        <form class="form-inline" method="Post" th:action="@{/filterForFreelance}">
+        <form class="form-inline" id="filter" method="Post" th:action="@{/filterForFreelance}">
             <label>Fagområde</label>
             <select class="form-control mr-sm-2" th:name="job">
                 <option th:value="0">Alle</option>
-                <option th:each="job : ${jobs}" th:value="${job.id}" th:text="${job.profession}"></option>
+                <option th:each="job : ${jobs}" th:value="${job.id}" th:text="${job.profession}" th:selected="${job.id} == ${jobId}"></option>
             </select>
 
             <label>Timeløn (min.)</label>
-            <input type="number" class="form-control mr-sm-2" value="0" th:name="hourlyWage" required>
+            <input type="number" class="form-control mr-sm-2" th:value="${wage}" th:name="hourlyWage" required>
 
             <label>Start dato</label>
-            <input type="date" class="form-control mr-sm-2"  th:name="startDate" required>
+            <input type="date" class="form-control mr-sm-2" th:value="${today}"  th:name="startDate" required>
 
             <button class="btn btn-primary" type="submit">Filter</button>
             <button class="btn btn-outline-primary" type="reset">Nulstil</button>

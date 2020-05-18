@@ -490,16 +490,23 @@ public class HomeController {
 
         String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
 
-        int numMessages = 0;
+        //log.info("Session type: " + sessionId[1]);
 
-        ArrayList<Message> messages = messageService.findMessages(sessionId[0],sessionId[1]);
-        for (Message m: messages) {
-            if(m.getRead() == false){
-                numMessages++;
+        if(sessionId[1].equals("w") || sessionId[1].equals("c")) {
+
+            int numMessages = 0;
+
+            ArrayList<Message> messages = messageService.findMessages(sessionId[0], sessionId[1]);
+            for (Message m : messages) {
+                if (m.getRead() == false) {
+                    numMessages++;
+                }
             }
-        }
 
-        model.addAttribute("numNotifications", numMessages);
+            model.addAttribute("numNotifications", numMessages);
+        } else {
+            model.addAttribute("numNotifications", "err");
+        }
 
 
         return "fragments/notification :: notificationElement";

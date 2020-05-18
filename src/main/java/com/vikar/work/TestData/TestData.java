@@ -75,6 +75,10 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment1.setHouseNumber((long) 21);
         assignment1.setHourlyWage(55);
 
+        String date = "2020-06-24";
+        assignment1.setDateStart(assignmentService.createDateFromString(date));
+        date = "2020-06-25";
+        assignment1.setDateEnd(assignmentService.createDateFromString(date));
 
         assignment2.setName("Pakke skal leveres");
         assignment2.setDescription("Lever en pakke");
@@ -82,7 +86,12 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment2.setCity("København");
         assignment2.setNeededExperience("du skal kunne levere en pakke");
         assignment2.setHouseNumber((long) 2);
-        assignment2.setHourlyWage(55);
+        assignment2.setHourlyWage(65);
+
+        date = "2020-07-12";
+        assignment2.setDateStart(assignmentService.createDateFromString(date));
+        date = "2020-07-14";
+        assignment2.setDateEnd(assignmentService.createDateFromString(date));
 
 
         //add a test job
