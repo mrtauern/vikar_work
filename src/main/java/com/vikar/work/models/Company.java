@@ -81,6 +81,22 @@ public class Company {
         this.assignments = assignments;
     }
 
+    public Company(long id, long CVRNumber, long bankNumber, long zip, long houseNumber, String companyName, String username, String password, String streetName, String city, String email, long phoneNumber, Set<Assignment> assignments) {
+        Id = id;
+        this.CVRNumber = ""+CVRNumber;
+        this.bankNumber = ""+bankNumber;
+        this.zip = ""+zip;
+        this.houseNumber = ""+houseNumber;
+        this.companyName = companyName;
+        this.username = username;
+        this.password = password;
+        this.streetName = streetName;
+        this.city = city;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.assignments = assignments;
+    }
+
 
     public long getPhoneNumber() {
         return phoneNumber;
