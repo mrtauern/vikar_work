@@ -110,6 +110,7 @@ public class HomeController {
             company.setPassword(user.getPassword1());
             company.setStreetName("");
             company.setCity("");
+            company.setEmail(user.getEmail());
             company.setPhoneNumber(user.getPhoneNumber());
 
             companyService.save(company);
