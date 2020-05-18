@@ -77,7 +77,7 @@ public class MessageServiceImpl implements MessageService {
         else {
             log.info("Error sessiontype is neither c or w");
         }
-        log.info("returning messages");
+        //log.info("returning messages");
         return recievedMessages;
     }
 

@@ -7,6 +7,7 @@ import com.vikar.work.services.AssignmentService;
 import com.vikar.work.services.CompanyService;
 import com.vikar.work.services.FreelanceService;
 import com.vikar.work.services.JobService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,10 @@ import org.springframework.ui.Model;
 
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -508,6 +513,7 @@ public class AssignmentController {
         if(session.getAttribute("login") != null){
 
             List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+            List<Job> jobs = (ArrayList<Job>) jobService.findAll();
             List<Assignment> assignments = new ArrayList<>();
             ArrayList<MapMarker> markerList = new ArrayList<>();
             Gson gsonBuilder = new GsonBuilder().create();
@@ -521,10 +527,18 @@ public class AssignmentController {
 
             String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
 
+            Date today = new Date();
+
+            String todayString = new SimpleDateFormat("yyyy-MM-dd").format(today);
+
             model.addAttribute("json", jsonFromJavaArrayList);
             model.addAttribute("loginType", sessionId[1]);
             model.addAttribute("assignments", assignments);
             model.addAttribute("pageTitle", "Landing Page");
+            model.addAttribute("jobs", jobs);
+            model.addAttribute("today", todayString);
+            model.addAttribute("jobId", 0);
+            model.addAttribute("wage", 0);
 
             return "assignments";
 
@@ -533,5 +547,91 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
 
+    }
+
+    @PostMapping("/filterForFreelance")
+    public String filterForFreelance(@RequestParam("job") String job, @RequestParam("hourlyWage") String hourlyWage, @RequestParam("startDate") String startDate, Model model, HttpSession session){
+        log.info("filterForFreelance called...");
+        long jobId = Long.parseLong(job);
+        long wage = Long.parseLong(hourlyWage);
+        Date date = assignmentService.createDateFromString(startDate);
+        log.info("Job id: " + jobId);
+        log.info("Hourly wage: " + hourlyWage);
+        log.info("Start date: " + date);
+        String[] sessionId = companyService.checkSession((String)session.getAttribute("login"));
+        if(session.getAttribute("login") != null){
+
+            List<Assignment> assignmentList = (ArrayList<Assignment>) assignmentService.findAll();
+            List<Job> jobs = (ArrayList<Job>) jobService.findAll();
+            List<Assignment> assignments = new ArrayList<>();
+            ArrayList<MapMarker> markerList = new ArrayList<>();
+            Gson gsonBuilder = new GsonBuilder().create();
+
+            for (Assignment a: assignmentList) {
+                if(a.getArchived() == false){
+                    assignments.add(a);
+                    markerList.add(new MapMarker(a.getStreetName(), a.getHouseNumber()));
+                }
+            }
+
+            if (jobId != 0) {
+                for(int i=0; i < assignments.size(); ){
+                    if(assignments.get(i).getJob().getId() != jobId){
+                        assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
+                    }
+                }
+            }
+
+            if (wage > 0) {
+                for(int i=0; i < assignments.size(); ){
+                    if(assignments.get(i).getHourlyWage() < wage){
+                        assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
+                    }
+                }
+            }
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+
+            Date today = new Date();
+
+            if(date.after(today)){
+                //log.info("assignments size: " + assignments.size());
+                for(int i=0; i < assignments.size();){
+                    //log.info("Date start: "+assignments.get(i).getDateStart());
+                    if(assignments.get(i).getDateStart().before(date)){
+                        assignments.remove(i);
+                        i=0;
+                    } else {
+                        i++;
+                    }
+                }
+            }
+
+            String jsonFromJavaArrayList = gsonBuilder.toJson(markerList);
+
+            String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+
+            model.addAttribute("json", jsonFromJavaArrayList);
+            model.addAttribute("loginType", sessionId[1]);
+            model.addAttribute("assignments", assignments);
+            model.addAttribute("pageTitle", "Landing Page");
+            model.addAttribute("jobs", jobs);
+            model.addAttribute("today", dateString);
+            model.addAttribute("jobId", jobId);
+            model.addAttribute("wage", wage);
+
+            return "assignments";
+
+        } else {
+            log.info("Not logged in!");
+            return "redirect:/notLoggedIn";
+        }
     }
 }
