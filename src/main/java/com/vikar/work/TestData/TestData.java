@@ -75,6 +75,7 @@ public class TestData implements ApplicationListener<ContextRefreshedEvent> {
         assignment1.setHouseNumber((long) 21);
         assignment1.setHourlyWage(55);
 
+
         assignment2.setName("Pakke skal leveres");
         assignment2.setDescription("Lever en pakke");
         assignment2.setStreetName("Skoleholdervej");

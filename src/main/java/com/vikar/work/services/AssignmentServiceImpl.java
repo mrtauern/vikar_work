@@ -26,7 +26,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Date createDateFromString(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date returnDate = new Date();
         try {
 
