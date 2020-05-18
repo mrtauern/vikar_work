@@ -37,7 +37,7 @@ public class AssignmentController {
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
-    int refreshCount = 1000;
+
 
     @GetMapping("/showAssignment/{id}")
     public String showAssignment(@PathVariable("id") long assignmentId, Model model, HttpSession session) {
@@ -436,15 +436,6 @@ public class AssignmentController {
             log.info("Not logged in!");
             return "redirect:/notLoggedIn";
         }
-    }
-
-    @GetMapping("/notification")
-    public String notification(Model model) {
-
-        model.addAttribute("numNotifications", refreshCount++);
-        if(refreshCount > 20){ refreshCount = 1;}
-
-        return "fragments/notification :: notificationElement";
     }
 
     @GetMapping("/archiveAssignment/{id}")

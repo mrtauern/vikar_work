@@ -35,6 +35,8 @@ public class HomeController {
 
     Logger log = Logger.getLogger(HomeController.class.getName());
 
+    int refreshCount = 1000;
+
     @GetMapping("/")
     public String index(HttpSession session, Model model){
         Optional<Company> company = companyService.findById(1);
@@ -435,6 +437,10 @@ public class HomeController {
                 if(company.getId() == message.getRecipientCompany().getId()) {
                     model.addAttribute("message", message);
                     log.info("adding message");
+
+                    message.setRead(true);
+                    messageService.save(message);
+
                     if(message.getSenderWorker() !=null) {
                         model.addAttribute("sender",message.getSenderWorker());
                         log.info("setting sender worker");
@@ -450,6 +456,10 @@ public class HomeController {
                 if(worker.getId() == message.getRecipientWorker().getId()) {
                     model.addAttribute("message", message);
                     log.info("adding message");
+
+                    message.setRead(true);
+                    messageService.save(message);
+
                     if(message.getSenderWorker() !=null) {
                         model.addAttribute("sender",message.getSenderWorker());
                         log.info("setting sender worker");
@@ -474,6 +484,25 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/notification")
+    public String notification(Model model, HttpSession session) {
+
+        String[] sessionId = freelanceService.checkSession((String) session.getAttribute("login"));
+
+        int numMessages = 0;
+
+        ArrayList<Message> messages = messageService.findMessages(sessionId[0],sessionId[1]);
+        for (Message m: messages) {
+            if(m.getRead() == false){
+                numMessages++;
+            }
+        }
+
+        model.addAttribute("numNotifications", numMessages);
+
+
+        return "fragments/notification :: notificationElement";
+    }
 
     @GetMapping("/omOs")
     public String omOs(Model model){
