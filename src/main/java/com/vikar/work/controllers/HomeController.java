@@ -37,6 +37,7 @@ public class HomeController {
 
     int refreshCount = 1000;
 
+    // Felix, Niklas, Hasan og Gustav
     @GetMapping("/")
     public String index(HttpSession session, Model model){
         Optional<Company> company = companyService.findById(1);
@@ -56,7 +57,7 @@ public class HomeController {
 
         return "index";
     }
-
+    // Felix og Hasan
     @GetMapping("/createUser")
     public String createUser(Model model){
         log.info("create user called (get)");
@@ -66,6 +67,7 @@ public class HomeController {
         return "create_user";
     }
 
+    // Felix og Hasan
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute User user, RedirectAttributes redirAttr){
         log.info("create user called (post)");
@@ -139,7 +141,7 @@ public class HomeController {
 
         return "redirect:/";
     }
-
+    // Felix og Hasan
     @GetMapping("/login")
     public String login(Model model){
         log.info("login called (get)");
@@ -148,7 +150,7 @@ public class HomeController {
 
         return "login";
     }
-
+    // Felix og Hasan
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session){
         log.info("login called (post)");
@@ -196,6 +198,7 @@ public class HomeController {
         log.info("login success");
     }
 
+    // Felix og Gustav
     @GetMapping("/log_out")
     public String logout(HttpSession session){
         log.info("Log out called...");
@@ -205,25 +208,26 @@ public class HomeController {
         return "redirect:/";
     }
 
+    // Felix og Gustav
     @PostMapping("/search/{searchInput}")
     public String search(@PathVariable("searchInput") String searchInput, @RequestParam("page") int page) {
 
         return "redirect:/searchResult/"+searchInput+"/"+page;
     }
-
+    // Gustav
     @GetMapping("loginLandingPage")
     public String loginLandingPag(){
 
         return "LoginLandingPage";
     }
-
+    // Felix
     @GetMapping("/notLoggedIn")
     public String notLoggedIn(){
         log.info("User not logged in");
 
         return "not_logged_in";
     }
-
+    // Felix, Gustav, Niklas og Hasan
     @GetMapping("/settings")
     public String settings(HttpSession session){
         long id = 0;
@@ -250,7 +254,7 @@ public class HomeController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Felix
     @GetMapping("/landingPage")
     public String landingPage(HttpSession session){
         long id = 0;
@@ -278,7 +282,7 @@ public class HomeController {
         }
     }
 
-
+    // Niklas og Hasan
     @GetMapping("/sendMessage")
     public String sendMessage(HttpSession session, @ModelAttribute Message message, Model model) {
         log.info("sendMessage called...");
@@ -299,6 +303,7 @@ public class HomeController {
         }
     }
 
+    // Niklas og Hasan
     @GetMapping("/sendMessage/{recipientUser}/{messageId}")
     public String sendMessage(HttpSession session, @PathVariable("recipientUser") String recipientUser, @PathVariable("messageId") long messageId, Model model) {
         log.info("sendMessage called from reply with recipientUser: "+recipientUser+" and messageId: "+messageId);
@@ -320,7 +325,7 @@ public class HomeController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Niklas og Hasan
     @PostMapping("/sendMessage")
     public String sendMessage(@ModelAttribute Message message,
                                    @RequestParam("senderId") Long senderId,
@@ -394,6 +399,7 @@ public class HomeController {
         return "redirect:/inbox";
     }
 
+    // Niklas og Hasan
     @GetMapping("/inbox")
     public String inbox(HttpSession session, Model model) {
         log.info("inbox called");
@@ -423,6 +429,7 @@ public class HomeController {
         }
     }
 
+    // Niklas og Hasan
     @GetMapping("/showMessage/{id}")
     public String showMessage(HttpSession session, @PathVariable("id") long messageId, Model model) {
         log.info("showMessage called with id: "+messageId);
@@ -485,6 +492,7 @@ public class HomeController {
         }
     }
 
+    // Felix og Gustav
     @GetMapping("/notification")
     public String notification(Model model, HttpSession session) {
 
@@ -512,6 +520,7 @@ public class HomeController {
         return "fragments/notification :: notificationElement";
     }
 
+    // Felix og Gustav
     @GetMapping("/omOs")
     public String omOs(Model model){
         model.addAttribute("pageTitle", "Om os");
@@ -519,6 +528,7 @@ public class HomeController {
         return "om_os";
     }
 
+    // Niklas og Hasan
     @GetMapping("/resetPassword")
     public String resetPassword(Model model) {
         log.info("Reset password called");
@@ -528,6 +538,7 @@ public class HomeController {
         return "resetPassword";
     }
 
+    // Niklas og Hasan
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestParam("email1") String email) {
             log.info("reset password postmapping called");

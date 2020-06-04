@@ -50,6 +50,7 @@ public class MessageServiceImpl implements MessageService {
         return messageRepo.save(message);
     }
 
+    // Niklas og Hasan
     public ArrayList<Message> findMessages(String sessionId, String sessionType) {
         ArrayList<Message> messages = (ArrayList<Message>) findAll();
         ArrayList<Message> recievedMessages = new ArrayList<>();
@@ -80,7 +81,7 @@ public class MessageServiceImpl implements MessageService {
         //log.info("returning messages");
         return recievedMessages;
     }
-
+    // Niklas og Hasan
     public void sendEmail(String email) {
 
         Properties props = new Properties();
@@ -126,7 +127,7 @@ public class MessageServiceImpl implements MessageService {
             log.info("Unable to send an email" + mex);
         }
     }
-
+    // Niklas og Hasan
     public void passwordReset(String email){
         ArrayList<Company> companies = (ArrayList<Company>) companyService.findAll();
         ArrayList<Worker> workers = (ArrayList<Worker>) freelanceService.findAll();

@@ -30,7 +30,7 @@ public class CompanyController {
 
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
-
+    // Niklas Og Gustav
     @GetMapping("/editCompany/{id}")
     public String editWorker(@PathVariable("id") long companyId, Model model, HttpSession session){
         log.info("edit Company called med id: " + companyId);
@@ -62,7 +62,7 @@ public class CompanyController {
             return "login";
         }
     }
-
+    // Felix og Hasan
     @PostMapping("/editCompany")
     public String editWorker (@ModelAttribute Company company, Model model, HttpSession session) {
         log.info("editCompany putmapping called...");
@@ -94,7 +94,7 @@ public class CompanyController {
             return "login";
         }
     }
-
+    // Niklas og Gustav
     @PostMapping("/deleteCompany")
     public String deleteCompany(@ModelAttribute Company company, HttpSession session) {
         log.info("delete worker called id: "+company.getId());

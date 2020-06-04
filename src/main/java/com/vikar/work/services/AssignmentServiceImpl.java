@@ -24,6 +24,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignmentRepo.save(assignment);
     }
 
+    // Niklas og Gustav
     @Override
     public Date createDateFromString(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

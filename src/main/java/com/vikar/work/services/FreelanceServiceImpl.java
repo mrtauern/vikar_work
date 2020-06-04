@@ -38,6 +38,7 @@ public class FreelanceServiceImpl implements FreelanceService {
 
     Logger log = Logger.getLogger(FreelanceService.class.getName());
 
+    // Niklas og Hasan
     @Override
     public ArrayList<MapMarker> markerList() {
         ArrayList<MapMarker> markers = new ArrayList<>();
@@ -66,7 +67,7 @@ public class FreelanceServiceImpl implements FreelanceService {
 
         return markers;
     }
-
+    // Niklas og Hasan
     public String[] checkSession(String sessionString) {
         String[] returnString = new String[] {"",""};
 

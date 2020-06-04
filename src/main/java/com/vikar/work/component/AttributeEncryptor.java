@@ -10,7 +10,7 @@ import javax.persistence.AttributeConverter;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.util.Base64;
-
+// Hasan og Felix
 @Component
 public class AttributeEncryptor implements AttributeConverter<String, String> {
 

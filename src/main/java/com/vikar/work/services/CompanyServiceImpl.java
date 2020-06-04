@@ -35,6 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepo.findAll();
     }
 
+    // Niklas og Hasan
     public String[] checkSession(String sessionString) {
         String[] returnString = new String[] {"",""};
 

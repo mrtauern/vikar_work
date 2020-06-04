@@ -25,6 +25,7 @@ public class CVServiceImpl implements CVService {
         return cvRepo.findAll();
     }
 
+    // Felix og Gustav
     public void save(CV cv){
         cvRepo.save(cv);
 
@@ -32,7 +33,7 @@ public class CVServiceImpl implements CVService {
         worker.getCvs().add(cv);
         freelanceService.save(worker);
     }
-
+    // Felix og Gustav
     public void delete(CV cv){
         Worker worker = freelanceService.findById(cv.getWorker().getId()).get();
         worker.getCvs().remove(cv);

@@ -45,7 +45,7 @@ public class FreelanceController {
     Logger log = Logger.getLogger(FreelanceController.class.getName());
 
 
-
+    // Niklas og Gustav
     @GetMapping("/editWorker/{id}")
     public String editWorker(@PathVariable("id") long userId, Model model, HttpSession session){
         log.info("edit Worker called med id: " + userId);
@@ -73,7 +73,7 @@ public class FreelanceController {
             return "login";
         }
     }
-
+    // Niklas og Gustav
     @PostMapping("/editWorker")
     public String editWorker (@ModelAttribute Worker worker, Model model, HttpSession session) {
         //skal der også session check her???
@@ -105,6 +105,7 @@ public class FreelanceController {
 
     }
 
+    // Niklas og Gustav
     @PostMapping("/deleteWorker")
     public String deleteWorker(@ModelAttribute Worker worker, HttpSession session) {
         log.info("delete worker called id: "+worker.getId());
@@ -132,6 +133,7 @@ public class FreelanceController {
         }
     }
 
+    // Felix og Gustav
     @GetMapping("/addToCv/{workerId}")
     public String addToCv(@PathVariable("workerId") long workerId, Model model, HttpSession session){
         log.info("Add to cv called (get)");
@@ -158,7 +160,7 @@ public class FreelanceController {
             return "redirect:/login";
         }
     }
-
+    // Felix og Gustav
     @PostMapping("/addToCv")
     public String addToCv(@RequestParam("workerId")String workerId,
                           @RequestParam("workplace")String workplace,
@@ -191,7 +193,7 @@ public class FreelanceController {
             return "redirect:/showProfile/"+workerId;
         }
     }
-
+    // Felix og Gustav
     @GetMapping("/removeFromCv/{cvId}")
     public String removeFromCv(@PathVariable("cvId") String cvId, HttpSession session){
         log.info("Remove from cv called");
@@ -222,7 +224,7 @@ public class FreelanceController {
         }
 
     }
-
+    // Felix og Gustav
     @PostMapping("/removeFromCv")
     public String removeFromCv(@RequestParam("cvId") long cvId,
                                @RequestParam("workerId")long workerId,
@@ -255,7 +257,7 @@ public class FreelanceController {
             return "redirect:/login";
         }
     }
-    // skal testes af Niklas eller Felix
+    // Hasan og Niklas
     @GetMapping("/googleMap")
     public String googleMap(Model model) {
         log.info("googleMap called");
@@ -275,7 +277,7 @@ public class FreelanceController {
 
         return "googleMap";
     }
-
+    // Niklas, Felix Hasan og Gustav
     @GetMapping("/showProfile")
     public String showProfile(HttpSession session){
         long id = 0;
@@ -300,7 +302,7 @@ public class FreelanceController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Niklas, Felix, Gustav og Hasan
     @GetMapping("/showProfile/{id}")
     public String showProfile(@PathVariable("id") long userId, Model model, HttpSession session) {
         log.info("showprofile is called with Id "+ userId);

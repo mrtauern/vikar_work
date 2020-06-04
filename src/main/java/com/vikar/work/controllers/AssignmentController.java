@@ -43,7 +43,7 @@ public class AssignmentController {
     Logger log = Logger.getLogger(CompanyController.class.getName());
 
 
-
+    //Niklas og Gustav
     @GetMapping("/showAssignment/{id}")
     public String showAssignment(@PathVariable("id") long assignmentId, Model model, HttpSession session) {
 
@@ -102,7 +102,7 @@ public class AssignmentController {
 
         return "showAssignment";
     }
-
+    // Niklas og Gustav
     @RequestMapping(value = "/assignmentSetActive", method = RequestMethod.POST)
     public String assignmentSetActive(@RequestParam("id") long id, @RequestParam("arkiveret") int arkiveret, HttpSession session) {
 
@@ -146,7 +146,7 @@ public class AssignmentController {
 
 
     }
-
+    // Niklas og Gustav
     @RequestMapping(value = "/applyForAssignment", method = RequestMethod.POST)
     public String applyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId, HttpSession session) {
         log.info("applyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
@@ -190,7 +190,7 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Felix og Gustav
     @RequestMapping(value = "/unapplyForAssignment", method = RequestMethod.POST)
     public String unapplyForAssignment(@RequestParam("assignmentId") long assignmentId, @RequestParam("userId") long userId, HttpSession session) {
         log.info("unapplyforassignmed called assignmentid: " + assignmentId + " userId: " + userId);
@@ -217,7 +217,7 @@ public class AssignmentController {
             return "login";
         }
     }
-
+    //Niklas og Gustav
     @GetMapping("/createAssignment")
     public String createAssignment(Model model, HttpSession session) {
 
@@ -251,7 +251,7 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Niklas og Gustav
     @PostMapping("/createAssignment")
     public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam("profession") Long jobId, HttpSession session) {
 
@@ -298,7 +298,7 @@ public class AssignmentController {
         }
 
     }
-
+    // Gustav og Niklas
     @GetMapping("/editAssignment/{id}")
     public String editAssignment(@PathVariable("id") long id, Model model, HttpSession session){
 
@@ -359,7 +359,7 @@ public class AssignmentController {
         }
 
     }
-
+    // Gustav og Niklas
     @PostMapping("/editAssignment")
     public String editAssignment(@ModelAttribute Assignment assignment,
                                  @RequestParam("profession") Long jobId,
@@ -413,7 +413,7 @@ public class AssignmentController {
         }
 
     }
-
+    // Hasan og Felix
     @GetMapping("/activeAssignmentList")
     public String activeAssignmentList(Model model, HttpSession session){
         log.info("Active assignment list called...");
@@ -442,7 +442,7 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Hasan og Felix
     @GetMapping("/archiveAssignment/{id}")
     public String archiveAssignment(@PathVariable("id") long id, HttpSession session){
         log.info("Archive assignment called...");
@@ -477,7 +477,7 @@ public class AssignmentController {
             return "redirect:/notLoggedIn";
         }
     }
-
+    // Hasan og Felix
     @GetMapping("/archivedAssignmentList")
     public String archivedAssignmentList(Model model, HttpSession session){
         log.info("Archived assignment list called...");
@@ -505,7 +505,7 @@ public class AssignmentController {
         }
     }
 
-    //Skal testes på Niklas eller Felix maskine
+    //Niklas, Hasan, Gustav og Felix
     @GetMapping("/assignments")
     public String assignments(Model model, HttpSession session){
         log.info("Landing page Assignments called list called...");
@@ -548,7 +548,7 @@ public class AssignmentController {
         }
 
     }
-
+    // Niklas, Felix, Hasan og Gustav
     @PostMapping("/filterForFreelance")
     public String filterForFreelance(@RequestParam("job") String job, @RequestParam("hourlyWage") String hourlyWage, @RequestParam("startDate") String startDate, Model model, HttpSession session){
         log.info("filterForFreelance called...");
